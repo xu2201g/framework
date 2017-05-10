@@ -15,6 +15,8 @@ int main(int argc, char** argv)
 		//render result
 		game.Render();
 
+		//sf::sleep(sf::seconds(0.5)); // sleep for 0.2 seconds
+
 		//restart clock
 		game.RestartClock();
 	}

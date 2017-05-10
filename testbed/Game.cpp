@@ -22,8 +22,19 @@ void Game::Update()
 	//handle window events
 	m_window.Update();
 
-	//update model
-	MoveSprite();
+	
+	//fixed timestep at 60x per second
+	float frametime = 1.0f / 60.0f;
+
+	if (m_elapsed.asSeconds() >= frametime)
+	{
+		//do something 60x a second
+
+		//update model
+		MoveSprite();
+
+		m_elapsed -= sf::seconds(frametime);
+	}
 }
 
 void Game::MoveSprite()
@@ -69,5 +80,5 @@ sf::Time Game::GetElapsed()
 
 void Game::RestartClock()
 {
-	m_elapsed = m_clock.restart();
+	m_elapsed += m_clock.restart();
 }
