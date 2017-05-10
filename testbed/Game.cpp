@@ -8,7 +8,7 @@ Game::Game()
 	m_texture.loadFromFile("assets//textures//skeleton.png");
 	m_sprite.setTexture(m_texture);
 	m_sprite.setPosition(sf::Vector2f(m_sprite.getPosition().x, m_window.GetWindowSize().y / 2.0f));
-	m_speed = sf::Vector2f(0.02f, 0.0f);
+	m_speed = sf::Vector2f(200.0f, 0.0f); // x pixel per second
 }
 
 Game::~Game() {}
@@ -38,8 +38,11 @@ void Game::MoveSprite()
 		m_speed.x = -m_speed.x;
 	}
 
+	//calculate time passed as seconds since last frame
+	float fElapsed = m_elapsed.asSeconds();
+
 	//update position
-	m_sprite.setPosition(m_sprite.getPosition() + m_speed);
+	m_sprite.setPosition(m_sprite.getPosition() + m_speed * fElapsed);
 }
 
 void Game::Render()
@@ -57,4 +60,14 @@ void Game::Render()
 Window* Game::GetWindow()
 {
 	return &m_window;
+}
+
+sf::Time Game::GetElapsed()
+{
+	return m_elapsed;
+}
+
+void Game::RestartClock()
+{
+	m_elapsed = m_clock.restart();
 }

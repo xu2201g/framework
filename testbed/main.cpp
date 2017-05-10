@@ -14,5 +14,8 @@ int main(int argc, char** argv)
 
 		//render result
 		game.Render();
+
+		//restart clock
+		game.RestartClock();
 	}
 }

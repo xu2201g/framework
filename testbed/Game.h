@@ -15,6 +15,9 @@ public:
 
 	Window* GetWindow();
 
+	sf::Time GetElapsed();
+	void RestartClock();
+
 private:
 
 	void MoveSprite();
@@ -23,4 +26,7 @@ private:
 	sf::Texture m_texture;
 	sf::Sprite m_sprite;
 	sf::Vector2f m_speed;
+
+	sf::Clock m_clock;
+	sf::Time m_elapsed;
 };
