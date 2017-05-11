@@ -1,13 +1,18 @@
 #include "Game.h"
 
+#define WINDOW_SIZE sf::Vector2u(1280, 768)
+
 Game::Game()
 	:
-	m_window("Moving Sprite", sf::Vector2u(1280, 768))
+	m_window("Moving Sprite", WINDOW_SIZE),
+	m_world(WINDOW_SIZE),
+	m_snake(m_world.GetBlockSize())	
 {
 	//set members
 	m_texture.loadFromFile("assets//textures//skeleton.png");
 	m_sprite.setTexture(m_texture);
-	m_sprite.setPosition(sf::Vector2f(m_sprite.getPosition().x, m_window.GetWindowSize().y / 2.0f));
+	m_sprite.setOrigin(m_texture.getSize().x / 2.0f, m_texture.getSize().y / 2.0f);
+	m_sprite.setPosition(sf::Vector2f(m_texture.getSize().x / 2.0f, m_window.GetWindowSize().y / 2.0f));
 	m_speed = sf::Vector2f(200.0f, 0.0f); // x pixel per second
 }
 
@@ -15,26 +20,54 @@ Game::~Game() {}
 
 void Game::HandleInput()
 {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && m_snake.GetPhysicalDirection() != Direction::Down)
+	{
+		m_snake.SetDirection(Direction::Up);
+	}
+	else
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && m_snake.GetPhysicalDirection() != Direction::Up)
+	{
+		m_snake.SetDirection(Direction::Down);
+	}
+	else
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && m_snake.GetPhysicalDirection() != Direction::Right)
+	{
+		m_snake.SetDirection(Direction::Left);
+	}
+	else
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && m_snake.GetPhysicalDirection() != Direction::Left)
+	{
+		m_snake.SetDirection(Direction::Right);
+	}
 }
 
 void Game::Update()
 {
 	//handle window events
 	m_window.Update();
-
 	
 	//fixed timestep at 60x per second
-	float frametime = 1.0f / 60.0f;
+	float frametime = 1.0f / m_snake.GetSpeed();
 
 	if (m_elapsed.asSeconds() >= frametime)
 	{
 		//do something 60x a second
 
 		//update model
-		MoveSprite();
+		//MoveSprite();
+
+		m_snake.Tick();
+		m_world.Update(m_snake);
 
 		m_elapsed -= sf::seconds(frametime);
+
+		if (m_snake.HasLost())
+		{
+			m_snake.Reset();
+		}
 	}
+
+	//sf::sleep(sf::Time::asSeconds(0.01));
 }
 
 void Game::MoveSprite()
@@ -62,7 +95,9 @@ void Game::Render()
 	m_window.BeginDraw(); 
 
 	//draw the model
-	m_window.Draw(m_sprite);
+	//m_window.Draw(m_sprite);
+	m_world.Render(m_window.GetRenderWindow());
+	m_snake.Render(m_window.GetRenderWindow());
 
 	//display the result 
 	m_window.EndDraw();

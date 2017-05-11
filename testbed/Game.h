@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Window.h"
+#include "World.h"
 
 class Game
 {
@@ -29,4 +30,8 @@ private:
 
 	sf::Clock m_clock;
 	sf::Time m_elapsed;
+
+	//snake additionals
+	World m_world;
+	Snake m_snake;
 };

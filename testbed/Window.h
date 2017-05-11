@@ -30,6 +30,8 @@ public:
 
 	void Draw(sf::Drawable& drawable);
 
+	sf::RenderWindow& GetRenderWindow() { return m_window; }
+
 private:
 
 	void Setup(const std::string& title, const sf::Vector2u& size);
