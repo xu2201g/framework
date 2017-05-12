@@ -8,7 +8,7 @@ class World
 {
 public:
 
-	World(sf::Vector2u windowSize);
+	World(sf::Vector2u windowSize, int seed);
 	~World();
 
 	int GetBlockSize();

@@ -24,7 +24,8 @@ void Snake::IncreaseScore()
 
 void Snake::IncreaseSpeed()
 {
-	m_speed += 1;
+	//limit max speed of the snake to a cute little magic number 30x ticks per second
+	m_speed = std::min(m_speed + 1, 20);
 }
 
 Direction Snake::GetDirection()

@@ -4,9 +4,11 @@
 
 Game::Game()
 	:
-	m_window("Moving Sprite", WINDOW_SIZE),
-	m_world(WINDOW_SIZE),
-	m_snake(m_world.GetBlockSize())	
+	m_window("Snake", WINDOW_SIZE),
+	m_seed(time(nullptr)),
+	m_world(WINDOW_SIZE, m_seed),
+	m_snake(m_world.GetBlockSize()),
+	m_textbox(5,14,350,sf::Vector2f(m_world.GetBlockSize(), m_world.GetBlockSize()))
 {
 	//set members
 	m_texture.loadFromFile("assets//textures//skeleton.png");
@@ -14,6 +16,8 @@ Game::Game()
 	m_sprite.setOrigin(m_texture.getSize().x / 2.0f, m_texture.getSize().y / 2.0f);
 	m_sprite.setPosition(sf::Vector2f(m_texture.getSize().x / 2.0f, m_window.GetWindowSize().y / 2.0f));
 	m_speed = sf::Vector2f(200.0f, 0.0f); // x pixel per second
+
+	m_textbox.Add("RNG seed: " + std::to_string(m_seed));
 }
 
 Game::~Game() {}
@@ -98,6 +102,7 @@ void Game::Render()
 	//m_window.Draw(m_sprite);
 	m_world.Render(m_window.GetRenderWindow());
 	m_snake.Render(m_window.GetRenderWindow());
+	m_textbox.Renderer(m_window.GetRenderWindow());
 
 	//display the result 
 	m_window.EndDraw();

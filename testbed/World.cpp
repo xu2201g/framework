@@ -1,10 +1,13 @@
 #include "World.h"
 
-World::World(sf::Vector2u windowSize)
+World::World(sf::Vector2u windowSize, int seed)
 	:
 	m_blockSize(16),
 	m_windowSize(windowSize)
 {
+	//seed random number generator
+	srand(seed);
+
 	//apple
 	RespawnApple();
 	m_appleShape.setFillColor(sf::Color::Red);
