@@ -2,6 +2,8 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "EventManager.h"
+
 //holds the grid coordinates for the snakesegment
 struct SnakeSegment
 {
@@ -62,6 +64,8 @@ public:
 	void Cut(int segments); //cuts an amount of segments specified as param from the snake body - used for snakehead with snakebody collisions
 
 	void Render(sf::RenderWindow& window); //draw function
+
+	void Navigate(EventDetails* details);
 
 private:
 

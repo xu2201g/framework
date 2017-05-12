@@ -253,10 +253,41 @@ void Snake::Render(sf::RenderWindow& window)
 	}
 }
 
+void Snake::Navigate(EventDetails* details)
+{
+	switch (details->m_keyCode)
+	{
+	case sf::Keyboard::Up:
+		if (GetPhysicalDirection() != Direction::Down)
+		{
+			SetDirection(Direction::Up);
+		}
+		break;
+	case sf::Keyboard::Down:
+		if (GetPhysicalDirection() != Direction::Up)
+		{
+			SetDirection(Direction::Down);
+		}
+		break;
+	case sf::Keyboard::Left:
+		if (GetPhysicalDirection() != Direction::Right)
+		{
+			SetDirection(Direction::Left);
+		}
+		break;
+	case sf::Keyboard::Right:
+		if (GetPhysicalDirection() != Direction::Left)
+		{
+			SetDirection(Direction::Right);
+		}
+		break;
+	}
+}
+
 void Snake::CheckCollision()
 {
 	//its not possible for the snake to collide with itself if it has less than 5 segments
-	if (m_snakeBody.size() > 5) { return; }
+	if (m_snakeBody.size() < 5) { return; }
 
 	SnakeSegment& head = m_snakeBody.front();
 

@@ -4,6 +4,8 @@
 #include "World.h"
 #include "Textbox.h"
 
+#include <iostream>
+
 class Game
 {
 public:
@@ -11,7 +13,6 @@ public:
 	Game();
 	~Game();
 
-	void HandleInput();
 	void Update();
 	void Render();
 
@@ -19,6 +20,9 @@ public:
 
 	sf::Time GetElapsed();
 	void RestartClock();
+
+	//test input handles
+	//void foo(EventDetails* e) { std::cout << "foo" << std::endl; }
 
 private:
 
