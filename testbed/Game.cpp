@@ -8,10 +8,11 @@ Game::Game()
 	m_seed(time(nullptr)),
 	m_world(WINDOW_SIZE, m_seed),
 	m_snake(m_world.GetBlockSize()),
-	m_textbox(5,14,350,sf::Vector2f(m_world.GetBlockSize(), m_world.GetBlockSize()))
+	m_textbox(5,14,350,sf::Vector2f(m_world.GetBlockSize(), m_world.GetBlockSize())),
+	m_stateManager(&m_sharedContext)
 {
 	//set members
-	m_texture.loadFromFile("assets//textures//skeleton.png");
+	//m_texture.loadFromFile("assets//textures//skeleton.png");
 	m_sprite.setTexture(m_texture);
 	m_sprite.setOrigin(m_texture.getSize().x / 2.0f, m_texture.getSize().y / 2.0f);
 	m_sprite.setPosition(sf::Vector2f(m_texture.getSize().x / 2.0f, m_window.GetWindowSize().y / 2.0f));
@@ -19,15 +20,23 @@ Game::Game()
 
 	m_textbox.Add("RNG seed: " + std::to_string(m_seed));
 
+	
+		
+
 	//add callbacks 
-	EventManager* eMgrPtr = m_window.GetEventManager();
+	//eMgrPtr->AddCallback("Foo", &Game::foo, this);
 
-	//eMgrPtr->AddCallback("Mouse_LeftClick", &Game::foo, this);
+	//eMgrPtr->AddCallback("Navigate_Left", &Snake::Navigate, &m_snake);
+	//eMgrPtr->AddCallback("Navigate_Right", &Snake::Navigate, &m_snake);
+	//eMgrPtr->AddCallback("Navigate_Up", &Snake::Navigate, &m_snake);
+	//eMgrPtr->AddCallback("Navigate_Down", &Snake::Navigate, &m_snake);
 
-	eMgrPtr->AddCallback("Navigate_Left", &Snake::Navigate, &m_snake);
-	eMgrPtr->AddCallback("Navigate_Right", &Snake::Navigate, &m_snake);
-	eMgrPtr->AddCallback("Navigate_Up", &Snake::Navigate, &m_snake);
-	eMgrPtr->AddCallback("Navigate_Down", &Snake::Navigate, &m_snake);
+	//shared context
+	m_sharedContext.m_pWindow = &m_window;
+	m_sharedContext.m_pEventManager = m_window.GetEventManager();
+
+	m_stateManager.SwitchTo(StateType::Intro);
+		
 }
 
 Game::~Game() {}
@@ -36,29 +45,35 @@ void Game::Update()
 {
 	//handle window events
 	m_window.Update();
-	
+
 	//fixed timestep at 60x per second
-	float frametime = 1.0f / m_snake.GetSpeed();
+	float frametime = 1.0f /60.0f;
 
 	if (m_elapsed.asSeconds() >= frametime)
 	{
 		//do something 60x a second
-
+		m_stateManager.Update(m_elapsed);
 		//update model
 		//MoveSprite();
 
-		m_snake.Tick();
-		m_world.Update(m_snake);
+		//m_snake.Tick();
+		//m_world.Update(m_snake);
 
 		m_elapsed -= sf::seconds(frametime);
 
-		if (m_snake.HasLost())
-		{
-			m_snake.Reset();
-		}
+		//if (m_snake.HasLost())
+		//{
+		//	m_snake.Reset();
+		//}
 	}
 
 	//sf::sleep(sf::Time::asSeconds(0.01));
+}
+
+void Game::LateUpdate()
+{
+	m_stateManager.ProcessRequest();
+	RestartClock();
 }
 
 void Game::MoveSprite()
@@ -87,9 +102,12 @@ void Game::Render()
 
 	//draw the model
 	//m_window.Draw(m_sprite);
-	m_world.Render(m_window.GetRenderWindow());
-	m_snake.Render(m_window.GetRenderWindow());
-	m_textbox.Renderer(m_window.GetRenderWindow());
+	//m_world.Render(m_window.GetRenderWindow());
+	//m_snake.Render(m_window.GetRenderWindow());
+	//m_textbox.Renderer(m_window.GetRenderWindow());
+
+	//state managed drawing
+	m_stateManager.Draw();
 
 	//display the result 
 	m_window.EndDraw();

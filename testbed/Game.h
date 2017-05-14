@@ -4,6 +4,8 @@
 #include "World.h"
 #include "Textbox.h"
 
+#include "StateManager.h"
+
 #include <iostream>
 
 class Game
@@ -14,6 +16,7 @@ public:
 	~Game();
 
 	void Update();
+	void LateUpdate();
 	void Render();
 
 	Window* GetWindow();
@@ -22,7 +25,7 @@ public:
 	void RestartClock();
 
 	//test input handles
-	//void foo(EventDetails* e) { std::cout << "foo" << std::endl; }
+	void foo(EventDetails* e) { std::cout << "foo" << std::endl; }
 
 private:
 
@@ -43,4 +46,8 @@ private:
 	Snake m_snake;
 
 	Textbox m_textbox;
+
+	//managers
+	SharedContext m_sharedContext;
+	StateManager m_stateManager;
 };

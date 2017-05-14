@@ -4,6 +4,8 @@
 #include <sstream>
 #include <iostream>
 
+#include "StateManager.h"
+
 EventManager::EventManager()
 	:
 	m_hasFocus(true)
@@ -46,6 +48,11 @@ bool EventManager::RemoveBinding(const std::string& name)
 void EventManager::SetFocus(const bool& focus)
 {
 	m_hasFocus = focus;
+}
+
+void EventManager::SetCurrentState(const StateType& type)
+{
+	m_currentState = type;
 }
 
 void EventManager::HandleEvent(sf::Event& event)
@@ -185,14 +192,40 @@ void EventManager::Update()
 		//process stored events through invoking bound callback functions
 		if (bind->m_events.size() == bind->c)
 		{
-			//search for matching callback function
-			auto callback_itr = m_callbacks.find(bind->m_name);
+			//state related callbacks
+			auto stateCallbacks = m_callbacks.find(m_currentState);
 
-			//valid function found?
-			if (callback_itr != m_callbacks.end())
+			//global callbacks - like functionality to close the window by 
+			//a key/key combination defined one time instead of defining it in 
+			//every state we re using in the game
+			auto otherCallbacks = m_callbacks.find(StateType(0));
+
+			//handling state callbacks
+			if (stateCallbacks != m_callbacks.end())
 			{
-				//invoke callback function
-				callback_itr->second(&bind->m_details);
+				//search for the callbackfunction 
+				auto callItr = stateCallbacks->second.find(bind->m_name);
+				
+				//match founds
+				if (callItr != stateCallbacks->second.end())
+				{
+					//invoke the callback function with the passed eventdetailss
+					callItr->second(&bind->m_details);
+				}
+			}
+
+			//handling global callbacks
+			if (otherCallbacks != m_callbacks.end())
+			{
+				//search for the callbackfunction 
+				auto callItr = otherCallbacks->second.find(bind->m_name);
+
+				//match founds
+				if (callItr != otherCallbacks->second.end())
+				{
+					//invoke the callback function with the passed eventdetailss
+					callItr->second(&bind->m_details);
+				}
 			}
 		}
 

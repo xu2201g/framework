@@ -20,8 +20,10 @@ int main(int argc, char** argv)
 		//sf::sleep(sf::seconds(0.5)); // sleep for 0.2 seconds
 
 		//restart clock
-		game.RestartClock();
+		game.LateUpdate();
 	}
+
+	//system("pause");
 
 	//test();
 }
