@@ -26,14 +26,11 @@ Game::Game()
 	//add callbacks 
 	//eMgrPtr->AddCallback("Foo", &Game::foo, this);
 
-	//eMgrPtr->AddCallback("Navigate_Left", &Snake::Navigate, &m_snake);
-	//eMgrPtr->AddCallback("Navigate_Right", &Snake::Navigate, &m_snake);
-	//eMgrPtr->AddCallback("Navigate_Up", &Snake::Navigate, &m_snake);
-	//eMgrPtr->AddCallback("Navigate_Down", &Snake::Navigate, &m_snake);
 
 	//shared context
 	m_sharedContext.m_pWindow = &m_window;
 	m_sharedContext.m_pEventManager = m_window.GetEventManager();
+	m_sharedContext.m_pSnake = &m_snake;
 
 	m_stateManager.SwitchTo(StateType::Intro);
 		
@@ -61,10 +58,10 @@ void Game::Update()
 
 		m_elapsed -= sf::seconds(frametime);
 
-		//if (m_snake.HasLost())
-		//{
-		//	m_snake.Reset();
-		//}
+		if (m_snake.HasLost())
+		{
+			m_snake.Reset();
+		}
 	}
 
 	//sf::sleep(sf::Time::asSeconds(0.01));

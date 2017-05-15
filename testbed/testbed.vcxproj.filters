@@ -16,6 +16,9 @@
     <Filter Include="Header Files\states">
       <UniqueIdentifier>{463a5d31-86dd-40e0-baee-c0238ea81093}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\states">
+      <UniqueIdentifier>{b59278fd-c48d-446b-ad7a-c210798fee39}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -39,10 +42,22 @@
     <ClCompile Include="EventManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="StateManager.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="State_Credits.cpp">
+      <Filter>Source Files\states</Filter>
+    </ClCompile>
+    <ClCompile Include="State_Game.cpp">
+      <Filter>Source Files\states</Filter>
     </ClCompile>
     <ClCompile Include="State_Intro.cpp">
+      <Filter>Source Files\states</Filter>
+    </ClCompile>
+    <ClCompile Include="State_MainMenu.cpp">
+      <Filter>Source Files\states</Filter>
+    </ClCompile>
+    <ClCompile Include="StateManager.cpp">
+      <Filter>Source Files\states</Filter>
+    </ClCompile>
+    <ClCompile Include="State_Paused.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -87,6 +102,9 @@
       <Filter>Header Files\states</Filter>
     </ClInclude>
     <ClInclude Include="State_Credits.h">
+      <Filter>Header Files\states</Filter>
+    </ClInclude>
+    <ClInclude Include="State_Paused.h">
       <Filter>Header Files\states</Filter>
     </ClInclude>
   </ItemGroup>

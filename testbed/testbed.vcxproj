@@ -122,7 +122,11 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Snake.cpp" />
     <ClCompile Include="StateManager.cpp" />
+    <ClCompile Include="State_Credits.cpp" />
+    <ClCompile Include="State_Game.cpp" />
     <ClCompile Include="State_Intro.cpp" />
+    <ClCompile Include="State_MainMenu.cpp" />
+    <ClCompile Include="State_Paused.cpp" />
     <ClCompile Include="Textbox.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="World.cpp" />
@@ -139,6 +143,7 @@
     <ClInclude Include="State_GameOver.h" />
     <ClInclude Include="State_Intro.h" />
     <ClInclude Include="State_MainMenu.h" />
+    <ClInclude Include="State_Paused.h" />
     <ClInclude Include="Textbox.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="World.h" />

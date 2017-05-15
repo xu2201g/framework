@@ -3,11 +3,6 @@
 #include "SharedContext.h"
 #include "BaseState.h"
 
-#include "State_Intro.h"
-#include "State_MainMenu.h"
-#include "State_Game.h"
-#include "State_GameOver.h"
-#include "State_Credits.h"
 
 //used to identify states
 enum class StateType

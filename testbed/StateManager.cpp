@@ -1,12 +1,21 @@
 #include "StateManager.h"
 
+#include "State_Intro.h"
+#include "State_MainMenu.h"
+#include "State_Game.h"
+#include "State_GameOver.h"
+#include "State_Credits.h"
+#include "State_Paused.h"
+
+
 StateManager::StateManager(SharedContext* sharedContext)
 	:
 	m_pSharedContext(sharedContext)
 {
 	RegisterState<State_Intro>(StateType::Intro);
-//	RegisterState<State_MainMenu>(StateType::MainMenu);
-//	RegisterState<State_Game>(StateType::Game);
+	RegisterState<State_MainMenu>(StateType::MainMenu);
+	RegisterState<State_Game>(StateType::Game);
+	RegisterState<State_Paused>(StateType::Paused);
 //	RegisterState<State_GameOver>(StateType::GameOver);
 //	RegisterState<State_Credits>(StateType::Credits);
 }
@@ -193,7 +202,10 @@ void StateManager::SwitchTo(const StateType& type)
 			tmpState->Activate();
 
 			//add the state at the end of the vector - where the active state belongs to
-			m_states.emplace_back(tmpType, std::move(tmpState));			
+			m_states.emplace_back(tmpType, std::move(tmpState));		
+
+			//job is done and the itr is invalide cause we used the erased function
+			return;
 		}
 	}
 
