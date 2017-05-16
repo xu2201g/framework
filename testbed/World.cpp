@@ -1,12 +1,18 @@
 #include "World.h"
 
-World::World(sf::Vector2u windowSize, int seed)
+World::World(sf::Vector2u windowSize, int blockSize, int seed)
 	:
-	m_blockSize(16),
-	m_windowSize(windowSize)
+	m_blockSize(blockSize),
+	m_windowSize(windowSize),
+	m_textbox(5, 10, 200, sf::Vector2f(blockSize, blockSize))
 {
 	//seed random number generator
 	srand(seed);
+
+	//background color
+	m_backgroundRect.setSize(sf::Vector2f(windowSize.x, windowSize.y));
+	m_backgroundRect.setPosition(0.0f, 0.f);
+	m_backgroundRect.setFillColor(sf::Color(8, 8, 8, 255));
 
 	//apple
 	RespawnApple();
@@ -14,10 +20,12 @@ World::World(sf::Vector2u windowSize, int seed)
 	m_appleShape.setRadius(m_blockSize / 2.0f);
 
 	//walls
-	m_walls[0].setFillColor(sf::Color::Cyan);
-	m_walls[1].setFillColor(sf::Color::Cyan);
-	m_walls[2].setFillColor(sf::Color::Cyan);
-	m_walls[3].setFillColor(sf::Color::Cyan);
+	sf::Color wallColor = sf::Color(127, 127, 127, 255);
+
+	m_walls[0].setFillColor(wallColor);
+	m_walls[1].setFillColor(wallColor);
+	m_walls[2].setFillColor(wallColor);
+	m_walls[3].setFillColor(wallColor);
 
 	//north
 	m_walls[0].setSize(sf::Vector2f(m_windowSize.x, m_blockSize));
@@ -47,6 +55,7 @@ int World::GetBlockSize()
 
 void World::RespawnApple()
 {
+	//TODO fix apple respawn collision with the snake body
 	int maxX = (m_windowSize.x / m_blockSize) - 2;
 	int maxY = (m_windowSize.y / m_blockSize) - 2;
 
@@ -77,10 +86,19 @@ void World::Update(Snake& player)
 		player.Lose();
 	}
 
+	//update textbox
+	m_textbox.Clear();
+
+	m_textbox.Add("Lives: " + std::to_string(player.GetLives()));
+	m_textbox.Add("Score: " + std::to_string(player.GetScore()));
+	m_textbox.Add("Speed: " + std::to_string(player.GetSpeed()));
 }
 
 void World::Render(sf::RenderWindow& window)
 {
+	//draw background
+	window.draw(m_backgroundRect);
+
 	//draw walls
 	for (int i = 0; i < 4; ++i)
 	{
@@ -89,4 +107,7 @@ void World::Render(sf::RenderWindow& window)
 
 	//draw apple
 	window.draw(m_appleShape);
+
+	//draw textbox
+	m_textbox.Render(window);
 }

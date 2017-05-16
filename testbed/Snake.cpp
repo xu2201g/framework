@@ -6,6 +6,13 @@ Snake::Snake(int blockSize)
 {
 	m_bodyRect.setSize(sf::Vector2f(m_size-1, m_size-1)); //used to see the segments more clearly
 	Reset(); //resets lives score segments and position of the snake
+
+	//set some different colors for the body
+	m_bodyColorContainer.push_back(sf::Color(0, 193, 0, 255));
+	m_bodyColorContainer.push_back(sf::Color(0, 127, 0, 255));
+	m_bodyColorContainer.push_back(sf::Color(0,  63, 0, 255));
+	m_bodyColorContainer.push_back(sf::Color(0, 127, 0, 255));
+
 }
 
 Snake::~Snake()
@@ -246,8 +253,13 @@ void Snake::Render(sf::RenderWindow& window)
 
 	//body
 	m_bodyRect.setFillColor(sf::Color::Green);
+	int i = 0;
 	for (auto itr = m_snakeBody.begin() + 1; itr != m_snakeBody.end(); ++itr)
 	{
+		//set the color
+		int index = i++ % m_bodyColorContainer.size();
+		m_bodyRect.setFillColor(m_bodyColorContainer[index]);
+
 		m_bodyRect.setPosition(itr->position.x * m_size, itr->position.y * m_size);
 		window.draw(m_bodyRect);
 	}

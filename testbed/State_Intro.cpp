@@ -35,7 +35,7 @@ void State_Intro::OnCreate()
 
 	EventManager* eventMgr = m_pStateMgr->GetContext()->m_pEventManager;
 
-	eventMgr->AddCallback(StateType::Intro, "Intro_Continue", &State_Intro::Continue, this);
+	eventMgr->AddCallback(StateType::Intro, "Key_Space", &State_Intro::Continue, this);
 }
 
 void State_Intro::OnDestroy()

@@ -17,7 +17,7 @@ public:
 	void Add(std::string message);
 	void Clear();
 
-	void Renderer(sf::RenderWindow& window);
+	void Render(sf::RenderWindow& window);
 
 private:
 

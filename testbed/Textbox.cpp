@@ -48,7 +48,7 @@ void Textbox::Clear()
 	m_messages.clear();
 }
 
-void Textbox::Renderer(sf::RenderWindow& window)
+void Textbox::Render(sf::RenderWindow& window)
 {
 	std::string content;
 
@@ -58,7 +58,7 @@ void Textbox::Renderer(sf::RenderWindow& window)
 		content.append(itr + "\n");
 	}
 
-	if (content != "")
+	//if (content != "")
 	{
 		m_content.setString(content);
 		window.draw(m_backdrop);

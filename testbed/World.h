@@ -3,12 +3,13 @@
 #include <SFML/Graphics.hpp>
 
 #include "Snake.h"
+#include "Textbox.h"
 
 class World
 {
 public:
 
-	World(sf::Vector2u windowSize, int seed);
+	World(sf::Vector2u windowSize, int blockSize, int seed);
 	~World();
 
 	int GetBlockSize();
@@ -26,6 +27,9 @@ private:
 
 	int m_blockSize;
 
+	sf::RectangleShape m_backgroundRect;
 	sf::CircleShape m_appleShape;
 	sf::RectangleShape m_walls[4];
+
+	Textbox m_textbox;
 };

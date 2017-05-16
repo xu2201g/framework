@@ -129,6 +129,7 @@ public:
 
 	void SetFocus(const bool& focus);
 	void SetCurrentState(const StateType& type);
+	const StateType& GetCurrentState() { return m_currentState;	}
 
 	//callbacks
 	template<class T>

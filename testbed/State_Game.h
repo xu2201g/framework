@@ -2,9 +2,11 @@
 #include "BaseState.h"
 #include "EventManager.h"
 
+#include "Snake.h"
+#include "World.h"
+
 class State_Game : public BaseState
 {
-
 public:
 
 	State_Game(StateManager* pStateManager);
@@ -19,15 +21,16 @@ public:
 	void Update(const sf::Time& time);
 	void Draw();
 
-
 	void MainMenu(EventDetails* details);
 	void Pause(EventDetails* details);
 
 private:
 
-	sf::Texture m_texture;
-	sf::Sprite m_sprite;
+	//snake 
+	World m_world;
+	Snake m_snake;
 
-	sf::Vector2f m_increment;
-
+	//to handle fixed timesteps for the snake
+	sf::Time m_elapsed;
+	
 };

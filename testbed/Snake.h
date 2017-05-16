@@ -35,7 +35,6 @@ public:
 	Snake(int blockSize); 
 	~Snake();
 
-
 	//setter 
 	void SetDirection(Direction dir);
 	void IncreaseScore();
@@ -48,6 +47,7 @@ public:
 	sf::Vector2i GetPosition();
 	int GetSpeed();
 	int GetLives();
+	int GetScore() { return m_score; }
 
 	bool HasLost();
 
@@ -72,6 +72,7 @@ private:
 	void CheckCollision(); //checks for collisions snake-snakebody
 
 	SnakeContainer m_snakeBody; //vector of snake segments
+	std::vector<sf::Color> m_bodyColorContainer;
 	int m_size; //size of the blocks
 	Direction m_dir; //current direction
 	int m_speed; //speed of the snake 
