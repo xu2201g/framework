@@ -20,7 +20,7 @@ void State_GameOver::OnCreate()
 	m_texture.loadFromFile("assets//textures//gameover.png");
 	m_sprite.setTexture(m_texture);
 	m_sprite.setOrigin(m_texture.getSize().x / 2.0f, m_texture.getSize().y / 2.0f);
-	m_sprite.setPosition(windowSize.x / 2.0f, windowSize.y / 3.0f);
+	m_sprite.setPosition(windowSize.x / 2.0f, windowSize.y / 2.0f);
 
 	m_font.loadFromFile("assets//fonts//arial.ttf");
 	m_text.setFont(m_font);
@@ -30,7 +30,7 @@ void State_GameOver::OnCreate()
 
 	sf::FloatRect textRect = m_text.getLocalBounds();
 	m_text.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
-	m_text.setPosition(windowSize.x / 2.0f, windowSize.y / 2.0f);
+	m_text.setPosition(windowSize.x / 2.0f, windowSize.y / 2.0f + 75);
 
 	//darken the rendered game with a transparent black rect
 	m_rect.setSize(sf::Vector2f(windowSize));
