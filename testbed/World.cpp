@@ -12,7 +12,7 @@ World::World(sf::Vector2u windowSize, int blockSize, int seed)
 	//background color
 	m_backgroundRect.setSize(sf::Vector2f(windowSize.x, windowSize.y));
 	m_backgroundRect.setPosition(0.0f, 0.f);
-	m_backgroundRect.setFillColor(sf::Color(8, 8, 8, 255));
+	m_backgroundRect.setFillColor(sf::Color(0, 0, 0, 255));
 
 	//apple
 	RespawnApple();

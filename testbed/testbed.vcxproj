@@ -124,6 +124,7 @@
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="State_Credits.cpp" />
     <ClCompile Include="State_Game.cpp" />
+    <ClCompile Include="State_GameOver.cpp" />
     <ClCompile Include="State_Intro.cpp" />
     <ClCompile Include="State_MainMenu.cpp" />
     <ClCompile Include="State_Paused.cpp" />

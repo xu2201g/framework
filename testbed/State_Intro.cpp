@@ -34,7 +34,6 @@ void State_Intro::OnCreate()
 	m_text.setPosition(windowSize.x / 2.0f, windowSize.y / 2.0f);
 
 	EventManager* eventMgr = m_pStateMgr->GetContext()->m_pEventManager;
-
 	eventMgr->AddCallback(StateType::Intro, "Key_Space", &State_Intro::Continue, this);
 }
 

@@ -60,6 +60,9 @@
     <ClCompile Include="State_Paused.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="State_GameOver.cpp">
+      <Filter>Source Files\states</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">

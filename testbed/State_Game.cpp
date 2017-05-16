@@ -61,7 +61,9 @@ void State_Game::Update(const sf::Time& time)
 
 		if (m_snake.HasLost())
 		{
+			//game over
 			m_snake.Reset();
+			m_pStateMgr->SwitchTo(StateType::GameOver);
 		}
 	}
 

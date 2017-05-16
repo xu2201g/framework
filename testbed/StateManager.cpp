@@ -16,7 +16,7 @@ StateManager::StateManager(SharedContext* sharedContext)
 	RegisterState<State_MainMenu>(StateType::MainMenu);
 	RegisterState<State_Game>(StateType::Game);
 	RegisterState<State_Paused>(StateType::Paused);
-//	RegisterState<State_GameOver>(StateType::GameOver);
+	RegisterState<State_GameOver>(StateType::GameOver);
 //	RegisterState<State_Credits>(StateType::Credits);
 }
 
