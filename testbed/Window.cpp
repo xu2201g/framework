@@ -99,6 +99,18 @@ void Window::Draw(sf::Drawable& drawable)
 	m_window.draw(drawable);
 }
 
+sf::FloatRect Window::GetViewSpace()
+{
+	sf::Vector2f viewCenter = m_window.getView().getCenter();
+	sf::Vector2f viewSize = m_window.getView().getSize();
+	sf::Vector2f viewSizeHalf(viewSize.x / 2.0f, viewSize.y / 2.0f);
+
+	//top left corner and bottom right corner
+	sf::FloatRect viewSpace(viewCenter - viewSizeHalf, viewSize);
+
+	return viewSpace;
+}
+
 void Window::Setup(const std::string& title, const sf::Vector2u& size)
 {
 	//set members

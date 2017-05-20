@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SFML/System.hpp>
-
+#include <SFML/Graphics.hpp>
 class StateManager;
 
 class BaseState
@@ -54,6 +54,8 @@ public:
 		return m_pStateMgr;
 	}
 
+	sf::View& GetView() { return m_view; }
+
 protected:
 
 	StateManager* m_pStateMgr;
@@ -61,4 +63,5 @@ protected:
 	bool m_transparent; //controls wether the state lets underlying states be drawn 
 	bool m_transcendent; //controls wether the state lets underlying states be updated 
 
+	sf::View m_view;
 };

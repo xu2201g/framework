@@ -132,6 +132,10 @@ void StateManager::Draw()
 		//structure makes sure that they re drawn in the right order
 		for (; itr != m_states.end(); ++itr)
 		{
+			//in order to draw multiple states one above the other in a correct way we need to load the state related view before we draw
+			m_pSharedContext->m_pWindow->GetRenderWindow().setView(itr->second->GetView());
+
+			//draw the state
 			itr->second->Draw();
 		}
 	}
@@ -201,10 +205,13 @@ void StateManager::SwitchTo(const StateType& type)
 			//activate the state
 			tmpState->Activate();
 
-			//add the state at the end of the vector - where the active state belongs to
-			m_states.emplace_back(tmpType, std::move(tmpState));		
+			//load the view related to the state we re switching to
+			m_pSharedContext->m_pWindow->GetRenderWindow().setView(tmpState->GetView());
 
-			//job is done and the itr is invalide cause we used the erased function
+			//add the state at the end of the vector - where the active state belongs to
+			m_states.emplace_back(tmpType, std::move(tmpState));	
+
+			//job is done and the itr is invalid cause we used the erased function
 			return;
 		}
 	}
@@ -222,6 +229,9 @@ void StateManager::SwitchTo(const StateType& type)
 
 	//activate the newly created state
 	m_states.back().second->Activate();
+
+	//load the view of the active state
+	m_pSharedContext->m_pWindow->GetRenderWindow().setView(m_states.back().second->GetView());
 }
 
 void StateManager::Remove(const StateType& type)
@@ -240,11 +250,16 @@ void StateManager::CreateState(const StateType& type)
 		return;
 	}
 
-	//std::unique_ptr<BaseState> state = newState->second(); //ive no idea why my code works TODO
+	//store temporary the state 
+	std::unique_ptr<BaseState> state = newState->second(); 
 
-	//add the new created state to the states vector
-	
-	m_states.emplace_back(type, std::move(newState->second()));
+	//load default view into the new created state
+	state->m_view = m_pSharedContext->m_pWindow->GetRenderWindow().getDefaultView();
+
+	//add the new created state to the states vector by std::move to transfer the ownership of the state object	
+	m_states.emplace_back(type, std::move(state));
+
+	//invoke the oncreate function of the new state to setup specific stuff for the created state
 	m_states.back().second->OnCreate();
 }
 

@@ -19,6 +19,9 @@
     <Filter Include="Source Files\states">
       <UniqueIdentifier>{b59278fd-c48d-446b-ad7a-c210798fee39}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\utils">
+      <UniqueIdentifier>{768c2d94-ee6a-4f46-842c-6d58bb3d48d6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -109,6 +112,9 @@
     </ClInclude>
     <ClInclude Include="State_Paused.h">
       <Filter>Header Files\states</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities.h">
+      <Filter>Header Files\utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

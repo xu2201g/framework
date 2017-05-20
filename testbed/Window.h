@@ -35,6 +35,7 @@ public:
 	void Draw(sf::Drawable& drawable);
 
 	sf::RenderWindow& GetRenderWindow() { return m_window; }
+	sf::FloatRect GetViewSpace();
 
 private:
 
