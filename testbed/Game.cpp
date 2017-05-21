@@ -6,12 +6,14 @@ Game::Game()
 	:
 	m_window("Snake", WINDOW_SIZE),
 	m_seed(time(nullptr)),
-	m_stateManager(&m_sharedContext)
+	m_stateManager(&m_sharedContext),
+	m_textureManager()
 {
 
 	//shared context
 	m_sharedContext.m_pWindow = &m_window;
 	m_sharedContext.m_pEventManager = m_window.GetEventManager();
+	m_sharedContext.m_pTextureManager = &m_textureManager;
 	m_sharedContext.m_pSeed = &m_seed;
 
 	//global events
@@ -19,8 +21,6 @@ Game::Game()
 	m_sharedContext.m_pEventManager->AddCallback(StateType(0), "Key_F5", &Window::ToggleFullscreen, m_sharedContext.m_pWindow);
 
 	m_stateManager.SwitchTo(StateType::Intro);
-
-
 }
 
 Game::~Game() {}

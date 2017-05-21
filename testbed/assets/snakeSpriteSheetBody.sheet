@@ -1,0 +1,5 @@
+Texture snakeSpriteSheetBody
+Size 16 16
+Scale 3.0 3.0
+AnimationType Directional
+Animation Idle 0 7 0 0.2 -1 -1

@@ -3,13 +3,13 @@
 #include "StateManager.h"
 
 //place to store magic numbers, not the best way handling it but still better than placing them between the code
-#define BLOCKSIZE 16
+#define BLOCKSIZE 32
 
 State_Game::State_Game(StateManager* pStateManager)
 	:
 	BaseState(pStateManager),
-	m_world(pStateManager->GetContext()->m_pWindow->GetRenderWindow().getSize(), BLOCKSIZE, *pStateManager->GetContext()->m_pSeed),
-	m_snake(m_world.GetBlockSize())
+	m_world(pStateManager->GetContext()->m_pWindow->GetRenderWindow().getSize(), BLOCKSIZE, *pStateManager->GetContext()->m_pSeed, pStateManager->GetContext()),
+	m_snake(m_world.GetBlockSize(), pStateManager->GetContext())
 {
 }
 
@@ -52,10 +52,14 @@ void State_Game::Update(const sf::Time& time)
 	m_elapsed += time;
 	float frametime = 1.0f / m_snake.GetSpeed();
 
+	m_snake.UpdateAnimation(time.asSeconds());
+	m_snake.UpdateAnimation(time.asSeconds());
+	m_world.UpdateAnimation(time);
 	if (m_elapsed.asSeconds() >= frametime)
 	{		
 		m_snake.Tick();
 		m_world.Update(m_snake);
+		
 
 		m_elapsed -= sf::seconds(frametime);
 

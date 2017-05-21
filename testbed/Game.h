@@ -5,6 +5,7 @@
 #include "Textbox.h"
 
 #include "StateManager.h"
+#include "TextureManager.h"
 
 #include <iostream>
 
@@ -36,4 +37,5 @@ private:
 	//managers
 	SharedContext m_sharedContext;
 	StateManager m_stateManager;
+	TextureManager m_textureManager;
 };

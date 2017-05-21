@@ -20,11 +20,14 @@ EventManager::~EventManager()
 
 bool EventManager::AddBinding(std::unique_ptr<Binding> binding)
 {
-	//there is already a binding with the string key registered
-	if (m_bindings.find(binding->m_name) != m_bindings.end())
-	{
-		return false;
-	}
+	{ //not really necessary cause emplace already checks for duplicate keys
+		//there is already a binding with the string key registered
+		if (m_bindings.find(binding->m_name) != m_bindings.end())
+		{
+			std::cerr << "! Duplicate binding: " << binding->m_name << std::endl;
+			return false;
+		}
+	}	
 
 	//add the new binding
 	return m_bindings.emplace(binding->m_name, std::move(binding)).second;

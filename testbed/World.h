@@ -2,6 +2,8 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "SharedContext.h"
+
 #include "Snake.h"
 #include "Textbox.h"
 
@@ -9,7 +11,7 @@ class World
 {
 public:
 
-	World(sf::Vector2u windowSize, int blockSize, int seed);
+	World(sf::Vector2u windowSize, int blockSize, int seed, SharedContext* pSharedContext);
 	~World();
 
 	int GetBlockSize();
@@ -17,6 +19,7 @@ public:
 	void RespawnApple();
 
 	void Update(Snake& player);
+	void UpdateAnimation(const sf::Time& dT);
 
 	void Render(sf::RenderWindow& window);
 
@@ -29,7 +32,13 @@ private:
 
 	sf::RectangleShape m_backgroundRect;
 	sf::CircleShape m_appleShape;
+
+
+	SpriteSheet m_spriteSheetApple;
 	sf::RectangleShape m_walls[4];
+	sf::Sprite m_wallSprites[4];
 
 	Textbox m_textbox;
+
+	SharedContext* m_pSharedContext;
 };

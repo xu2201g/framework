@@ -1,9 +1,15 @@
 #include "Snake.h"
 
-Snake::Snake(int blockSize)
+Snake::Snake(int blockSize, SharedContext* pSharedContext)
 	:
-	m_size(blockSize)
+	m_size(blockSize),
+	m_spriteSheetHead(pSharedContext->m_pTextureManager),
+	m_spriteSheetBody(pSharedContext->m_pTextureManager),
+	m_pSharedContext(pSharedContext)
 {
+	m_spriteSheetHead.LoadSheet("..//..//testbed//assets//snakeSpriteSheetHead.sheet");
+	m_spriteSheetBody.LoadSheet("..//..//testbed//assets//snakeSpriteSheetBody.sheet");
+
 	m_bodyRect.setSize(sf::Vector2f(m_size-1, m_size-1)); //used to see the segments more clearly
 	Reset(); //resets lives score segments and position of the snake
 
@@ -13,13 +19,14 @@ Snake::Snake(int blockSize)
 	m_bodyColorContainer.push_back(sf::Color(0,  63, 0, 255));
 	m_bodyColorContainer.push_back(sf::Color(0, 127, 0, 255));
 
+
 }
 
 Snake::~Snake()
 {
 }
 
-void Snake::SetDirection(Direction dir)
+void Snake::SetDirection(SnakeDirection dir)
 {
 	m_dir = dir;
 }
@@ -35,16 +42,16 @@ void Snake::IncreaseSpeed()
 	m_speed = std::min(m_speed + 1, 20);
 }
 
-Direction Snake::GetDirection()
+SnakeDirection Snake::GetDirection()
 {
 	return m_dir;
 }
 
-Direction Snake::GetPhysicalDirection()
+SnakeDirection Snake::GetPhysicalDirection()
 {
 	if (m_snakeBody.size() <= 1)
 	{
-		return Direction::None;
+		return SnakeDirection::None;
 	}
 
 	SnakeSegment& head = m_snakeBody[0];
@@ -52,15 +59,15 @@ Direction Snake::GetPhysicalDirection()
 
 	if (head.position.x == neck.position.x)
 	{
-		return head.position.y > neck.position.y ? Direction::Down : Direction::Up;
+		return head.position.y > neck.position.y ? SnakeDirection::Down : SnakeDirection::Up;
 	}
 	else
 	if(head.position.y == neck.position.y)
 	{
-		return head.position.x > neck.position.x ? Direction::Right : Direction::Left;
+		return head.position.x > neck.position.x ? SnakeDirection::Right : SnakeDirection::Left;
 	}
 
-	return Direction::None;
+	return SnakeDirection::None;
 }
 
 sf::Vector2i Snake::GetPosition()
@@ -140,22 +147,22 @@ void Snake::Extend()
 	}
 	else
 	{
-		if (m_dir == Direction::Up)
+		if (m_dir == SnakeDirection::Up)
 		{
 			m_snakeBody.push_back(SnakeSegment(last.position.x, last.position.y + 1));
 		}
 		else
-		if(m_dir == Direction::Down)
+		if(m_dir == SnakeDirection::Down)
 		{
 			m_snakeBody.push_back(SnakeSegment(last.position.x, last.position.y - 1));
 		}
 		else
-		if(m_dir == Direction::Left)
+		if(m_dir == SnakeDirection::Left)
 		{
 			m_snakeBody.push_back(SnakeSegment(last.position.x + 1, last.position.y));
 		}
 		else
-		if(m_dir == Direction::Right)
+		if(m_dir == SnakeDirection::Right)
 		{
 			m_snakeBody.push_back(SnakeSegment(last.position.x - 1, last.position.y));
 		}
@@ -172,14 +179,18 @@ void Snake::Reset()
 	m_snakeBody.push_back(SnakeSegment(10, 11));
 	m_snakeBody.push_back(SnakeSegment(10, 12));
 
-	//set snakes default direction
-	SetDirection(Direction::None); //snake is not moving at the beginning
+	//set snakes defaultSnakeDirection
+	SetDirection(SnakeDirection::None); //snake is not moving at the beginning
 
 	//set the members to their default values
 	m_speed = 5;
 	m_lives = 3;
 	m_score = 0;
 	m_lost = false;
+
+	//set the animation
+	m_spriteSheetHead.SetAnimation("Up", true, true);
+	m_spriteSheetBody.SetAnimation("Idle", true, true);
 }
 
 void Snake::Move()
@@ -192,22 +203,22 @@ void Snake::Move()
 	}
 
 	//update the head
-	if (m_dir == Direction::Left)
+	if (m_dir == SnakeDirection::Left)
 	{
 		--m_snakeBody[0].position.x;
 	}
 	else
-	if (m_dir == Direction::Right)
+	if (m_dir == SnakeDirection::Right)
 	{
 		++m_snakeBody[0].position.x;
 	}
 	else
-	if(m_dir == Direction::Up)
+	if(m_dir == SnakeDirection::Up)
 	{
 		--m_snakeBody[0].position.y;
 	}
 	else
-	if(m_dir == Direction::Down)
+	if(m_dir == SnakeDirection::Down)
 	{
 		++m_snakeBody[0].position.y;
 	}
@@ -216,10 +227,16 @@ void Snake::Move()
 void Snake::Tick()
 {
 	if (m_snakeBody.empty()) { return; }
-	if (m_dir == Direction::None) { return; }
+	if (m_dir ==SnakeDirection::None) { return; }
 
 	Move();
 	CheckCollision();
+}
+
+void Snake::UpdateAnimation(const float& dT)
+{
+	m_spriteSheetHead.Update(dT);
+	m_spriteSheetBody.Update(dT);
 }
 
 void Snake::Cut(int segments)
@@ -244,25 +261,37 @@ void Snake::Render(sf::RenderWindow& window)
 {
 	if (m_snakeBody.empty()) { return; }
 
-	auto head = m_snakeBody.begin();
+	////body - using simple shapes
+	//m_bodyRect.setFillColor(sf::Color::Green);
+	//int i = 0;
+	//for (auto itr = m_snakeBody.begin() + 1; itr != m_snakeBody.end(); ++itr)
+	//{
+	//	//set the color
+	//	int index = i++ % m_bodyColorContainer.size();
+	//	m_bodyRect.setFillColor(m_bodyColorContainer[index]);
 
-	//head
-	m_bodyRect.setFillColor(sf::Color::Yellow);
-	m_bodyRect.setPosition(head->position.x * m_size, head->position.y * m_size);
-	window.draw(m_bodyRect);
+	//	m_bodyRect.setPosition(itr->position.x * m_size, itr->position.y * m_size);
+	//	window.draw(m_bodyRect);
+	//}
 
-	//body
-	m_bodyRect.setFillColor(sf::Color::Green);
-	int i = 0;
 	for (auto itr = m_snakeBody.begin() + 1; itr != m_snakeBody.end(); ++itr)
 	{
-		//set the color
-		int index = i++ % m_bodyColorContainer.size();
-		m_bodyRect.setFillColor(m_bodyColorContainer[index]);
 
-		m_bodyRect.setPosition(itr->position.x * m_size, itr->position.y * m_size);
-		window.draw(m_bodyRect);
+		m_spriteSheetBody.SetSpritePosition(sf::Vector2f(itr->position.x * m_size + m_size / 2.0f, itr->position.y * m_size + m_size / 2.0f));
+		m_spriteSheetBody.Draw(&m_pSharedContext->m_pWindow->GetRenderWindow());
 	}
+
+	//head - using simple shapes
+	//auto head = m_snakeBody.begin();
+	//m_bodyRect.setFillColor(sf::Color::Yellow);
+	//m_bodyRect.setPosition(head->position.x * m_size, head->position.y * m_size);
+	//window.draw(m_bodyRect);
+
+	//head - using spritesheet animations
+	sf::Vector2f position(m_snakeBody[0].position.x * m_size + m_size / 2.0f, m_snakeBody[0].position.y * m_size + m_size / 2.0f); //calculate upper left corner
+	m_spriteSheetHead.SetSpritePosition(position);
+	m_spriteSheetHead.Draw(&m_pSharedContext->m_pWindow->GetRenderWindow());
+
 }
 
 void Snake::Navigate(EventDetails* details)
@@ -270,27 +299,31 @@ void Snake::Navigate(EventDetails* details)
 	switch (details->m_keyCode)
 	{
 	case sf::Keyboard::Up:
-		if (GetPhysicalDirection() != Direction::Down)
+		if (GetPhysicalDirection() != SnakeDirection::Down)
 		{
-			SetDirection(Direction::Up);
+			SetDirection(SnakeDirection::Up);
+			m_spriteSheetHead.SetAnimation("Up", true, true);
 		}
 		break;
 	case sf::Keyboard::Down:
-		if (GetPhysicalDirection() != Direction::Up)
+		if (GetPhysicalDirection() != SnakeDirection::Up)
 		{
-			SetDirection(Direction::Down);
+			SetDirection(SnakeDirection::Down);
+			m_spriteSheetHead.SetAnimation("Down", true, true);
 		}
 		break;
 	case sf::Keyboard::Left:
-		if (GetPhysicalDirection() != Direction::Right)
+		if (GetPhysicalDirection() != SnakeDirection::Right)
 		{
-			SetDirection(Direction::Left);
+			SetDirection(SnakeDirection::Left);
+			m_spriteSheetHead.SetAnimation("Left", true, true);
 		}
 		break;
 	case sf::Keyboard::Right:
-		if (GetPhysicalDirection() != Direction::Left)
+		if (GetPhysicalDirection() != SnakeDirection::Left)
 		{
-			SetDirection(Direction::Right);
+			SetDirection(SnakeDirection::Right);
+			m_spriteSheetHead.SetAnimation("Right", true, true);
 		}
 		break;
 	}

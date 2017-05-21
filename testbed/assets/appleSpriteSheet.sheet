@@ -1,0 +1,5 @@
+Texture appleSpriteSheet
+Size 16 16
+Scale 4.0 4.0
+AnimationType Directional
+Animation Idle 0 7 0 0.2 -1 -1
