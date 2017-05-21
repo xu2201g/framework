@@ -83,7 +83,7 @@ World::World(sf::Vector2u windowSize, int blockSize, int seed, SharedContext* pS
 	m_walls[3].setSize(sf::Vector2f(m_blockSize, m_windowSize.y - 2 * blockSize));
 	m_walls[3].setPosition(m_windowSize.x - m_blockSize, blockSize);
 	
-	sf::IntRect rectEast(sf::Vector2i(m_windowSize.x - m_blockSize, 0), sf::Vector2i(m_blockSize, m_windowSize.y));
+	sf::IntRect rectEast(sf::Vector2i(m_walls[2].getPosition().x, m_walls[2].getPosition().y), sf::Vector2i(m_walls[2].getSize().x, m_walls[2].getSize().y));
 
 	m_wallSprites[3] = sf::Sprite(*pSpikesHeadingLeft, rectEast);
 	m_wallSprites[3].setPosition(m_walls[3].getPosition());
