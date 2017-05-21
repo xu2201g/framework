@@ -184,6 +184,5 @@ private:
 	StateType m_currentState;
 
 	bool m_hasFocus;
-
 	
 };

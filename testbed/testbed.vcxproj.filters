@@ -22,11 +22,17 @@
     <Filter Include="Header Files\utils">
       <UniqueIdentifier>{768c2d94-ee6a-4f46-842c-6d58bb3d48d6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\manager">
+      <UniqueIdentifier>{80afdf87-6e3d-4e64-b2c0-7c83cdb6c2af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\manager">
+      <UniqueIdentifier>{c607bcc0-82e2-4bec-88fd-72e6690651c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\entry">
+      <UniqueIdentifier>{b69ec6c3-cfc4-4094-8ccd-9980c84b0f4f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -42,9 +48,6 @@
     <ClCompile Include="Textbox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="EventManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="State_Credits.cpp">
       <Filter>Source Files\states</Filter>
     </ClCompile>
@@ -57,14 +60,20 @@
     <ClCompile Include="State_MainMenu.cpp">
       <Filter>Source Files\states</Filter>
     </ClCompile>
-    <ClCompile Include="StateManager.cpp">
+    <ClCompile Include="State_GameOver.cpp">
       <Filter>Source Files\states</Filter>
     </ClCompile>
     <ClCompile Include="State_Paused.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="State_GameOver.cpp">
       <Filter>Source Files\states</Filter>
+    </ClCompile>
+    <ClCompile Include="EventManager.cpp">
+      <Filter>Source Files\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="StateManager.cpp">
+      <Filter>Source Files\manager</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files\entry</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -83,16 +92,10 @@
     <ClInclude Include="Textbox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="EventManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SharedContext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BaseState.h">
-      <Filter>Header Files\states</Filter>
-    </ClInclude>
-    <ClInclude Include="StateManager.h">
       <Filter>Header Files\states</Filter>
     </ClInclude>
     <ClInclude Include="State_Intro.h">
@@ -115,6 +118,18 @@
     </ClInclude>
     <ClInclude Include="Utilities.h">
       <Filter>Header Files\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="StateManager.h">
+      <Filter>Header Files\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="EventManager.h">
+      <Filter>Header Files\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>Header Files\manager</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
