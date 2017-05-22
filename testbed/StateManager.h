@@ -53,7 +53,8 @@ private:
 	{
 		m_stateFactory[type] = [this] () -> std::unique_ptr<BaseState>
 		{
-			return std::unique_ptr<T>(new T(this));
+			//return std::unique_ptr<T>(new T(this));
+			return std::make_unique<T>(this);
 		};
 	}
 
@@ -62,6 +63,5 @@ private:
 	TypeContainer m_toRemove;
 	StateFactory m_stateFactory;
 	
-
 };
 
