@@ -44,7 +44,19 @@ struct EventInfo
 	};
 };
 
-using Events = std::vector<std::pair<EventType, EventInfo>>;
+struct Event
+{
+	Event(EventType t, EventInfo i)
+		:
+		type(t),
+		info(i)
+	{}
+
+	EventType type;
+	EventInfo info;
+};
+
+using Events = std::vector<Event>;
 
 struct EventDetails
 {
@@ -85,7 +97,7 @@ struct Binding
 
 	void BindEvent(EventType type, EventInfo info)
 	{
-		m_events.emplace_back(type, info);
+		m_events.push_back(Event(type, info));
 	}
 
 	Events m_events;

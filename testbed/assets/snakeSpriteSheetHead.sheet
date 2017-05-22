@@ -2,7 +2,7 @@ Texture snakeSpriteSheetHead
 Size 16 16
 Scale 4.0 4.0
 AnimationType Directional
-Animation Up 0 7 0 0.2 -1 -1
-Animation Right 0 7 1 0.2 -1 -1
-Animation Down 0 7 2 0.2 -1 -1
-Animation Left 0 7 3 0.2 -1 -1
+Animation Up 0 7 0 0.5 -1 -1
+Animation Right 0 7 1 0.5 -1 -1
+Animation Down 0 7 2 0.5 -1 -1
+Animation Left 0 7 3 0.5 -1 -1

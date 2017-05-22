@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include <memory>
+#include <thread>
+#include <chrono>
 
 #include "TextureManager.h"
 
@@ -20,8 +22,8 @@ int main(int argc, char** argv)
 
 		//render result
 		game.Render();
-
-		//sf::sleep(sf::seconds(0.2)); // sleep for 0.2 seconds
+		
+		//std::this_thread::sleep_for(std::chrono::milliseconds(2));
 
 		//restart clock
 		game.LateUpdate();

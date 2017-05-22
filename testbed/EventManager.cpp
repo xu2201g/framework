@@ -73,7 +73,7 @@ void EventManager::HandleEvent(sf::Event& event)
 		{
 			//skip not matching eventtypes
 			EventType sfmlEvent = (EventType)event.type;
-			if (sfmlEvent != event_itr.first)
+			if (sfmlEvent != event_itr.type)
 			{
 				continue;
 			}
@@ -83,7 +83,7 @@ void EventManager::HandleEvent(sf::Event& event)
 				sfmlEvent == EventType::KeyUp)
 			{
 				//check for matching key values
-				if (event_itr.second.m_code == event.key.code)
+				if (event_itr.info.m_code == event.key.code)
 				{
 					//matching event/keystroke
 
@@ -101,7 +101,7 @@ void EventManager::HandleEvent(sf::Event& event)
 				sfmlEvent == EventType::MButtonUp)
 			{
 				//check for matching key values
-				if (event_itr.second.m_code == event.mouseButton.button)
+				if (event_itr.info.m_code == event.mouseButton.button)
 				{
 					//matching event/mousekeystroke
 
@@ -164,24 +164,24 @@ void EventManager::Update()
 		//iterate through all events stored in that binding
 		for (auto &event_itr : bind->m_events)
 		{
-			switch (event_itr.first)
+			switch (event_itr.type)
 			{
 			case EventType::Keyboard:
 				//matching key code - like 89 (sfml code for F5) - may vary with future sfml versions
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(event_itr.second.m_code)))
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key(event_itr.info.m_code)))
 				{
 					//store event key code in event details
-					bind->m_details.m_keyCode = event_itr.second.m_code;
+					bind->m_details.m_keyCode = event_itr.info.m_code;
 					
 					++(bind->c);
 				}
 				break;
 			case EventType::Mouse:
 				//matching key code - like 89 (sfml code for F5) - may vary with future sfml versions
-				if (sf::Mouse::isButtonPressed(sf::Mouse::Button(event_itr.second.m_code)))
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Button(event_itr.info.m_code)))
 				{
 					//store event key code in event details
-					bind->m_details.m_keyCode = event_itr.second.m_code;
+					bind->m_details.m_keyCode = event_itr.info.m_code;
 					
 					++(bind->c);
 				}
