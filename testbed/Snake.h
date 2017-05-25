@@ -73,7 +73,7 @@ public:
 	
 private:
 
-	SpriteSheet m_spriteSheetHead; //put these to private TODO
+	SpriteSheet m_spriteSheetHead; 
 	SpriteSheet m_spriteSheetBody;
 
 	void CheckCollision(); //checks for collisions snake-snakebody

@@ -35,7 +35,8 @@ private:
 	int m_seed;
 	
 	//managers
+	TextureManager m_textureManager;
 	SharedContext m_sharedContext;
 	StateManager m_stateManager;
-	TextureManager m_textureManager;
+	
 };

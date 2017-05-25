@@ -14,6 +14,11 @@ public:
 		ResourceManager("..//..//testbed//assets//textures.cfg")
 	{}
 
+	~TextureManager() 
+	{
+		//std::cout << "texturemanager is being destroyed" << std::endl;
+	}
+
 	std::unique_ptr<sf::Texture> Load(const std::string& path)
 	{
 		//create new texture object

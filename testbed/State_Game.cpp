@@ -15,6 +15,7 @@ State_Game::State_Game(StateManager* pStateManager)
 
 State_Game::~State_Game()
 {
+	//std::cout << "destructing game state" << std::endl;
 }
 
 void State_Game::OnCreate()

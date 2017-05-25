@@ -21,6 +21,7 @@ public:
 
 	virtual ~ResourceManager()
 	{
+		//std::cout << "destroying resource manager" << std::endl;
 		PurgeResources();
 	}
 
@@ -159,5 +160,7 @@ private:
 
 	//key=name value=path
 	std::unordered_map<std::string, std::string> m_paths;
+
+	int x = 0;
 
 };

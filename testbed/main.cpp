@@ -11,8 +11,41 @@ void test();
 
 void testTextureMgr();
 
+class foo
+{
+public:
+	foo(int v)
+	:
+	value(v)
+	{}
+
+	int value;
+};
+
+class StoresMap
+{
+public:
+	std::unordered_map<std::string, std::pair<std::unique_ptr<foo>, unsigned int>> m_resources;
+};
+
 int main(int argc, char** argv)
 {
+	//
+	//foo* pfoo;
+	//StoresMap* pMap;
+	//{
+	//	StoresMap map;
+	//	pMap = &map;
+	//	map.m_resources.emplace("name", std::make_pair<std::unique_ptr<foo>, unsigned int>(std::make_unique<foo>(foo(7)), 1));
+
+	//	pfoo = map.m_resources.find("name")->second.first.get();
+	//}
+	//pMap->m_resources.find("name");
+	//pfoo->value;
+
+	//std::cout << "hurz" << std::endl;
+
+
 	Game game;
 
 	while (!game.GetWindow()->IsDone())
@@ -35,15 +68,6 @@ int main(int argc, char** argv)
 	//system("pause");
 }
 
-struct foo
-{
-	foo(int v)
-		:
-		value(v)
-	{}
-
-	int value;
-};
 
 void print(foo& f)
 {
