@@ -41,7 +41,7 @@ void State_MainMenu::OnCreate()
 		sf::Vector2f buttonPosition(m_buttonPosition.x, 
 								    m_buttonPosition.y + (i * (m_buttonSize.y + m_buttonPadding)));
 		m_rects[i].setSize(m_buttonSize);
-		m_rects[i].setFillColor(sf::Color(0,127,0,255));
+		m_rects[i].setFillColor(sf::Color(158,79,25,255));		
 		m_rects[i].setOrigin(m_buttonSize.x / 2.0f, m_buttonSize.y / 2.0f);
 		m_rects[i].setPosition(buttonPosition);
 

@@ -2,9 +2,6 @@
 #include "BaseState.h"
 #include "EventManager.h"
 
-#include "Snake.h"
-#include "World.h"
-
 class State_Game : public BaseState
 {
 public:
@@ -25,10 +22,6 @@ public:
 	void Pause(EventDetails* details);
 
 private:
-
-	//snake 
-	World m_world;
-	Snake m_snake;
 
 	//to handle fixed timesteps for the snake
 	sf::Time m_elapsed;

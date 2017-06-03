@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Window.h"
-#include "World.h"
 #include "Textbox.h"
 
 #include "StateManager.h"
