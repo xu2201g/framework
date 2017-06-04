@@ -101,6 +101,8 @@ public:
 	const sf::Vector2u& GetMapSize() const;
 	const sf::Vector2f& GetPlayerStart() const;
 
+	unsigned int GetTileSize() const;
+
 	void LoadMap(const std::string& path);
 	void LoadNextMap();
 	

@@ -49,6 +49,11 @@ const sf::Vector2f& Map::GetPlayerStart() const
 	return m_playerStart;
 }
 
+unsigned int Map::GetTileSize() const 
+{
+	return Sheet::Tile_Size;
+}
+
 void Map::LoadNextMap()
 {
 	m_loadNextMap = true;
