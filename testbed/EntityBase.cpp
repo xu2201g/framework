@@ -1,5 +1,7 @@
 #include "EntityBase.h"
 
+#include "EntityManager.h"
+
 EntityBase::EntityBase(EntityManager* pEntityManager)
 	:
 	m_pEntityManager(pEntityManager),
@@ -50,6 +52,21 @@ void EntityBase::SetState(const EntityState& state)
 	m_state = state;
 }
 
+unsigned int EntityBase::GetId()
+{
+	return m_id;
+}
+
+const std::string& EntityBase::GetName()
+{
+	return m_name;
+}
+
+EntityType EntityBase::GetType()
+{
+	return m_type;
+}
+
 void EntityBase::Move(float x, float y)
 {
 	//store last position
@@ -59,7 +76,7 @@ void EntityBase::Move(float x, float y)
 	m_position += sf::Vector2f(x, y);
 
 	sf::Vector2u mapSize;
-	//mapSize = m_pEntityManager->GetContext()->m_gameMap->GetMapSize(); //TODO
+	mapSize = m_pEntityManager->GetContext()->m_pGameMap->GetMapSize();
 
 	//check wether entity went out of map bounds
 	//x
@@ -176,8 +193,7 @@ void EntityBase::ApplyFriction(float x, float y)
 
 void EntityBase::Update(float dT)
 {
-	Map* map = nullptr;
-	//map = m_pEntityManager->GetContext()->GetGameMap();
+	Map* map = m_pEntityManager->GetContext()->m_pGameMap;
 
 	float gravity = map->GetGravity();
 
@@ -235,8 +251,7 @@ void EntityBase::UpdateAABB()
 
 void EntityBase::CheckCollisions()
 {
-	Map* pGameMap = nullptr;
-	//pGameMap = m_entityManager->GetContext()->m_pGameMap; TODO
+	Map* pGameMap = m_pEntityManager->GetContext()->m_pGameMap;
 	unsigned int tileSize = pGameMap->GetTileSize();
 
 	//get the start and the end coordinates the entity is covering by its AABB in the gamemap to identify all tiles in the gamemap we ve to check

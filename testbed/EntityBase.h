@@ -53,6 +53,8 @@ class EntityManager;
 
 class EntityBase
 {
+	friend class EntityManager; //to let EntityManager class access members of EntityBase
+
 public:
 
 	EntityBase(EntityManager* pEntityManager);
@@ -63,6 +65,10 @@ public:
 	void SetSize(const float& x, const float& y);
 	void SetSize(const sf::Vector2f& size);
 	void SetState(const EntityState& state);
+
+	unsigned int GetId();
+	const std::string& GetName();
+	EntityType GetType();
 
 	void Move(float x, float y);
 	void AddVelocity(float x, float y);
