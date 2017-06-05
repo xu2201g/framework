@@ -46,6 +46,11 @@ bool Animation_Base::IsInAction()
 	return m_frameCurrent >= m_frameActionStart && m_frameCurrent <= m_frameActionEnd; //within action range?
 }
 
+bool Animation_Base::IsPlaying()
+{
+	return m_playing;
+}
+
 void Animation_Base::Play()
 {
 	m_playing = true;

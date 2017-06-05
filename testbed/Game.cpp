@@ -1,19 +1,22 @@
 #include "Game.h"
 
 #define WINDOW_SIZE sf::Vector2u(1280, 768)
+#define MAX_ENTITIES 30
 
 Game::Game()
 	:
 	m_window("Snake", WINDOW_SIZE),
 	m_seed(time(nullptr)),
 	m_stateManager(&m_sharedContext),
-	m_textureManager()
+	m_textureManager(),
+	m_entityManager(&m_sharedContext, MAX_ENTITIES)
 {
 
 	//shared context
 	m_sharedContext.m_pWindow = &m_window;
 	m_sharedContext.m_pEventManager = m_window.GetEventManager();
 	m_sharedContext.m_pTextureManager = &m_textureManager;
+	m_sharedContext.m_pEntityManager = &m_entityManager;
 	m_sharedContext.m_pSeed = &m_seed;
 
 	//global events

@@ -1,6 +1,8 @@
 #include "Map.h"
 #include "BaseState.h"
 #include "StateManager.h"
+#include "EntityManager.h"
+
 Map::Map(SharedContext* pSharedContext, BaseState* pCurrentState)
 	:
 	m_pSharedContext(pSharedContext),
@@ -13,7 +15,7 @@ Map::Map(SharedContext* pSharedContext, BaseState* pCurrentState)
 	m_loadNextMap(false)
 {
 	m_pSharedContext->m_pGameMap = this;
-	LoadTiles("tiles.cfg");
+	LoadTiles("..//..//testbed//assets//tiles.cfg");
 }
 
 Map::~Map()
@@ -81,6 +83,8 @@ void Map::LoadMap(const std::string& path)
 		std::stringstream keystream(line);
 		std::string type;
 		keystream >> type;
+
+		int playerId = -1;
 
 		if (type == "TILE")
 		{
@@ -180,7 +184,44 @@ void Map::LoadMap(const std::string& path)
 		{
 			keystream >> m_nextMap;
 		}
+		else
+		if (type == "PLAYER")
+		{
+			if (playerId != -1)
+			{
+				continue; 
+			}
 
+			playerId = m_pSharedContext->m_pEntityManager->Add(EntityType::Player);
+			if (playerId < 0)
+			{
+				continue;
+			}
+
+			float playerX = 0;
+			float playerY = 0;
+
+			keystream >> playerX >> playerY;
+			m_pSharedContext->m_pEntityManager->Find(playerId)->SetPosition(playerX, playerY);
+		}
+		else
+		if (type == "ENEMY")
+		{
+			std::string enemyName;
+			keystream >> enemyName;
+
+			int enemyId = m_pSharedContext->m_pEntityManager->Add(EntityType::Enemy, enemyName);
+			if (enemyId < 0)
+			{
+				continue;
+			}
+
+			float enemyX = 0;
+			float enemyY = 0;
+
+			keystream >> enemyX >> enemyY;
+			m_pSharedContext->m_pEntityManager->Find(enemyId)->SetPosition(enemyX, enemyY);
+		}
 	}
 	file.close();
 
@@ -194,7 +235,7 @@ void Map::Update(float dT)
 		m_loadNextMap = false;
 		if (m_nextMap != "") //next map
 		{
-			LoadMap("asstets//maps//" + m_nextMap);
+			LoadMap("..//..//testbed//assets//maps//" + m_nextMap);
 		}
 		else //no next map - game is over
 		{
@@ -255,14 +296,11 @@ void Map::Draw()
 			//++count;
 		}
 	}
-
-
-
 }
 
 unsigned int Map::ConvertCoords(unsigned int x, unsigned int y)
 {
-	return x * m_maxMapSize.x * y; //TODO
+	return x * m_maxMapSize.x + y; //TODO
 }
 
 void Map::LoadTiles(const std::string& path)

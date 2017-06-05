@@ -1,6 +1,7 @@
 #pragma once
 #include "BaseState.h"
 #include "EventManager.h"
+#include "Map.h"
 
 class State_Game : public BaseState
 {
@@ -26,4 +27,6 @@ private:
 	//to handle fixed timesteps for the snake
 	sf::Time m_elapsed;
 	
+	std::unique_ptr<Map> m_pGameMap;
+
 };

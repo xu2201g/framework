@@ -38,7 +38,7 @@ private:
 	{
 		m_entityFactory[type] = [this]() -> std::unique_ptr<EntityBase>
 		{
-			return std::make_unique<T>(this)
+			return std::make_unique<T>(this);
 		};
 	}
 

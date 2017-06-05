@@ -67,6 +67,16 @@ EntityType EntityBase::GetType()
 	return m_type;
 }
 
+EntityState EntityBase::GetState()
+{
+	return m_state;
+}
+
+sf::Vector2f EntityBase::GetPosition()
+{
+	return m_position;
+}
+
 void EntityBase::Move(float x, float y)
 {
 	//store last position

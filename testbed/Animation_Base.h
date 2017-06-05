@@ -22,6 +22,7 @@ public:
 	const std::string& GetName() { return m_name; }
 
 	bool IsInAction();
+	bool IsPlaying();
 	
 	void Play();
 	void Pause();

@@ -1,5 +1,5 @@
 Name Rat
-Spritesheet Rat.sheet
+SpriteSheet Rat.sheet
 Hitpoints 2
 BoundingBox 14 14
 DamageBox 0 0 14 14

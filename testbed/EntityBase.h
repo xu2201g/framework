@@ -69,6 +69,8 @@ public:
 	unsigned int GetId();
 	const std::string& GetName();
 	EntityType GetType();
+	EntityState GetState();
+	sf::Vector2f GetPosition();
 
 	void Move(float x, float y);
 	void AddVelocity(float x, float y);

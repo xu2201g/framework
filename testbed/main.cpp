@@ -7,6 +7,9 @@
 
 #include "TextureManager.h"
 
+//relative path used almost everywhere
+//..//..//testbed//assets//
+
 void test();
 
 void testTextureMgr();

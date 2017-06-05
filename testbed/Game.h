@@ -5,6 +5,7 @@
 
 #include "StateManager.h"
 #include "TextureManager.h"
+#include "EntityManager.h"
 
 #include <iostream>
 
@@ -37,5 +38,5 @@ private:
 	TextureManager m_textureManager;
 	SharedContext m_sharedContext;
 	StateManager m_stateManager;
-	
+	EntityManager m_entityManager;
 };

@@ -1,8 +1,7 @@
 #include "EntityManager.h"
 #include "Character.h"
-
-class Enemy;
-class Player;
+#include "Enemy.h"
+#include "Player.h"
 
 EntityManager::EntityManager(SharedContext* pSharedContext, unsigned int maxEntities)
 	:
@@ -10,10 +9,10 @@ EntityManager::EntityManager(SharedContext* pSharedContext, unsigned int maxEnti
 	m_maxEntities(maxEntities),
 	m_idCounter(0)
 {
-	LoadEnemyTypes("EnemyList.list"); //loads enemytype and related path to the .char file into m_enemyTypes
+	LoadEnemyTypes("..//..//testbed//assets//characters//EnemyList.list"); //loads enemytype and related path to the .char file into m_enemyTypes
 
-	//RegisterEntity<Player>(EntityType::Player); //TODO
-	//RegisterEntity<Enemy>(EntityType::Enemy);
+	RegisterEntity<Player>(EntityType::Player);
+	RegisterEntity<Enemy>(EntityType::Enemy);
 }
 
 EntityManager::~EntityManager()
@@ -36,7 +35,7 @@ int EntityManager::Add(const EntityType& type, const std::string& name)
 	//set the id defined by how many entities already existed
 	pEntity->m_id = m_idCounter;
 
-	if (name == "")	
+	if (name != "")	
 	{
 		pEntity->m_name = name; //set the name - like rat for enemy types
 	}
@@ -53,11 +52,10 @@ int EntityManager::Add(const EntityType& type, const std::string& name)
 			//match found
 
 			//get a rawpointer to the new added entity and cast it to Enemy 
-			//necessary cause Enemy is a subclass with a additional members like an attackAABB etc.
+			//necessary cause Enemy is a subclass with additional members like an attackAABB etc.
 			Enemy* pEnemy = (Enemy*) m_entities.find(m_idCounter)->second.get(); 
 			
-			//pEnemy->Load(itr->second); //load the enemy specific member values from a file defined identified by its name TODO
-
+			pEnemy->Load(itr->second); //load the enemy specific member values from a file defined identified by its name 
 		}
 	}
 
@@ -174,6 +172,34 @@ void EntityManager::ProcessRemovals()
 
 void EntityManager::LoadEnemyTypes(const std::string& path)
 {
+	std::ifstream file;
+	file.open(Utils::GetWorkingDirectory() + path);
+
+	if (!file.is_open())
+	{
+		std::cout << "! Failed loading enemy types: " << path << std::endl;
+		std::cout << Utils::GetWorkingDirectory() + path << std::endl;
+		return;
+	}
+
+	std::string line;
+	while (std::getline(file, line))
+	{
+		if (line[0] == '|')
+		{
+			continue;
+		}
+
+		std::stringstream keystream(line);
+		std::string name;
+		std::string fileName;
+
+		keystream >> name >> fileName;
+
+		m_enemyTypes.emplace(name, fileName);
+	}
+
+	file.close();
 }
 
 void EntityManager::EntityCollisionCheck()
@@ -235,5 +261,4 @@ void EntityManager::EntityCollisionCheck()
 			}
 		}
 	}
-
 }
