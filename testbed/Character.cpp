@@ -224,7 +224,15 @@ void Character::Update(float dT)
 
 void Character::Draw(sf::RenderWindow* pWindow)
 {
+	//sf::RectangleShape AABB(sf::Vector2f(m_AABB.width, m_AABB.height));
+	//AABB.setPosition(m_AABB.left, m_AABB.top);
+	//
+	//sf::RectangleShape attackAABB(sf::Vector2f(m_attackAABB.width, m_attackAABB.height));
+	//attackAABB.setPosition(m_spriteSheet.GetSpritePosition());
+
 	m_spriteSheet.Draw(pWindow);
+	//pWindow->draw(AABB);
+	//pWindow->draw(attackAABB);
 }
 
 void Character::UpdateAttackAABB()

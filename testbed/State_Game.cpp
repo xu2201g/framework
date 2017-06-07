@@ -58,52 +58,60 @@ void State_Game::Update(const sf::Time& time)
 {	
 
 	m_elapsed += time;
-	//unsigned int ticksPerSecond = 60;
-	//float frametime = 1.0f / ticksPerSecond;
-	//
+	unsigned int ticksPerSecond = 60;
+	float frametime = 1.0f / ticksPerSecond;
+	
 
-	//if (m_elapsed.asSeconds() >= frametime)
-	//{				
+	if (m_elapsed.asSeconds() >= frametime)
+	{				
 
-	//	m_elapsed -= sf::seconds(frametime);
-	//}
+		SharedContext* pSharedContext = m_pStateMgr->GetContext();
 
-	SharedContext* pSharedContext = m_pStateMgr->GetContext();
+		EntityBase* pPlayer = pSharedContext->m_pEntityManager->Find("Player");
 
-	EntityBase* pPlayer = pSharedContext->m_pEntityManager->Find("Player");
+		if (!pPlayer)
+		{
+			//respawn player
+			std::cout << "Respawning player..." << std::endl;
+			pSharedContext->m_pEntityManager->Add(EntityType::Player, "Player");
+			pPlayer = pSharedContext->m_pEntityManager->Find("Player");
+			pPlayer->SetPosition(m_pGameMap->GetPlayerStart());
+		}
+		else
+		{
+			//update view (scrolling)
+			m_view.setCenter(pPlayer->GetPosition());
+			pSharedContext->m_pWindow->GetRenderWindow().setView(m_view);
+		}
 
-	if (!pPlayer)
-	{	
-		//respawn player
-		std::cout << "Respawning player..." << std::endl;
-		pSharedContext->m_pEntityManager->Add(EntityType::Player, "Player");
-		pPlayer = pSharedContext->m_pEntityManager->Find("Player");
-		pPlayer->SetPosition(m_pGameMap->GetPlayerStart());
+		sf::FloatRect viewSpace = pSharedContext->m_pWindow->GetViewSpace();
+		if (viewSpace.left <= 0)
+		{
+			m_view.setCenter(viewSpace.width / 2, m_view.getCenter().y);
+			pSharedContext->m_pWindow->GetRenderWindow().setView(m_view);
+		}
+		else
+			if (viewSpace.left + viewSpace.width > (m_pGameMap->GetMapSize().x + 1) * Sheet::Tile_Size)
+			{
+				m_view.setCenter((m_pGameMap->GetMapSize().x + 1) * Sheet::Tile_Size - (viewSpace.width / 2.0f),
+					m_view.getCenter().y);
+				pSharedContext->m_pWindow->GetRenderWindow().setView(m_view);
+			}
+
+		m_pGameMap->Update(time.asSeconds());
+
+		m_pStateMgr->GetContext()->m_pEntityManager->Update(time.asSeconds());
+
+
+
+
+
+
+
+		m_elapsed -= sf::seconds(frametime);
 	}
-	else
-	{
-		//update view (scrolling)
-		m_view.setCenter(pPlayer->GetPosition());
-		pSharedContext->m_pWindow->GetRenderWindow().setView(m_view);
-	}
 
-	sf::FloatRect viewSpace = pSharedContext->m_pWindow->GetViewSpace();
-	if (viewSpace.left <= 0)
-	{
-		m_view.setCenter(viewSpace.width / 2, m_view.getCenter().y);
-		pSharedContext->m_pWindow->GetRenderWindow().setView(m_view);
-	}
-	else
-	if(viewSpace.left + viewSpace.width > (m_pGameMap->GetMapSize().x + 1) * Sheet::Tile_Size)
-	{
-		m_view.setCenter((m_pGameMap->GetMapSize().x + 1) * Sheet::Tile_Size - (viewSpace.width / 2.0f), 
-			              m_view.getCenter().y);
-		pSharedContext->m_pWindow->GetRenderWindow().setView(m_view);
-	}
-
-	m_pGameMap->Update(time.asSeconds());
-
-	m_pStateMgr->GetContext()->m_pEntityManager->Update(time.asSeconds());
+	
 }
 
 void State_Game::Draw()

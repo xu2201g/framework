@@ -2,7 +2,7 @@
 
 //#include "BaseState.h"
 #include "SharedContext.h"
-//used flyweight pattern
+
 class BaseState;
 //constants to load a spritesheet
 enum Sheet
@@ -33,6 +33,7 @@ struct TileInfo
 		if (!textureMgr->RequireResource(texture))
 		{
 			//requiring texture from texturemanager failed
+			std::cout << "couldnt require texture: " << texture << std::endl;
 			return;
 		}
 

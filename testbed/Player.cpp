@@ -72,4 +72,23 @@ void Player::OnEntityCollision(EntityBase* pCollider, bool attack)
 
 void Player::React(EventDetails* pDetails)
 {
+	if (pDetails->m_name == "Player_MoveLeft") 
+	{
+		Character::Move(Direction::Left);
+	}
+	else 
+	if (pDetails->m_name == "Player_MoveRight") 
+	{
+		Character::Move(Direction::Right);
+	}
+	else 
+	if (pDetails->m_name == "Player_Jump") 
+	{
+		Character::Jump();
+	}
+	else 
+	if (pDetails->m_name == "Player_Attack")
+	{
+		Character::Attack();
+	}
 }

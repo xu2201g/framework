@@ -333,8 +333,7 @@ void EntityBase::ResolveCollisions()
 		//sort by area
 		std::sort(m_collisions.begin(), m_collisions.end(), SortCollisions);
 
-		Map* pGameMap = nullptr;
-		//Map* pGameMap = m_pEntityManager->GetContext()->m_pGameMap; TODO
+		Map* pGameMap = m_pEntityManager->GetContext()->m_pGameMap; 
 
 		unsigned int tileSize = pGameMap->GetTileSize();
 
@@ -370,7 +369,7 @@ void EntityBase::ResolveCollisions()
 			else
 			{
 				//calculate the distance in y direction to resolve the collision
-				if (yDiff > 0)
+				if (yDiff > 0.0f)
 				{
 					resolve = (itr.m_tileBounds.top + tileSize) - m_AABB.top; //the amount of pixels to move the entity to the right direction to resolve the collision
 				}

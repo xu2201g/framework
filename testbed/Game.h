@@ -35,8 +35,9 @@ private:
 	int m_seed;
 	
 	//managers
+	EntityManager m_entityManager;
 	TextureManager m_textureManager;
 	SharedContext m_sharedContext;
 	StateManager m_stateManager;
-	EntityManager m_entityManager;
+	
 };

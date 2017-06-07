@@ -72,6 +72,8 @@ void Map::LoadMap(const std::string& path)
 		return;
 	}
 
+	int playerId = -1;
+
 	std::string line;
 	while (std::getline(file, line))
 	{
@@ -83,9 +85,7 @@ void Map::LoadMap(const std::string& path)
 		std::stringstream keystream(line);
 		std::string type;
 		keystream >> type;
-
-		int playerId = -1;
-
+		
 		if (type == "TILE")
 		{
 			int tileId;
@@ -125,7 +125,7 @@ void Map::LoadMap(const std::string& path)
 			}
 
 			Tile* pTile = m_tileMap.find(ConvertCoords(tileCoords.x, tileCoords.y))->second.get();
-
+			
 			std::string warp;
 			keystream >> warp;
 			pTile->m_warp = false;
@@ -288,7 +288,7 @@ void Map::Draw()
 			{
 				continue;
 			}
-
+			
 			sf::Sprite& sprite = pTile->m_properties->m_sprite;
 			sprite.setPosition(x * Sheet::Tile_Size, y * Sheet::Tile_Size);
 			pWindow->draw(sprite);
@@ -300,7 +300,7 @@ void Map::Draw()
 
 unsigned int Map::ConvertCoords(unsigned int x, unsigned int y)
 {
-	return x * m_maxMapSize.x + y; //TODO
+	return x * m_maxMapSize.x + y; 
 }
 
 void Map::LoadTiles(const std::string& path)
@@ -330,13 +330,13 @@ void Map::LoadTiles(const std::string& path)
 			continue;
 		}
 
-		TileInfo tileInfo(m_pSharedContext, "TileSheet", tileId);
-		keystream >> tileInfo.m_name >> tileInfo.m_friction.x >> tileInfo.m_friction.y >> tileInfo.m_deadly;
+		std::unique_ptr<TileInfo> pTileInfo(new TileInfo(m_pSharedContext, "TileSheet", tileId));
+		keystream >> pTileInfo->m_name >> pTileInfo->m_friction.x >> pTileInfo->m_friction.y >> pTileInfo->m_deadly;
 
-		if (!m_tileSet.emplace(tileId, std::make_unique<TileInfo>(tileInfo)).second)
+		if (!m_tileSet.emplace(tileId, std::move(pTileInfo)).second)
 		{
 			//duplicate tile
-			std::cout << "! Duplicate tile type: " << tileInfo.m_name << std::endl;
+			std::cout << "! Duplicate tile type: " << pTileInfo->m_name << std::endl;
 		}
 	}
 	file.close();
@@ -346,7 +346,7 @@ void Map::PurgeMap()
 {
 	m_tileCount = 0;
 	m_tileMap.clear();
-	//m_pSharedContext->pEntityManager->Purge(); TODO
+	m_pSharedContext->m_pEntityManager->Purge(); 
 
 	if (m_backgroundTexture == "")
 	{
