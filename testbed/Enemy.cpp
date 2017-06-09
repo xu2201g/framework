@@ -73,10 +73,10 @@ void Enemy::Update(float dT) //TODO
 
 	int random = rand() % 1000 + 1;
 
-	if (random != 1000) //?????
-	{
-		return;
-	}
+	//if (random != 1000) //?????
+	//{
+	//	return;
+	//}
 
 	int newX = rand() % 65 + 0;
 	if (rand() % 2) 

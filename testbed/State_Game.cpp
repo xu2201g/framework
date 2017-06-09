@@ -57,13 +57,13 @@ void State_Game::Deactivate()
 void State_Game::Update(const sf::Time& time)
 {	
 
-	//m_elapsed += time;
-	//unsigned int ticksPerSecond = 30;
-	//float frametime = 1.0f / ticksPerSecond;
-	//
+	m_elapsed += time;
+	unsigned int ticksPerSecond = 120;
+	float frametime = 1.0f / ticksPerSecond;
+	
 
-	//if (m_elapsed.asSeconds() >= frametime)
-	//{				
+	if (m_elapsed.asSeconds() >= frametime)
+	{				
 
 		SharedContext* pSharedContext = m_pStateMgr->GetContext();
 
@@ -102,8 +102,8 @@ void State_Game::Update(const sf::Time& time)
 
 		m_pStateMgr->GetContext()->m_pEntityManager->Update(time.asSeconds());
 
-	//	m_elapsed -= sf::seconds(frametime);
-	//}
+		m_elapsed -= sf::seconds(frametime);
+	}
 
 	
 }

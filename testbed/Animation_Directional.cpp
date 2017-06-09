@@ -21,6 +21,8 @@ void Animation_Directional::FrameStep()
 			return;
 		}
 
+		m_frameCurrent = m_frameEnd;
+
 		//animation has come to an end
 		Pause();
 	}

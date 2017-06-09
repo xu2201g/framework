@@ -216,6 +216,14 @@ void Character::Update(float dT)
 			m_pEntityManager->Remove(m_id);
 		}
 	}
+	else
+	if(GetState() == EntityState::Jumping)
+	{
+		if (!m_spriteSheet.GetCurrentAnimation()->IsPlaying())
+		{
+			SetState(EntityState::Idle);
+		}
+	}
 
 	Animate(); //sets animations related on the entitystate
 	m_spriteSheet.Update(dT);
