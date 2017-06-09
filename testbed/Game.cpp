@@ -33,18 +33,18 @@ void Game::Update()
 	//handle window events
 	m_window.Update();
 
-	//fixed timestep at 60x per second
-	float frametime = 1.0f /60.0f;
+	////fixed timestep at 60x per second
+	//float frametime = 1.0f /60.0f;
 
-	if (m_elapsed.asSeconds() >= frametime)
-	{
+	//if (m_elapsed.asSeconds() >= frametime)
+	//{
 		//do something 60x a second
 		m_stateManager.Update(m_elapsed);
 
-		m_elapsed -= sf::seconds(frametime);
-	}
-
-	//sf::sleep(sf::Time::asSeconds(0.01));
+	//	m_elapsed -= sf::seconds(frametime);
+	//}
+	
+	sf::sleep(sf::seconds(0.01f));
 }
 
 void Game::LateUpdate()
@@ -77,5 +77,5 @@ sf::Time Game::GetElapsed()
 
 void Game::RestartClock()
 {
-	m_elapsed += m_clock.restart();
+	m_elapsed = m_clock.restart();
 }

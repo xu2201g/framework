@@ -291,6 +291,7 @@ void Map::Draw()
 			
 			sf::Sprite& sprite = pTile->m_properties->m_sprite;
 			sprite.setPosition(x * Sheet::Tile_Size, y * Sheet::Tile_Size);
+			//sprite.setColor(sf::Color(0, 0, 128));
 			pWindow->draw(sprite);
 
 			//++count;
@@ -300,7 +301,7 @@ void Map::Draw()
 
 unsigned int Map::ConvertCoords(unsigned int x, unsigned int y)
 {
-	return x * m_maxMapSize.x + y; 
+	return (x * m_maxMapSize.x) + y; 
 }
 
 void Map::LoadTiles(const std::string& path)

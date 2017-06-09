@@ -11,8 +11,7 @@ EntityBase::EntityBase(EntityManager* pEntityManager)
 	m_state(EntityState::Idle),
 	m_id(0),
 	m_collidingOnX(false),
-	m_collidingOnY(false),
-	m_friction(0.8,0.0)
+	m_collidingOnY(false)
 {
 }
 
@@ -181,9 +180,12 @@ void EntityBase::ApplyFriction(float x, float y)
 				m_velocity.x -= x;
 			}
 		}
+	}
 
 		//y
-		if (abs(m_velocity.y) - abs(x) < 0)
+	if (m_velocity.y != 0)
+	{
+		if (abs(m_velocity.y) - abs(y) < 0)
 		{
 			m_velocity.y = 0;
 		}
@@ -191,11 +193,11 @@ void EntityBase::ApplyFriction(float x, float y)
 		{
 			if (m_velocity.y < 0)
 			{
-				m_velocity.y += x;
+				m_velocity.y += y;
 			}
 			else
 			{
-				m_velocity.y -= x;
+				m_velocity.y -= y;
 			}
 		}
 	}	
@@ -296,7 +298,7 @@ void EntityBase::CheckCollisions()
 			Tile* pTile = pGameMap->GetTile(x, y);
 			if (!pTile) //no valid tile found, so no collision
 			{
-				return;
+				continue;
 			}
 
 			//create a rect representing the area the tile at x y is covering
@@ -352,7 +354,7 @@ void EntityBase::ResolveCollisions()
 			if (abs(xDiff) > abs(yDiff))	//if xDiff is greather than yDiff the resolving is done by the x axis otherwise in the y axis
 			{
 				//calculate the distance in x direction to resolve the collision
-				if (xDiff > 0) 
+				if (xDiff > 0.0f) 
 				{
 					resolve = (itr.m_tileBounds.left + tileSize) - m_AABB.left; //the amount of pixels to move the entity to the right direction to resolve the collision
 				}
@@ -371,11 +373,11 @@ void EntityBase::ResolveCollisions()
 				//calculate the distance in y direction to resolve the collision
 				if (yDiff > 0.0f)
 				{
-					resolve = (itr.m_tileBounds.top + tileSize) - m_AABB.top; //the amount of pixels to move the entity to the right direction to resolve the collision
+					resolve = (itr.m_tileBounds.top + tileSize) - m_AABB.top; //the amount of pixels to move the entity to the bottom direction to resolve the collision
 				}
 				else
 				{
-					resolve = -((m_AABB.top + m_AABB.height) - itr.m_tileBounds.top); //the amount of pixels to move the entity to the left direction to resolve the collision
+					resolve = -((m_AABB.top + m_AABB.height) - itr.m_tileBounds.top); //the amount of pixels to move the entity to the top direction to resolve the collision
 				}
 
 				//apply the distance
@@ -387,6 +389,9 @@ void EntityBase::ResolveCollisions()
 					continue;
 				}
 				m_pTile = itr.m_pTile; //update the tile reference the entity is standing on/over
+				
+
+
 				m_collidingOnY = true;
 			}
 		}

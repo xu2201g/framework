@@ -231,7 +231,13 @@ void Character::Draw(sf::RenderWindow* pWindow)
 	//attackAABB.setPosition(m_spriteSheet.GetSpritePosition());
 
 	m_spriteSheet.Draw(pWindow);
-	//pWindow->draw(AABB);
+	/*if (m_pTile)
+	{
+		sf::Sprite s = m_pTile->m_sprite;
+		s.setPosition(m_position);
+		m_pEntityManager->GetContext()->m_pWindow->GetRenderWindow().draw(s);
+	}
+	pWindow->draw(AABB);*/
 	//pWindow->draw(attackAABB);
 }
 

@@ -13,7 +13,8 @@ State_GameOver::~State_GameOver()
 
 void State_GameOver::OnCreate()
 {
-	SetTransparent(true);
+	m_elapsed = 0;
+	
 
 	sf::Vector2u windowSize = m_pStateMgr->GetContext()->m_pWindow->GetRenderWindow().getSize();
 
@@ -22,29 +23,31 @@ void State_GameOver::OnCreate()
 	m_sprite.setOrigin(m_texture.getSize().x / 2.0f, m_texture.getSize().y / 2.0f);
 	m_sprite.setPosition(windowSize.x / 2.0f, windowSize.y / 2.0f);
 
-	m_font.loadFromFile("assets//fonts//arial.ttf");
-	m_text.setFont(m_font);
-	m_text.setString(sf::String("press SPACE to try again"));
-	m_text.setCharacterSize(14);
-	m_text.setStyle(sf::Text::Bold);
+	//m_font.loadFromFile("assets//fonts//arial.ttf");
+	//m_text.setFont(m_font);
+	//m_text.setString(sf::String("press SPACE to try again"));
+	//m_text.setCharacterSize(14);
+	//m_text.setStyle(sf::Text::Bold);
 
-	sf::FloatRect textRect = m_text.getLocalBounds();
-	m_text.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
-	m_text.setPosition(windowSize.x / 2.0f, windowSize.y / 2.0f + 75);
+	//sf::FloatRect textRect = m_text.getLocalBounds();
+	//m_text.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
+	//m_text.setPosition(windowSize.x / 2.0f, windowSize.y / 2.0f + 75);
 
-	//darken the rendered game with a transparent black rect
-	m_rect.setSize(sf::Vector2f(windowSize));
-	m_rect.setPosition(0, 0);
-	m_rect.setFillColor(sf::Color(0, 0, 0, 127));
+	////darken the rendered game with a transparent black rect
+	//m_rect.setSize(sf::Vector2f(windowSize));
+	//m_rect.setPosition(0, 0);
+	//m_rect.setFillColor(sf::Color(0, 0, 0, 127));
 
-	EventManager* eventMgr = m_pStateMgr->GetContext()->m_pEventManager;
-	eventMgr->AddCallback(StateType::GameOver, "Key_Space", &State_GameOver::RestartGame, this);
+	//EventManager* eventMgr = m_pStateMgr->GetContext()->m_pEventManager;
+	//eventMgr->AddCallback(StateType::GameOver, "Key_Space", &State_GameOver::RestartGame, this);
+	
+	m_pStateMgr->Remove(StateType::Game);
 }
 
 void State_GameOver::OnDestroy()
 {
 	EventManager* eventMgr = m_pStateMgr->GetContext()->m_pEventManager;
-	eventMgr->RemoveCallback(StateType::GameOver, "Key_Space");
+	//eventMgr->RemoveCallback(StateType::GameOver, "Key_Space");
 }
 
 void State_GameOver::Activate()
@@ -57,6 +60,13 @@ void State_GameOver::Deactivate()
 
 void State_GameOver::Update(const sf::Time& time)
 {
+	m_elapsed += time.asSeconds();
+	if (m_elapsed >= 5.0f) 
+	{
+		m_pStateMgr->Remove(StateType::GameOver);
+		m_pStateMgr->SwitchTo(StateType::MainMenu);
+	}
+
 }
 
 void State_GameOver::Draw()
