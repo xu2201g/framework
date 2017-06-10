@@ -17,7 +17,7 @@ void State_Paused::OnCreate()
 	//this state is meant to pause the game so the game state ll be rendered before the pause state 
 	SetTransparent(true);
 
-	m_font.loadFromFile("assets//fonts//arial.ttf");
+	m_font.loadFromFile(Utils::GetWorkingDirectory() + "../../testbed/assets/fonts/arial.ttf");
 	m_text.setFont(m_font);
 	m_text.setString(sf::String("PAUSED"));
 	m_text.setCharacterSize(14);
