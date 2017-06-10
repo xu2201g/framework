@@ -1,4 +1,5 @@
 #include "Textbox.h"
+#include "Utilities.h"
 
 Textbox::Textbox()
 {
@@ -21,7 +22,7 @@ void Textbox::Setup(int visibleLines, int charSize, int width, sf::Vector2f scre
 	
 	sf::Vector2f offset(2.0f, 2.0f);
 
-	m_font.loadFromFile("assets//fonts//arial.ttf");
+	m_font.loadFromFile(Utils::GetWorkingDirectory() + "../../testbed/assets/fonts/arial.ttf");
 
 	m_content.setFont(m_font);	
 	m_content.setString("");

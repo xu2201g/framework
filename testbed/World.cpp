@@ -8,7 +8,7 @@ World::World(sf::Vector2u windowSize, int blockSize, int seed, SharedContext* pS
 	m_textbox(5, 10, 200, sf::Vector2f(blockSize, blockSize)),
 	m_pSharedContext(pSharedContext)
 {
-	m_spriteSheetApple.LoadSheet("..//..//testbed//assets//appleSpriteSheet.sheet");
+	m_spriteSheetApple.LoadSheet("../../testbed/assets/appleSpriteSheet.sheet");
 	m_spriteSheetApple.SetAnimation("Idle", true, true);
 
 	//seed random number generator

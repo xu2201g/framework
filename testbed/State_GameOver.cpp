@@ -17,12 +17,12 @@ void State_GameOver::OnCreate()
 
 	sf::Vector2u windowSize = m_pStateMgr->GetContext()->m_pWindow->GetRenderWindow().getSize();
 
-	m_texture.loadFromFile("assets//textures//gameover.png");
+	m_texture.loadFromFile(Utils::GetWorkingDirectory() + "../../testbed/assets/textures/gameover.png");
 	m_sprite.setTexture(m_texture);
 	m_sprite.setOrigin(m_texture.getSize().x / 2.0f, m_texture.getSize().y / 2.0f);
 	m_sprite.setPosition(windowSize.x / 2.0f, windowSize.y / 2.0f);
 
-	m_font.loadFromFile("assets//fonts//arial.ttf");
+	m_font.loadFromFile(Utils::GetWorkingDirectory() + "../../testbed/assets/fonts/arial.ttf");
 	m_text.setFont(m_font);
 	m_text.setString(sf::String("press SPACE to try again"));
 	m_text.setCharacterSize(14);
