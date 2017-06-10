@@ -77,6 +77,19 @@ void Character::Attack() //replaced by fire
 
 	//update the state
 	SetState(EntityState::Attacking); //this is enough cause this "flag" ll be checked in the onentitycollision functions to perform actually an attack 
+
+	//fire projectiles
+	EntityManager* pEntityMgr = m_pEntityManager->GetContext()->m_pEntityManager;
+	int id = pEntityMgr->Add(EntityType::Rocket, "ROCKET");
+
+	EntityBase* pRocket = pEntityMgr->Find(id);
+	if (pRocket)
+	{
+		pRocket->SetPosition(m_position.x + 32.0f, m_position.y);
+		pRocket->AddVelocity(100.0f, 0.0f);
+	}
+
+
 }
 
 void Character::GetHurt(const int& damage) //ll be adjusted soon

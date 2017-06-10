@@ -39,7 +39,7 @@ void State_Game::OnCreate()
 	m_pGameMap = std::make_unique<Map>(m_pStateMgr->GetContext(), this);
 	m_pGameMap->LoadMap("..//..//testbed//assets//maps//map1.map");
 
-	m_pStateMgr->GetContext()->m_pEntityManager->Add(EntityType::Rocket, "ROCKET");
+	//m_pStateMgr->GetContext()->m_pEntityManager->Add(EntityType::Rocket, "ROCKET");
 }
 
 void State_Game::OnDestroy()

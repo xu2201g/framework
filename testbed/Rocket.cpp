@@ -14,12 +14,26 @@ Rocket::Rocket(EntityManager* pEntityManager)
 
 	UpdateAABB();
 
-	//m_velocity.x = +100.0f;
-	m_velocity.y = -100.0f;
-
 	m_maxVelocity.x = 100.0f;
 	m_maxVelocity.y = 100.0f;
 }
+
+//Rocket::Rocket(EntityManager* pEntityManager, sf::Vector2f direction, sf::Vector2f position)
+//{
+//	m_type = EntityType::Rocket;
+//	m_position = position;
+//
+//	m_sizeCB.x = 32.0f;
+//	m_sizeCB.y = 32.0f;
+//
+//	UpdateAABB();
+//
+//	m_velocity.x = m_speed.x * direction.x;
+//	m_velocity.y = m_speed.y * direction.y;
+//
+//	m_maxVelocity.x = 100.0f;
+//	m_maxVelocity.y = 100.0f;
+//}
 
 Rocket::~Rocket()
 {
