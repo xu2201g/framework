@@ -65,15 +65,24 @@ void State_Game::Deactivate()
 void State_Game::Update(const sf::Time& time)
 {	
 
-	//m_elapsed += time;
-	//unsigned int ticksPerSecond = 120;
-	//float frametime = 1.0f / ticksPerSecond;
+	m_elapsed += time;
+	unsigned int ticksPerSecond = 60;
+	float frametime = 1.0f / ticksPerSecond;
 	
+	SharedContext* pSharedContext = m_pStateMgr->GetContext();
 
-	//if (m_elapsed.asSeconds() >= frametime)
-	//{				
-
-		SharedContext* pSharedContext = m_pStateMgr->GetContext();
+	if (m_elapsed.asSeconds() >= frametime) //limit the scroll speed 
+	{	
+		
+		//scroll horizontal
+		float distance = 1.0 / ticksPerSecond * (float)pSharedContext->m_pGameMap->GetScrollSpeed();
+		
+		m_view.move(distance, 0.0f);
+		pSharedContext->m_pWindow->GetRenderWindow().setView(m_view);
+		
+		m_elapsed -= sf::seconds(frametime);
+	}
+		
 
 		EntityBase* pPlayer = pSharedContext->m_pEntityManager->Find("Player");
 
@@ -95,11 +104,6 @@ void State_Game::Update(const sf::Time& time)
 			pSharedContext->m_pWindow->GetRenderWindow().setView(m_view);
 		}
 
-		//scroll horizontal
-		float distance = 0.05f;
-		m_view.move(distance, 0.0f);
-		pSharedContext->m_pWindow->GetRenderWindow().setView(m_view);
-
 		sf::FloatRect viewSpace = pSharedContext->m_pWindow->GetViewSpace();
 		if (viewSpace.left <= 0)
 		{
@@ -117,8 +121,7 @@ void State_Game::Update(const sf::Time& time)
 
 		m_pStateMgr->GetContext()->m_pEntityManager->Update(time.asSeconds());
 
-	//	m_elapsed -= sf::seconds(frametime);
-	//}
+	
 }
 
 void State_Game::Draw()

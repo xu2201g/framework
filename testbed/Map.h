@@ -110,6 +110,11 @@ public:
 	void Update(float dT);
 	void Draw();
 
+	unsigned int GetScrollSpeed()
+	{
+		return m_scrollPixelPerSecond;
+	}
+
 private:
 
 	unsigned int ConvertCoords(unsigned int x, unsigned int y);
@@ -131,6 +136,8 @@ private:
 
 	unsigned int m_tileCount;
 	unsigned int m_tileSetCount;
+
+	unsigned int m_scrollPixelPerSecond;
 
 	float m_mapGravity;
 	std::string m_nextMap;

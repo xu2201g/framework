@@ -136,6 +136,10 @@ void Map::LoadMap(const std::string& path)
 			}
 		}
 		else
+		if (type == "SCROLLPIXELPERSECOND")
+		{
+			keystream >> m_scrollPixelPerSecond;
+		}
 		if (type == "BACKGROUND")
 		{
 			if (m_backgroundTexture != "")
