@@ -13,12 +13,11 @@ State_GameOver::~State_GameOver()
 
 void State_GameOver::OnCreate()
 {
-	m_elapsed = 0;
-	
+	m_elapsed = 0;	
 
 	sf::Vector2u windowSize = m_pStateMgr->GetContext()->m_pWindow->GetRenderWindow().getSize();
 
-	m_texture.loadFromFile("assets//textures//gameover.png");
+	m_texture.loadFromFile(Utils::GetWorkingDirectory() + "../../testbed/assets/textures/gameover.png");
 	m_sprite.setTexture(m_texture);
 	m_sprite.setOrigin(m_texture.getSize().x / 2.0f, m_texture.getSize().y / 2.0f);
 	m_sprite.setPosition(windowSize.x / 2.0f, windowSize.y / 2.0f);

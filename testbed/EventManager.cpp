@@ -244,7 +244,7 @@ void EventManager::LoadBindings()
 
 	//open .cfg file
 	std::ifstream fstream_bindings;
-	fstream_bindings.open("assets//keys.cfg");
+	fstream_bindings.open(Utils::GetWorkingDirectory() + "../../testbed/assets//keys.cfg");
 
 	if (!fstream_bindings.is_open())
 	{
