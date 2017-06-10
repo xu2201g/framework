@@ -10,7 +10,7 @@ Animation_Base::Animation_Base()
 	m_elapsedTime(0.0f),
 	m_frameActionStart(-1),
 	m_frameActionEnd(-1),
-	m_loop(false),
+	m_loop(true),
 	m_playing(false)
 {}
 
