@@ -148,16 +148,17 @@ bool SpriteSheet::LoadSheet(const std::string& file)
 
 				pAnimation->SetSpriteSheet(this);
 				pAnimation->SetName(name);
-				pAnimation->Reset();
+				pAnimation->Reset();				
 
 				m_animations.emplace(name, std::move(pAnimation));
 
-				if (m_pAnimationCurrent) //current animation already set
-				{
-					continue;
-				}
+				//if (m_pAnimationCurrent) //current animation already set //magicly fixed the issue in which the first frame of the animation wasnt the idle one
+				//{
+				//	continue;
+				//}
 				
 				m_pAnimationCurrent = m_animations.find(name)->second.get(); //sets the current animation to a raw pointer of the new emplaced animation loaded from the file
+		
 				m_pAnimationCurrent->Play(); //play the animation
 			}
 		}

@@ -6,4 +6,4 @@ AnimationType Directional
 Animation Idle 0 3 0 0.2 -1 -1
 Animation Attack 0 3 0 0.2 -1 -1
 Animation Hurt 0 3 0 0.2 -1 -1
-Animation Death 0 3 0 0.2 -1 -1
+Animation Death 0 3 1 0.2 -1 -1

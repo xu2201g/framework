@@ -93,13 +93,13 @@ void Character::Attack()
 		{
 			pRocket->SetRotation(180.0f);
 			pRocket->SetPosition(m_position.x + (float)Sheet::Tile_Size, m_position.y);
-			pRocket->AddVelocity(100.0f, 0.0f);
+			pRocket->AddVelocity(200.0f, 0.0f);
 		}
 		else
 		if (m_type == EntityType::Enemy)
 		{
 			pRocket->SetPosition(m_position.x - (float)Sheet::Tile_Size, m_position.y);
-			pRocket->AddVelocity(-100.0f, 0.0f);
+			pRocket->AddVelocity(-200.0f, 0.0f);
 		}
 	}
 }

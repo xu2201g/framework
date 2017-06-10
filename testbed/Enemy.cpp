@@ -30,26 +30,30 @@ void Enemy::OnEntityCollision(EntityBase* pCollider, bool attack)
 	//	return;
 	//}
 
-	Character* pPlayer = (Character*) pCollider;
+	//Character* pPlayer = (Character*) pCollider;
 
-	pPlayer->GetHurt(1);
+	//pPlayer->GetHurt(1);
 
-	if (m_position.x > pPlayer->GetPosition().x)
-	{
-		pPlayer->AddVelocity(-m_speed.x, 0.0f);
-		m_spriteSheet.SetDirection(Direction::Left);
-	}
-	else
-	{
-		pPlayer->AddVelocity(m_speed.x, 0.0f);
-		m_spriteSheet.SetDirection(Direction::Right);
-	}
+	//if (m_position.x > pPlayer->GetPosition().x)
+	//{
+	//	pPlayer->AddVelocity(-m_speed.x, 0.0f);
+	//	m_spriteSheet.SetDirection(Direction::Left);
+	//}
+	//else
+	//{
+	//	pPlayer->AddVelocity(m_speed.x, 0.0f);
+	//	m_spriteSheet.SetDirection(Direction::Right);
+	//}
 }
 
 void Enemy::Update(float dT) //TODO
 {
 	Character::Update(dT);
 
+	if (m_state == EntityState::Dying)
+	{
+		return;
+	}
 	m_elapsed += dT;
 
 	if (m_elapsed >= 1.0f / m_fireRatePerSecond)

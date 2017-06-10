@@ -15,8 +15,8 @@ Rocket::Rocket(EntityManager* pEntityManager)
 
 	UpdateAABB();
 
-	m_maxVelocity.x = 100.0f;
-	m_maxVelocity.y = 100.0f;
+	m_maxVelocity.x = 200.0f;
+	m_maxVelocity.y = 200.0f;
 
 	m_angle = 0.0f;
 
