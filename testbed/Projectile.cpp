@@ -1,5 +1,6 @@
 #include "Projectile.h"
 #include "EntityManager.h"
+#include "Enemy.h"
 
 Projectile::Projectile(EntityManager* pEntityManager)
 	:
@@ -20,9 +21,26 @@ void Projectile::Move()
 	//Accelerate(speed * m_direction.x, speed * m_direction.y);
 }
 
-void Projectile::OnImpact()
+void Projectile::OnImpact(EntityBase* pCollider)
 {
+	//check what is colliding with what in here
+	if (pCollider->GetType() == EntityType::Rocket)
+	{
+		pCollider->SetVelocity(0.0f, 0.0f);
+		pCollider->SetState(EntityState::Dying);
+	}
+	else
+	if (pCollider->GetType() == EntityType::Enemy)
+	{
+		Enemy* pEnemy = (Enemy*)pCollider;
+
+		pEnemy->SetState(EntityState::Dying);
+	}
+
+
+	SetVelocity(0.0f, 0.0f);	
 	SetState(EntityState::Dying); //rockets always die/explode on collisions
+	
 }
 
 //void Projectile::Load(const std::string& path)			//TODO load these stuff from file

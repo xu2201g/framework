@@ -164,7 +164,6 @@ void Map::LoadMap(const std::string& path)
 
 			m_background.setScale(scaleFactors);
 		}
-		else
 		if (type == "SIZE")
 		{
 			keystream >> m_maxMapSize.x >> m_maxMapSize.y;
@@ -197,12 +196,8 @@ void Map::LoadMap(const std::string& path)
 			{
 				continue;
 			}
-
-			float playerX = 0;
-			float playerY = 0;
-
-			keystream >> playerX >> playerY;
-			m_pSharedContext->m_pEntityManager->Find(playerId)->SetPosition(playerX, playerY);
+			keystream >> m_playerStart.x >> m_playerStart.y;
+			m_pSharedContext->m_pEntityManager->Find(playerId)->SetPosition(m_playerStart.x, m_playerStart.y);
 		}
 		else
 		if (type == "ENEMY")

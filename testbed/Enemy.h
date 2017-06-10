@@ -18,4 +18,7 @@ private:
 
 	sf::Vector2f m_destination;
 	bool m_hasDestination;
+
+	float m_elapsed;
+	float m_fireRatePerSecond;
 };

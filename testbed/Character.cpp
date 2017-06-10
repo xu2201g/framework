@@ -87,12 +87,19 @@ void Character::Attack()
 	if (pEntity)
 	{
 		Rocket* pRocket = (Rocket*)pEntity;
+
 		//check for player or enemy firing the rocket
 		if (m_type == EntityType::Player)
 		{
 			pRocket->SetRotation(180.0f);
-			pRocket->SetPosition(m_position.x + 32.0f, m_position.y);
+			pRocket->SetPosition(m_position.x + (float)Sheet::Tile_Size, m_position.y);
 			pRocket->AddVelocity(100.0f, 0.0f);
+		}
+		else
+		if (m_type == EntityType::Enemy)
+		{
+			pRocket->SetPosition(m_position.x - (float)Sheet::Tile_Size, m_position.y);
+			pRocket->AddVelocity(-100.0f, 0.0f);
 		}
 	}
 }
@@ -264,13 +271,13 @@ void Character::Draw(sf::RenderWindow* pWindow)
 	//attackAABB.setPosition(m_spriteSheet.GetSpritePosition());
 
 	m_spriteSheet.Draw(pWindow);
-	/*if (m_pTile)
-	{
-		sf::Sprite s = m_pTile->m_sprite;
-		s.setPosition(m_position);
-		m_pEntityManager->GetContext()->m_pWindow->GetRenderWindow().draw(s);
-	}
-	pWindow->draw(AABB);*/
+	//if (m_pTile)
+	//{
+	//	sf::Sprite s = m_pTile->m_sprite;
+	//	s.setPosition(m_position);
+	//	m_pEntityManager->GetContext()->m_pWindow->GetRenderWindow().draw(s);
+	//}
+	//pWindow->draw(AABB);
 	//pWindow->draw(attackAABB);
 }
 

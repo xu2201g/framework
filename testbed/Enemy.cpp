@@ -5,6 +5,8 @@ Enemy::Enemy(EntityManager* pEntityManager)
 	Character(pEntityManager)
 {
 	m_type = EntityType::Enemy;
+	m_fireRatePerSecond = 0.3f;
+	m_elapsed = 0.0f;
 }
 
 Enemy::~Enemy()
@@ -18,18 +20,18 @@ void Enemy::OnEntityCollision(EntityBase* pCollider, bool attack)
 		return;
 	}
 
-	if (attack)
-	{
-		return;
-	}
+	//if (attack)
+	//{
+	//	return;
+	//}
 
-	if (pCollider->GetType() != EntityType::Player)
-	{
-		return;
-	}
+	//if (pCollider->GetType() != EntityType::Player)
+	//{
+	//	return;
+	//}
 
 	Character* pPlayer = (Character*) pCollider;
-	SetState(EntityState::Attacking);
+
 	pPlayer->GetHurt(1);
 
 	if (m_position.x > pPlayer->GetPosition().x)
@@ -48,48 +50,59 @@ void Enemy::Update(float dT) //TODO
 {
 	Character::Update(dT);
 
-	if (m_hasDestination)
-	{
-		if (abs(m_destination.x - m_position.x) < 16)
-		{
-			m_hasDestination = false; //reached destination by a threshold of 16 px
-			return;
-		}
-		if (m_destination.x - m_position.x > 0)
-		{
-			Move(Direction::Right);
-		}
-		else
-		{
-			Move(Direction::Left);
-		}
+	m_elapsed += dT;
 
-		if (m_collidingOnX)
-		{
-			m_hasDestination = false; //cant reach destination cause of collision within the game map
-		}
-		return;
+	if (m_elapsed >= 1.0f / m_fireRatePerSecond)
+	{
+		Attack();
+
+		m_elapsed = 0.0f;
 	}
 
-	int random = rand() % 1000 + 1;
 
-	//if (random != 1000) //?????
+
+	//if (m_hasDestination)
 	//{
+	//	if (abs(m_destination.x - m_position.x) < 16)
+	//	{
+	//		m_hasDestination = false; //reached destination by a threshold of 16 px
+	//		return;
+	//	}
+	//	if (m_destination.x - m_position.x > 0)
+	//	{
+	//		Move(Direction::Right);
+	//	}
+	//	else
+	//	{
+	//		Move(Direction::Left);
+	//	}
+
+	//	if (m_collidingOnX)
+	//	{
+	//		m_hasDestination = false; //cant reach destination cause of collision within the game map
+	//	}
 	//	return;
 	//}
 
-	int newX = rand() % 65 + 0;
-	if (rand() % 2) 
-	{ 
-		newX = -newX; 
-	}
+	//int random = rand() % 1000 + 1;
 
-	m_destination.x = m_position.x + newX;
+	////if (random != 1000) //?????
+	////{
+	////	return;
+	////}
 
-	if (m_destination.x < 0)
-	{
-		m_destination.x = 0;
-	}
+	//int newX = rand() % 65 + 0;
+	//if (rand() % 2) 
+	//{ 
+	//	newX = -newX; 
+	//}
 
-	m_hasDestination = true;
+	//m_destination.x = m_position.x + newX;
+
+	//if (m_destination.x < 0)
+	//{
+	//	m_destination.x = 0;
+	//}
+
+	//m_hasDestination = true;
 }

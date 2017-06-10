@@ -149,6 +149,18 @@ void EntityBase::AddVelocity(float x, float y)
 	}
 }
 
+void EntityBase::SetVelocity(float x, float y)
+{
+	m_velocity.x = x;
+	m_velocity.y = y;
+}
+
+void EntityBase::SetMaxVelocity(float x, float y)
+{
+	m_maxVelocity.x = x;
+	m_maxVelocity.y = y;
+}
+
 void EntityBase::Accelerate(float x, float y)
 {
 	m_acceleration += sf::Vector2f(x, y);
@@ -256,9 +268,9 @@ void EntityBase::UpdateAABB()
 {
 	//the origin of an entity is on the center in x and the bottom of y			// #####
 	m_AABB = sf::FloatRect(m_position.x - (m_sizeCB.x / 2.0f),					// #####
-		                   m_position.y - m_sizeCB.y,							// #####
+		                   m_position.y - (m_sizeCB.y / 2.0f),					// ##O##
 						   m_sizeCB.x,											// #####
-						   m_sizeCB.y);											// ##O## O... origin
+						   m_sizeCB.y);											// ##### O... origin
 }
 
 void EntityBase::CheckCollisions()

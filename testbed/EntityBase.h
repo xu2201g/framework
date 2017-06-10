@@ -76,6 +76,8 @@ public:
 
 	void Move(float x, float y);
 	void AddVelocity(float x, float y);
+	void SetVelocity(float x, float y);
+	void SetMaxVelocity(float x, float y);
 	void Accelerate(float x, float y);
 
 	void SetAcceleration(float x, float y);

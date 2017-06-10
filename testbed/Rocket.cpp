@@ -24,7 +24,8 @@ Rocket::Rocket(EntityManager* pEntityManager)
 	sf::Vector2f origin = pSprite->getOrigin();
 
 	pSprite->setOrigin(pSprite->getLocalBounds().width / 2.0f, pSprite->getLocalBounds().height / 2.0f);
-
+	m_spriteSheet.GetCurrentAnimation()->SetFrame(0);
+	
 }
 
 //Rocket::Rocket(EntityManager* pEntityManager, sf::Vector2f direction, sf::Vector2f position)
@@ -50,12 +51,12 @@ Rocket::~Rocket()
 
 void Rocket::OnEntityCollision(EntityBase* pCollider, bool attack)
 {
-	if (m_state == EntityState::Dying)
+	if (m_state == EntityState::Dying || pCollider->GetState() == EntityState::Dying)
 	{
 		return;
 	}
 
-	OnImpact();
+	OnImpact(pCollider);
 }
 
 void Rocket::Update(float dT)

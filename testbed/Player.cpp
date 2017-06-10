@@ -33,10 +33,18 @@ Player::~Player()
 
 void Player::OnEntityCollision(EntityBase* pCollider, bool attack)
 {
-	if (m_state != EntityState::Dying) //apply knockback even if the playership is already exploding
+	if (m_state == EntityState::Dying) //apply knockback even if the playership is already exploding
 	{
-		GetHurt(1); //take damage from all collisions for now - ll be adjusted when powerups re implemented
+		return; 
 	}	
+
+	GetHurt(1);//take damage from all collisions for now - ll be adjusted when powerups re implemented
+
+	if (m_state == EntityState::Dying) //apply knockback even if the playership is already exploding
+	{
+		SetVelocity(0.0f, 0.0f);
+		return;
+	}
 
 	//apply knockback 	
 	float knockbackVelocity = 8.0f;

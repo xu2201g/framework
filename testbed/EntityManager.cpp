@@ -228,7 +228,7 @@ void EntityManager::EntityCollisionCheck()
 			if (itrA->second->m_AABB.intersects(itrB->second->m_AABB)) 
 			{
 				//entity to entity collision so for each entity the oncollision functions getting invoked flaged as none attack
-				itrA->second->OnEntityCollision(itrB->second.get(), false); 
+				itrA->second->OnEntityCollision(itrB->second.get(), false);  
 				itrB->second->OnEntityCollision(itrA->second.get(), false);
 			}
 

@@ -23,7 +23,7 @@ void SpriteSheet::SetSpriteSize(const sf::Vector2i& size)
 	m_spriteSize = size;
 
 	//center origin
-	m_sprite.setOrigin(m_spriteSize.x / 2.0f, m_spriteSize.y);
+	m_sprite.setOrigin(m_spriteSize.x / 2.0f, m_spriteSize.y / 2.0f);
 }
 
 void SpriteSheet::SetSpritePosition(const sf::Vector2f& position)
