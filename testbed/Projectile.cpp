@@ -1,6 +1,6 @@
 #include "Projectile.h"
 #include "EntityManager.h"
-#include "Enemy.h"
+
 
 Projectile::Projectile(EntityManager* pEntityManager)
 	:
@@ -21,27 +21,7 @@ void Projectile::Move()
 	//Accelerate(speed * m_direction.x, speed * m_direction.y);
 }
 
-void Projectile::OnImpact(EntityBase* pCollider)
-{
-	//check what is colliding with what in here
-	if (pCollider->GetType() == EntityType::Rocket)
-	{
-		pCollider->SetVelocity(0.0f, 0.0f);
-		pCollider->SetState(EntityState::Dying);
-	}
-	else
-	if (pCollider->GetType() == EntityType::Enemy)
-	{
-		Enemy* pEnemy = (Enemy*)pCollider;
 
-		pEnemy->SetState(EntityState::Dying);
-	}
-
-
-	SetVelocity(0.0f, 0.0f);	
-	SetState(EntityState::Dying); //rockets always die/explode on collisions
-	
-}
 
 //void Projectile::Load(const std::string& path)			//TODO load these stuff from file
 //{
@@ -108,9 +88,19 @@ void Projectile::Update(float dT)
 
 	//check out of bounds
 	sf::FloatRect viewSpace = m_pEntityManager->GetContext()->m_pWindow->GetViewSpace();
-		
-	if (m_position.x <= viewSpace.left || m_position.x >= viewSpace.left + viewSpace.width ||
-		m_position.y <= viewSpace.top || m_position.y >= viewSpace.top + viewSpace.height)
+	
+	//leaving viewspace
+	//if (m_position.x <= viewSpace.left || m_position.x >= viewSpace.left + viewSpace.width ||
+	//	m_position.y <= viewSpace.top || m_position.y >= viewSpace.top + viewSpace.height)
+	//{
+	//	SetState(EntityState::Dying);
+	//}
+
+	//leaving gamemap
+	float threshold = -0.1f;
+
+	if (m_position.x <= 0.0f - threshold || m_position.x >= m_pEntityManager->GetContext()->m_pGameMap->GetMapSize().x * Sheet::Tile_Size + threshold ||
+		m_position.y <= 0.0f - threshold || m_position.y >= m_pEntityManager->GetContext()->m_pGameMap->GetMapSize().y * Sheet::Tile_Size + threshold)
 	{
 		SetState(EntityState::Dying);
 	}
@@ -137,11 +127,6 @@ void Projectile::Draw(sf::RenderWindow* pWindow)
 void Projectile::Animate()
 {
 	EntityState state = GetState();
-
-	if (m_name == "ROCKET")
-	{
-		int x;
-	}
 
 	if (state == EntityState::Dying && m_spriteSheet.GetCurrentAnimation()->GetName() != "Death")
 	{

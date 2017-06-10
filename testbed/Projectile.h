@@ -16,7 +16,7 @@ public:
 
 	//void Load(const std::string& path);
 
-	void OnImpact(EntityBase* pCollider);
+	virtual void OnImpact(EntityBase* pCollider) = 0;
 
 	virtual void OnEntityCollision(EntityBase* pCollider, bool attack) = 0; //not used in here and too lazy to adjust the inheritance atm
 	virtual void Update(float dT);

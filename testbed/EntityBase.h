@@ -67,6 +67,7 @@ public:
 	void SetSize(const float& x, const float& y);
 	void SetSize(const sf::Vector2f& size);
 	void SetState(const EntityState& state);
+	void ScaleVelocity(float scale);
 
 	unsigned int GetId();
 	const std::string& GetName();

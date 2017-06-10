@@ -35,7 +35,7 @@ void Game::Update()
 
 	////fixed timestep at 60x per second
 	//float frametime = 1.0f /60.0f;
-
+	//
 	//if (m_elapsed.asSeconds() >= frametime)
 	//{
 		//do something 60x a second
@@ -43,8 +43,6 @@ void Game::Update()
 
 	//	m_elapsed -= sf::seconds(frametime);
 	//}
-	
-	sf::sleep(sf::seconds(0.01f));
 }
 
 void Game::LateUpdate()

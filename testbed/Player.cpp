@@ -27,7 +27,9 @@ Player::~Player()
 
 	pEventMgr->RemoveCallback(StateType::Game, "Player_MoveLeft");
 	pEventMgr->RemoveCallback(StateType::Game, "Player_MoveRight");
-	pEventMgr->RemoveCallback(StateType::Game, "Player_Jump");
+	pEventMgr->RemoveCallback(StateType::Game, "Player_MoveUp");
+	pEventMgr->RemoveCallback(StateType::Game, "Player_MoveDown");
+	//pEventMgr->RemoveCallback(StateType::Game, "Player_Jump");
 	pEventMgr->RemoveCallback(StateType::Game, "Player_Attack");
 }
 
@@ -42,7 +44,7 @@ void Player::OnEntityCollision(EntityBase* pCollider, bool attack)
 
 	if (m_state == EntityState::Dying) //apply knockback even if the playership is already exploding
 	{
-		SetVelocity(0.0f, 0.0f);
+		//SetVelocity(0.0f, 0.0f);
 		return;
 	}
 
@@ -105,6 +107,8 @@ void Player::OnEntityCollision(EntityBase* pCollider, bool attack)
 
 void Player::React(EventDetails* pDetails)
 {
+
+
 	if (pDetails->m_name == "Player_MoveLeft") 
 	{
 		Character::Move(Direction::Left);

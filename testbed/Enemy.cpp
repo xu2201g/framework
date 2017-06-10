@@ -54,6 +54,7 @@ void Enemy::Update(float dT) //TODO
 	{
 		return;
 	}
+
 	m_elapsed += dT;
 
 	if (m_elapsed >= 1.0f / m_fireRatePerSecond)

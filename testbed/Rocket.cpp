@@ -1,5 +1,7 @@
 #include "Rocket.h"
 #include "Character.h"
+#include "Enemy.h"
+#include "Player.h"
 
 Rocket::Rocket(EntityManager* pEntityManager)
 	:
@@ -57,6 +59,35 @@ void Rocket::OnEntityCollision(EntityBase* pCollider, bool attack)
 	}
 
 	OnImpact(pCollider);
+}
+
+void Rocket::OnImpact(EntityBase* pCollider)
+{
+	//check what is colliding with what in here
+	if (pCollider->GetType() == EntityType::Rocket)
+	{
+		pCollider->ScaleVelocity(0.2f);
+		pCollider->SetState(EntityState::Dying);
+
+		ScaleVelocity(0.2f); //let the explosion flow a bit more in the origin direction
+	}
+	else
+	if (pCollider->GetType() == EntityType::Enemy)
+	{
+		Enemy* pEnemy = (Enemy*)pCollider;
+
+		pEnemy->SetState(EntityState::Dying);
+		ScaleVelocity(0.0f);
+	}
+	else
+	if (pCollider->GetType() == EntityType::Player)
+	{
+		Player* pPlayer = (Player*)pCollider;
+		pPlayer->SetState(EntityState::Dying);
+		ScaleVelocity(0.0f);
+	}
+
+	SetState(EntityState::Dying); //rockets always die/explode on collisions	
 }
 
 void Rocket::Update(float dT)

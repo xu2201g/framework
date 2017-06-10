@@ -51,6 +51,12 @@ void EntityBase::SetState(const EntityState& state)
 	m_state = state;
 }
 
+void EntityBase::ScaleVelocity(float scale)
+{
+	m_velocity.x *= scale;
+	m_velocity.y *= scale;
+}
+
 unsigned int EntityBase::GetId()
 {
 	return m_id;
@@ -342,8 +348,15 @@ void EntityBase::CheckCollisions()
 
 void EntityBase::ResolveCollisions()
 {
+
 	if (!m_collisions.empty())
 	{
+		//rockets colliding with gamemap tiles explode
+		if (m_type == EntityType::Rocket)
+		{
+			SetState(EntityState::Dying);
+		}
+
 		//sort by area
 		std::sort(m_collisions.begin(), m_collisions.end(), SortCollisions);
 

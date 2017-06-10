@@ -60,9 +60,11 @@ int main(int argc, char** argv)
 		game.Render();
 		
 		//std::this_thread::sleep_for(std::chrono::milliseconds(2));
-
+		
 		//restart clock
 		game.LateUpdate();
+
+		//sf::sleep(sf::seconds(0.01f));
 	}
 
 	//test();

@@ -40,6 +40,10 @@ void State_Game::OnCreate()
 	m_pGameMap->LoadMap("..//..//testbed//assets//maps//map1.map");
 
 	//m_pStateMgr->GetContext()->m_pEntityManager->Add(EntityType::Rocket, "ROCKET");
+
+	EntityBase* pPlayer = m_pStateMgr->GetContext()->m_pEntityManager->Find("Player");
+	m_view.setCenter(pPlayer->GetPosition());
+	m_pStateMgr->GetContext()->m_pWindow->GetRenderWindow().setView(m_view);
 }
 
 void State_Game::OnDestroy()
@@ -61,13 +65,13 @@ void State_Game::Deactivate()
 void State_Game::Update(const sf::Time& time)
 {	
 
-	m_elapsed += time;
-	unsigned int ticksPerSecond = 120;
-	float frametime = 1.0f / ticksPerSecond;
+	//m_elapsed += time;
+	//unsigned int ticksPerSecond = 120;
+	//float frametime = 1.0f / ticksPerSecond;
 	
 
-	if (m_elapsed.asSeconds() >= frametime)
-	{				
+	//if (m_elapsed.asSeconds() >= frametime)
+	//{				
 
 		SharedContext* pSharedContext = m_pStateMgr->GetContext();
 
@@ -80,13 +84,21 @@ void State_Game::Update(const sf::Time& time)
 			pSharedContext->m_pEntityManager->Add(EntityType::Player, "Player");
 			pPlayer = pSharedContext->m_pEntityManager->Find("Player");
 			pPlayer->SetPosition(m_pGameMap->GetPlayerStart());
+
+			m_view.setCenter(pPlayer->GetPosition());
+			pSharedContext->m_pWindow->GetRenderWindow().setView(m_view);
 		}
 		else
 		{
 			//update view (scrolling)
-			m_view.setCenter(pPlayer->GetPosition());
+			m_view.setCenter(m_view.getCenter().x, pPlayer->GetPosition().y);
 			pSharedContext->m_pWindow->GetRenderWindow().setView(m_view);
 		}
+
+		//scroll horizontal
+		float distance = 0.05f;
+		m_view.move(distance, 0.0f);
+		pSharedContext->m_pWindow->GetRenderWindow().setView(m_view);
 
 		sf::FloatRect viewSpace = pSharedContext->m_pWindow->GetViewSpace();
 		if (viewSpace.left <= 0)
@@ -97,8 +109,7 @@ void State_Game::Update(const sf::Time& time)
 		else
 		if (viewSpace.left + viewSpace.width > (m_pGameMap->GetMapSize().x + 1) * Sheet::Tile_Size)
 		{
-			m_view.setCenter((m_pGameMap->GetMapSize().x + 1) * Sheet::Tile_Size - (viewSpace.width / 2.0f),
-				m_view.getCenter().y);
+			m_view.setCenter((m_pGameMap->GetMapSize().x + 1) * Sheet::Tile_Size - (viewSpace.width / 2.0f), m_view.getCenter().y);
 			pSharedContext->m_pWindow->GetRenderWindow().setView(m_view);
 		}
 
@@ -106,8 +117,8 @@ void State_Game::Update(const sf::Time& time)
 
 		m_pStateMgr->GetContext()->m_pEntityManager->Update(time.asSeconds());
 
-		m_elapsed -= sf::seconds(frametime);
-	}
+	//	m_elapsed -= sf::seconds(frametime);
+	//}
 }
 
 void State_Game::Draw()
