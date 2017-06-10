@@ -7,7 +7,9 @@ enum class EntityType
 {
 	Base,
 	Enemy,
-	Player
+	Player,
+
+	Rocket
 };
 
 enum class EntityState

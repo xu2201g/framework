@@ -14,7 +14,7 @@ public:
 	virtual ~Character();
 
 	void Move(const Direction& direction);
-	void Jump();
+	//void Jump();
 	void Attack();
 	void GetHurt(const int& damage);
 
@@ -28,15 +28,15 @@ public:
 
 protected:
 
-	void UpdateAttackAABB();
+	//void UpdateAttackAABB();
 	void Animate();
 
 	//member
 	SpriteSheet m_spriteSheet;
-	float m_jumpVelocity;
+	//float m_jumpVelocity;
 	int m_hitpoints;
 
-	sf::FloatRect m_attackAABB;
-	sf::Vector2f m_attackAABBOffset;
+	//sf::FloatRect m_attackAABB;
+	//sf::Vector2f m_attackAABBOffset;
 
 };

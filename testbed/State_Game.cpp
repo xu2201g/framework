@@ -3,6 +3,8 @@
 #include "StateManager.h"
 #include "EntityManager.h"
 
+#include "Rocket.h"
+
 //place to store magic numbers, not the best way handling it but still better than placing them between the code
 //#define BLOCKSIZE 32
 
@@ -36,6 +38,8 @@ void State_Game::OnCreate()
 	//set map
 	m_pGameMap = std::make_unique<Map>(m_pStateMgr->GetContext(), this);
 	m_pGameMap->LoadMap("..//..//testbed//assets//maps//map1.map");
+
+	m_pStateMgr->GetContext()->m_pEntityManager->Add(EntityType::Rocket, "ROCKET");
 }
 
 void State_Game::OnDestroy()
@@ -91,12 +95,12 @@ void State_Game::Update(const sf::Time& time)
 			pSharedContext->m_pWindow->GetRenderWindow().setView(m_view);
 		}
 		else
-			if (viewSpace.left + viewSpace.width > (m_pGameMap->GetMapSize().x + 1) * Sheet::Tile_Size)
-			{
-				m_view.setCenter((m_pGameMap->GetMapSize().x + 1) * Sheet::Tile_Size - (viewSpace.width / 2.0f),
-					m_view.getCenter().y);
-				pSharedContext->m_pWindow->GetRenderWindow().setView(m_view);
-			}
+		if (viewSpace.left + viewSpace.width > (m_pGameMap->GetMapSize().x + 1) * Sheet::Tile_Size)
+		{
+			m_view.setCenter((m_pGameMap->GetMapSize().x + 1) * Sheet::Tile_Size - (viewSpace.width / 2.0f),
+				m_view.getCenter().y);
+			pSharedContext->m_pWindow->GetRenderWindow().setView(m_view);
+		}
 
 		m_pGameMap->Update(time.asSeconds());
 
@@ -104,8 +108,6 @@ void State_Game::Update(const sf::Time& time)
 
 		m_elapsed -= sf::seconds(frametime);
 	}
-
-	
 }
 
 void State_Game::Draw()

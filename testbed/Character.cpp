@@ -5,7 +5,7 @@ Character::Character(EntityManager* pEntityManager)
 	:
 	EntityBase(pEntityManager),
 	m_spriteSheet(pEntityManager->GetContext()->m_pTextureManager),
-	m_jumpVelocity(250),
+	//m_jumpVelocity(250),
 	m_hitpoints(5)	
 {
 	m_name = "Character";
@@ -23,18 +23,25 @@ void Character::Move(const Direction& direction)
 	}
 
 	//apply direction to the spritesheet so that the right animation ll be loaded
-	m_spriteSheet.SetDirection(direction);
+	//m_spriteSheet.SetDirection(direction);		//there is only 1 direction for now
 
 	//apply the acceleration
-	if (direction == Direction::Left)
+	switch (direction)
 	{
-		Accelerate(-m_speed.x, 0.0f);
+		case Direction::Left:
+			Accelerate(-m_speed.x, 0.0f);
+			break;
+		case Direction::Right:
+			Accelerate(m_speed.x, 0.0f);
+			break;
+		case Direction::Up:
+			Accelerate(0.0f, -m_speed.y);
+			break;
+		case Direction::Down:
+			Accelerate(0.0f, m_speed.y);
+			break;
 	}
-	else
-	{
-		Accelerate(m_speed.x, 0.0f);
-	}
-
+	
 	//if the character is not moving already update its state
 	if (GetState() == EntityState::Idle)
 	{
@@ -42,27 +49,27 @@ void Character::Move(const Direction& direction)
 	}
 }
 
-void Character::Jump()
-{
-	if (GetState() == EntityState::Dying ||		//cant jump while dying, jumping or getting hurt
-		GetState() == EntityState::Jumping ||
-		GetState() == EntityState::Hurt)
-	{
-		return;
-	}
+//void Character::Jump() //no need to jump in a space shooter
+//{
+//	if (GetState() == EntityState::Dying ||		//cant jump while dying, jumping or getting hurt
+//		GetState() == EntityState::Jumping ||
+//		GetState() == EntityState::Hurt)
+//	{
+//		return;
+//	}
+//
+//	//update state
+//	SetState(EntityState::Jumping);
+//
+//	//add velocity so that the character ll be moved
+//	AddVelocity(0, -m_jumpVelocity);
+//}
 
-	//update state
-	SetState(EntityState::Jumping);
-
-	//add velocity so that the character ll be moved
-	AddVelocity(0, -m_jumpVelocity);
-}
-
-void Character::Attack()
+void Character::Attack() //replaced by fire
 {
 	if (GetState() == EntityState::Dying ||		//cant attack while dying, jumping, getting hurt or attacking
-		GetState() == EntityState::Jumping ||
-		GetState() == EntityState::Hurt ||
+		//GetState() == EntityState::Jumping ||
+		//GetState() == EntityState::Hurt ||
 		GetState() == EntityState::Attacking)
 	{
 		return;
@@ -72,7 +79,7 @@ void Character::Attack()
 	SetState(EntityState::Attacking); //this is enough cause this "flag" ll be checked in the onentitycollision functions to perform actually an attack 
 }
 
-void Character::GetHurt(const int& damage)
+void Character::GetHurt(const int& damage) //ll be adjusted soon
 {
 	if (GetState() == EntityState::Dying ||
 		GetState() == EntityState::Hurt)
@@ -143,21 +150,21 @@ void Character::Load(const std::string& path)
 			SetSize(boundSize);
 		}
 		else
-		if (type == "DamageBox")
-		{
-			keystream >> m_attackAABBOffset.x >> m_attackAABBOffset.y >> m_attackAABB.width >> m_attackAABB.height;
-		}
-		else
+		//if (type == "DamageBox") //damage ll be handled by projectiles
+		//{
+		//	keystream >> m_attackAABBOffset.x >> m_attackAABBOffset.y >> m_attackAABB.width >> m_attackAABB.height;
+		//}
+		//else
 		if (type == "Speed")
 		{
 			keystream >> m_speed.x >> m_speed.y;
 		}
 		else
-		if (type == "JumpVelocity")
-		{
-			keystream >> m_jumpVelocity;
-		}
-		else
+		//if (type == "JumpVelocity") //there is no jumping anymore
+		//{
+		//	keystream >> m_jumpVelocity;
+		//}
+		//else
 		if (type == "MaxVelocity")
 		{
 			keystream >> m_maxVelocity.x >> m_maxVelocity.y;
@@ -175,21 +182,21 @@ void Character::Update(float dT)
 {
 	EntityBase::Update(dT);
 
-	if (m_attackAABB.width != 0 && m_attackAABB.height != 0)
-	{
-		UpdateAttackAABB();
-	}
+	//if (m_attackAABB.width != 0 && m_attackAABB.height != 0)
+	//{
+	//	UpdateAttackAABB();
+	//}
 
 	//update enitystate
 	if (GetState() != EntityState::Dying && GetState() != EntityState::Attacking && GetState() != EntityState::Hurt)
 	{
 		
-		if (abs(m_velocity.y) > 0.001f) //jumping 
-		{
-			SetState(EntityState::Jumping);
-		}
-		else
-		if (abs(m_velocity.x) > 0.1f) //walking
+		//if (abs(m_velocity.y) > 0.001f) //jumping 
+		//{
+		//	SetState(EntityState::Jumping);
+		//}
+		//else
+		if (abs(m_velocity.x) > 0.1f || abs(m_velocity.y)) //walking
 		{
 			SetState(EntityState::Walking);
 		}
@@ -216,14 +223,14 @@ void Character::Update(float dT)
 			m_pEntityManager->Remove(m_id);
 		}
 	}
-	else
-	if(GetState() == EntityState::Jumping)
-	{
-		if (!m_spriteSheet.GetCurrentAnimation()->IsPlaying())
-		{
-			SetState(EntityState::Idle);
-		}
-	}
+	//else
+	//if(GetState() == EntityState::Jumping)
+	//{
+	//	if (!m_spriteSheet.GetCurrentAnimation()->IsPlaying())
+	//	{
+	//		SetState(EntityState::Idle);
+	//	}
+	//}
 
 	Animate(); //sets animations related on the entitystate
 	m_spriteSheet.Update(dT);
@@ -249,15 +256,15 @@ void Character::Draw(sf::RenderWindow* pWindow)
 	//pWindow->draw(attackAABB);
 }
 
-void Character::UpdateAttackAABB()
-{
-	//x
-	m_attackAABB.left = m_spriteSheet.GetDirection() == Direction::Left ? 
-						(m_AABB.left - m_attackAABB.width) - m_attackAABBOffset.x :
-						(m_AABB.left + m_AABB.width) + m_attackAABBOffset.x;
-	//y
-	m_attackAABB.top = m_AABB.top + m_attackAABBOffset.y;
-}
+//void Character::UpdateAttackAABB()
+//{
+//	//x
+//	m_attackAABB.left = m_spriteSheet.GetDirection() == Direction::Left ? 
+//						(m_AABB.left - m_attackAABB.width) - m_attackAABBOffset.x :
+//						(m_AABB.left + m_AABB.width) + m_attackAABBOffset.x;
+//	//y
+//	m_attackAABB.top = m_AABB.top + m_attackAABBOffset.y;
+//}
 
 void Character::Animate()
 {
@@ -268,11 +275,11 @@ void Character::Animate()
 		m_spriteSheet.SetAnimation("Walk", true, true);
 	}
 	else
-	if (state == EntityState::Jumping && m_spriteSheet.GetCurrentAnimation()->GetName() != "Jump")
-	{
-		m_spriteSheet.SetAnimation("Jump", true, false);
-	}
-	else
+	//if (state == EntityState::Jumping && m_spriteSheet.GetCurrentAnimation()->GetName() != "Jump")
+	//{
+	//	m_spriteSheet.SetAnimation("Jump", true, false);
+	//}
+	//else
 	if (state == EntityState::Attacking && m_spriteSheet.GetCurrentAnimation()->GetName() != "Attack")
 	{
 		m_spriteSheet.SetAnimation("Attack", true, false);

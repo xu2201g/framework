@@ -2,6 +2,7 @@
 #include "Character.h"
 #include "Enemy.h"
 #include "Player.h"
+#include "Rocket.h"
 
 EntityManager::EntityManager(SharedContext* pSharedContext, unsigned int maxEntities)
 	:
@@ -13,6 +14,7 @@ EntityManager::EntityManager(SharedContext* pSharedContext, unsigned int maxEnti
 
 	RegisterEntity<Player>(EntityType::Player);
 	RegisterEntity<Enemy>(EntityType::Enemy);
+	RegisterEntity<Rocket>(EntityType::Rocket);
 }
 
 EntityManager::~EntityManager()
@@ -240,7 +242,8 @@ void EntityManager::EntityCollisionCheck()
 				//cast entity as character to get access to the attackAABB
 				Character* cA = (Character*)itrA->second.get();
 
-				if (cA->m_attackAABB.intersects(itrB->second->m_AABB))
+				//if (cA->m_attackAABB.intersects(itrB->second->m_AABB))
+				if (cA->m_AABB.intersects(itrB->second->m_AABB)) //direct collision hurts each other
 				{
 					//attackAABB of intersects with AABB of B 
 					cA->OnEntityCollision(itrB->second.get(), true);
@@ -253,7 +256,8 @@ void EntityManager::EntityCollisionCheck()
 				//cast entity as character to get access to the attackAABB
 				Character* cB = (Character*)itrB->second.get();
 
-				if (cB->m_attackAABB.intersects(itrA->second->m_AABB))
+				//if (cB->m_attackAABB.intersects(itrA->second->m_AABB))
+				if (cB->m_AABB.intersects(itrA->second->m_AABB))
 				{
 					//attackAABB of intersects with AABB of B 
 					cB->OnEntityCollision(itrA->second.get(), true);

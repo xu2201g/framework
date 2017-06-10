@@ -14,7 +14,10 @@ Player::Player(EntityManager* pEntityManager)
 
 	pEventMgr->AddCallback<Player>(StateType::Game, "Player_MoveLeft", &Player::React, this);
 	pEventMgr->AddCallback<Player>(StateType::Game, "Player_MoveRight", &Player::React, this);
-	pEventMgr->AddCallback<Player>(StateType::Game, "Player_Jump", &Player::React, this);
+	pEventMgr->AddCallback<Player>(StateType::Game, "Player_MoveUp", &Player::React, this);
+	pEventMgr->AddCallback<Player>(StateType::Game, "Player_MoveDown", &Player::React, this);
+
+	//pEventMgr->AddCallback<Player>(StateType::Game, "Player_Jump", &Player::React, this);
 	pEventMgr->AddCallback<Player>(StateType::Game, "Player_Attack", &Player::React, this);
 }
 
@@ -82,11 +85,20 @@ void Player::React(EventDetails* pDetails)
 		Character::Move(Direction::Right);
 	}
 	else 
-	if (pDetails->m_name == "Player_Jump") 
+	if (pDetails->m_name == "Player_MoveUp") 
 	{
-		Character::Jump();
+		Character::Move(Direction::Up);
 	}
-	else 
+	else
+	if (pDetails->m_name == "Player_MoveDown") 
+	{
+		Character::Move(Direction::Down);
+	}
+	//if (pDetails->m_name == "Player_Jump") 
+	//{
+	//	Character::Jump();
+	//}
+	//else 
 	if (pDetails->m_name == "Player_Attack")
 	{
 		Character::Attack();
