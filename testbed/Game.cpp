@@ -5,7 +5,7 @@
 
 Game::Game()
 	:
-	m_window("Snake", WINDOW_SIZE),
+	m_window("SideScroller", WINDOW_SIZE),
 	m_seed(time(nullptr)),
 	m_stateManager(&m_sharedContext),
 	m_textureManager(),
