@@ -16,8 +16,8 @@ Projectile::~Projectile()
 
 void Projectile::Move()
 {
-	float speed = sqrt(m_speed.x * m_speed.x + m_speed.y + m_speed.y); //maybe a bit overkill here
-	Accelerate(speed * m_direction.x, speed * m_direction.y);
+	//float speed = sqrt(m_speed.x * m_speed.x + m_speed.y + m_speed.y); //maybe a bit overkill here
+	//Accelerate(speed * m_direction.x, speed * m_direction.y);
 }
 
 void Projectile::OnImpact()
@@ -84,12 +84,19 @@ void Projectile::OnImpact()
 //	file.close();
 //}
 
-
-
 void Projectile::Update(float dT)
 {
 	EntityBase::Update(dT);
 
+	//check out of bounds
+	sf::FloatRect viewSpace = m_pEntityManager->GetContext()->m_pWindow->GetViewSpace();
+		
+	if (m_position.x <= viewSpace.left || m_position.x >= viewSpace.left + viewSpace.width ||
+		m_position.y <= viewSpace.top || m_position.y >= viewSpace.top + viewSpace.height)
+	{
+		SetState(EntityState::Dying);
+	}
+	
 	if (GetState() == EntityState::Dying)
 	{
 		if (!m_spriteSheet.GetCurrentAnimation()->IsPlaying()) //animation is done

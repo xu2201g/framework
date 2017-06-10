@@ -13,6 +13,12 @@ Rocket::Rocket(EntityManager* pEntityManager)
 	m_sizeCB.y = 32.0f;
 
 	UpdateAABB();
+
+	//m_velocity.x = +100.0f;
+	m_velocity.y = -100.0f;
+
+	m_maxVelocity.x = 100.0f;
+	m_maxVelocity.y = 100.0f;
 }
 
 Rocket::~Rocket()
@@ -32,4 +38,6 @@ void Rocket::OnEntityCollision(EntityBase* pCollider, bool attack)
 void Rocket::Update(float dT)
 {
 	Projectile::Update(dT);
+
+	Move();
 }
