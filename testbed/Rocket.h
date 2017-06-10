@@ -14,7 +14,11 @@ public:
 
 	void Update(float dT);
 
+	void SetRotation(float angle);
+
 private:
 
 	sf::Vector2f m_destination;
+
+	float m_angle;
 };

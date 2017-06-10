@@ -1,5 +1,6 @@
 #include "Character.h"
 #include "EntityManager.h"
+#include "Rocket.h"
 
 Character::Character(EntityManager* pEntityManager)
 	:
@@ -65,7 +66,7 @@ void Character::Move(const Direction& direction)
 //	AddVelocity(0, -m_jumpVelocity);
 //}
 
-void Character::Attack() //replaced by fire
+void Character::Attack() 
 {
 	if (GetState() == EntityState::Dying ||		//cant attack while dying, jumping, getting hurt or attacking
 		//GetState() == EntityState::Jumping ||
@@ -82,14 +83,18 @@ void Character::Attack() //replaced by fire
 	EntityManager* pEntityMgr = m_pEntityManager->GetContext()->m_pEntityManager;
 	int id = pEntityMgr->Add(EntityType::Rocket, "ROCKET");
 
-	EntityBase* pRocket = pEntityMgr->Find(id);
-	if (pRocket)
+	EntityBase* pEntity = pEntityMgr->Find(id);
+	if (pEntity)
 	{
-		pRocket->SetPosition(m_position.x + 32.0f, m_position.y);
-		pRocket->AddVelocity(100.0f, 0.0f);
+		Rocket* pRocket = (Rocket*)pEntity;
+		//check for player or enemy firing the rocket
+		if (m_type == EntityType::Player)
+		{
+			pRocket->SetRotation(180.0f);
+			pRocket->SetPosition(m_position.x + 32.0f, m_position.y);
+			pRocket->AddVelocity(100.0f, 0.0f);
+		}
 	}
-
-
 }
 
 void Character::GetHurt(const int& damage) //ll be adjusted soon

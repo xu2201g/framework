@@ -37,6 +37,11 @@ public:
 	void Update(const float& dT);
 	void Draw(sf::RenderWindow* pWindow);
 
+	sf::Sprite* GetSprite()
+	{
+		return &m_sprite;
+	}
+
 private:
 
 	std::string m_texture;

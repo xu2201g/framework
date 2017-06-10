@@ -6,6 +6,7 @@ Rocket::Rocket(EntityManager* pEntityManager)
 	Projectile(pEntityManager)
 {
 	m_type = EntityType::Rocket;
+	m_state = EntityState::Idle;
 	m_position.x = 64.0f;
 	m_position.y = 576.0f;
 	
@@ -16,6 +17,14 @@ Rocket::Rocket(EntityManager* pEntityManager)
 
 	m_maxVelocity.x = 100.0f;
 	m_maxVelocity.y = 100.0f;
+
+	m_angle = 0.0f;
+
+	sf::Sprite* pSprite = m_spriteSheet.GetSprite();
+	sf::Vector2f origin = pSprite->getOrigin();
+
+	pSprite->setOrigin(pSprite->getLocalBounds().width / 2.0f, pSprite->getLocalBounds().height / 2.0f);
+
 }
 
 //Rocket::Rocket(EntityManager* pEntityManager, sf::Vector2f direction, sf::Vector2f position)
@@ -53,5 +62,15 @@ void Rocket::Update(float dT)
 {
 	Projectile::Update(dT);
 
+
+	//rotate around the center of the sprite
+	m_spriteSheet.GetSprite()->setRotation(m_angle);
+
+
 	Move();
+}
+
+void Rocket::SetRotation(float angle)
+{
+	m_angle = angle;
 }
