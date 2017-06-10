@@ -232,37 +232,37 @@ void EntityManager::EntityCollisionCheck()
 				itrB->second->OnEntityCollision(itrA->second.get(), false);
 			}
 
-			//attack AABB collision
-			EntityType typeA = itrA->second->GetType();
-			EntityType typeB = itrB->second->GetType();
+			////attack AABB collision
+			//EntityType typeA = itrA->second->GetType();
+			//EntityType typeB = itrB->second->GetType();
 
-			//entity A
-			if (typeA == EntityType::Player || typeA == EntityType::Enemy)
-			{
-				//cast entity as character to get access to the attackAABB
-				Character* cA = (Character*)itrA->second.get();
+			////entity A
+			//if (typeA == EntityType::Player || typeA == EntityType::Enemy)
+			//{
+			//	//cast entity as character to get access to the attackAABB
+			//	Character* cA = (Character*)itrA->second.get();
 
-				//if (cA->m_attackAABB.intersects(itrB->second->m_AABB))
-				if (cA->m_AABB.intersects(itrB->second->m_AABB)) //direct collision hurts each other
-				{
-					//attackAABB of intersects with AABB of B 
-					cA->OnEntityCollision(itrB->second.get(), true);
-				}
-			}
+			//	//if (cA->m_attackAABB.intersects(itrB->second->m_AABB))
+			//	if (cA->m_AABB.intersects(itrB->second->m_AABB)) //direct collision hurts each other
+			//	{
+			//		//attackAABB of intersects with AABB of B 
+			//		cA->OnEntityCollision(itrB->second.get(), true);
+			//	}
+			//}
 
-			//entity B
-			if (typeB == EntityType::Player || typeB == EntityType::Enemy)
-			{
-				//cast entity as character to get access to the attackAABB
-				Character* cB = (Character*)itrB->second.get();
+			////entity B
+			//if (typeB == EntityType::Player || typeB == EntityType::Enemy)
+			//{
+			//	//cast entity as character to get access to the attackAABB
+			//	Character* cB = (Character*)itrB->second.get();
 
-				//if (cB->m_attackAABB.intersects(itrA->second->m_AABB))
-				if (cB->m_AABB.intersects(itrA->second->m_AABB))
-				{
-					//attackAABB of intersects with AABB of B 
-					cB->OnEntityCollision(itrA->second.get(), true);
-				}
-			}
+			//	//if (cB->m_attackAABB.intersects(itrA->second->m_AABB))
+			//	if (cB->m_AABB.intersects(itrA->second->m_AABB))
+			//	{
+			//		//attackAABB of intersects with AABB of B 
+			//		cB->OnEntityCollision(itrA->second.get(), true);
+			//	}
+			//}
 		}
 	}
 }

@@ -21,22 +21,12 @@ Rocket::~Rocket()
 
 void Rocket::OnEntityCollision(EntityBase* pCollider, bool attack)
 {
-}
-
-void Rocket::OnEntityCollision(EntityBase* pCollider)
-{
 	if (m_state == EntityState::Dying)
 	{
 		return;
 	}
 
-	if (pCollider->GetType() == EntityType::Player) //colliding with the player so reduce his hp
-	{
-		Character* pPlayer = (Character*)pCollider; 
-		pPlayer->GetHurt(1);
-	}
-
-	OnImpact(); 
+	OnImpact();
 }
 
 void Rocket::Update(float dT)

@@ -11,7 +11,6 @@ public:
 	~Rocket();
 
 	void OnEntityCollision(EntityBase* pCollider, bool attack);
-	void OnEntityCollision(EntityBase* pCollider);
 
 	void Update(float dT);
 

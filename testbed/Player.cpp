@@ -33,44 +33,66 @@ Player::~Player()
 
 void Player::OnEntityCollision(EntityBase* pCollider, bool attack)
 {
-	if (m_state == EntityState::Dying)
+	if (m_state != EntityState::Dying) //apply knockback even if the playership is already exploding
 	{
-		return;
+		GetHurt(1); //take damage from all collisions for now - ll be adjusted when powerups re implemented
+	}	
+
+	//apply knockback 	
+	float knockbackVelocity = 8.0f;
+	//x
+	if (m_position.x > pCollider->GetPosition().x)
+	{
+		AddVelocity(knockbackVelocity, 0.0f);
+	}
+	else
+	{
+		AddVelocity(-knockbackVelocity, 0.0f);
 	}
 
-	if (attack)
+	//y
+	if (m_position.y > pCollider->GetPosition().y)
 	{
-		if (m_state != EntityState::Attacking)
-		{
-			return;
-		}
-
-		if (!m_spriteSheet.GetCurrentAnimation()->IsInAction())
-		{
-			return;
-		}
-
-		if (pCollider->GetType() != EntityType::Enemy &&
-			pCollider->GetType() != EntityType::Player)
-		{
-			return;
-		}
-
-		Character* pOpponent = (Character*)pCollider;
-
-		//apply dmg
-		pOpponent->GetHurt(1); 
-
-		//apply knockback
-		if (m_position.x > pOpponent->GetPosition().x)
-		{
-			pOpponent->AddVelocity(-32.0f, 0.0f);
-		}
-		else
-		{
-			pOpponent->AddVelocity(32.0f, 0.0f);
-		}
+		AddVelocity(0.0f, knockbackVelocity);
 	}
+	else
+	{
+		AddVelocity(0.0f, -knockbackVelocity);
+	}
+
+	//if (attack)
+	//{
+	//	if (m_state != EntityState::Attacking)
+	//	{
+	//		return;
+	//	}
+
+	//	if (!m_spriteSheet.GetCurrentAnimation()->IsInAction())
+	//	{
+	//		return;
+	//	}
+
+	//	if (pCollider->GetType() != EntityType::Enemy &&
+	//		pCollider->GetType() != EntityType::Player)
+	//	{
+	//		return;
+	//	}
+
+	//	Character* pOpponent = (Character*)pCollider;
+
+	//	//apply dmg
+	//	pOpponent->GetHurt(1); 
+
+	//	//apply knockback
+	//	if (m_position.x > pOpponent->GetPosition().x)
+	//	{
+	//		pOpponent->AddVelocity(-32.0f, 0.0f);
+	//	}
+	//	else
+	//	{
+	//		pOpponent->AddVelocity(32.0f, 0.0f);
+	//	}
+	//}
 }
 
 void Player::React(EventDetails* pDetails)

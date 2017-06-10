@@ -19,7 +19,6 @@ public:
 	void OnImpact();
 
 	virtual void OnEntityCollision(EntityBase* pCollider, bool attack) = 0; //not used in here and too lazy to adjust the inheritance atm
-	virtual void OnEntityCollision(EntityBase* pCollider) = 0;
 	virtual void Update(float dT);
 
 	void Draw(sf::RenderWindow* pWindow);
