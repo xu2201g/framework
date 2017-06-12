@@ -14,8 +14,8 @@ Rocket::Rocket(EntityManager* pEntityManager)
 	m_position.x = 64.0f;
 	m_position.y = 576.0f;
 	
-	m_sizeCB.x = 32.0f;
-	m_sizeCB.y = 32.0f;
+	m_sizeCB.x = 26.0f;
+	m_sizeCB.y =  9.0f;
 
 	UpdateAABB();
 
