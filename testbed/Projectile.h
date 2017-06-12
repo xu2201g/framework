@@ -22,7 +22,8 @@ public:
 	virtual void Update(float dT);
 
 	void Draw(sf::RenderWindow* pWindow);
-
+	void SetRotation(float angle);
+	
 protected:
 
 	void Animate();
@@ -30,4 +31,6 @@ protected:
 	SpriteSheet m_spriteSheet;
 
 	sf::Vector2f m_direction;
+
+	float m_angle;
 };

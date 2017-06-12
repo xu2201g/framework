@@ -352,7 +352,7 @@ void EntityBase::ResolveCollisions()
 	if (!m_collisions.empty())
 	{
 		//rockets colliding with gamemap tiles explode
-		if (m_type == EntityType::Rocket)
+		if (m_type == EntityType::Rocket || m_type == EntityType::Bolt)
 		{
 			SetState(EntityState::Dying);
 		}

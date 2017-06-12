@@ -3,6 +3,7 @@
 #include "Enemy.h"
 #include "Player.h"
 #include "Rocket.h"
+#include "Bolt.h"
 
 EntityManager::EntityManager(SharedContext* pSharedContext, unsigned int maxEntities)
 	:
@@ -15,6 +16,7 @@ EntityManager::EntityManager(SharedContext* pSharedContext, unsigned int maxEnti
 	RegisterEntity<Player>(EntityType::Player);
 	RegisterEntity<Enemy>(EntityType::Enemy);
 	RegisterEntity<Rocket>(EntityType::Rocket);
+	RegisterEntity<Bolt>(EntityType::Bolt);
 }
 
 EntityManager::~EntityManager()

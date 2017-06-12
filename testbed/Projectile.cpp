@@ -8,7 +8,7 @@ Projectile::Projectile(EntityManager* pEntityManager)
 	m_spriteSheet(pEntityManager->GetContext()->m_pTextureManager),
 	m_direction(-1.0f, 0.0f)
 {
-	m_spriteSheet.LoadSheet("..//..//testbed//assets//spritesheets//Rocket.SHEET");
+	
 }
 
 Projectile::~Projectile()
@@ -137,4 +137,9 @@ void Projectile::Animate()
 	{
 		m_spriteSheet.SetAnimation("Idle", true, true);
 	}
+}
+
+void Projectile::SetRotation(float angle)
+{
+	m_angle = angle;
 }

@@ -19,6 +19,7 @@ Player::Player(EntityManager* pEntityManager)
 
 	//pEventMgr->AddCallback<Player>(StateType::Game, "Player_Jump", &Player::React, this);
 	pEventMgr->AddCallback<Player>(StateType::Game, "Player_Attack", &Player::React, this);
+	pEventMgr->AddCallback<Player>(StateType::Game, "Player_AttackFast", &Player::React, this);
 }
 
 Player::~Player()
@@ -31,22 +32,23 @@ Player::~Player()
 	pEventMgr->RemoveCallback(StateType::Game, "Player_MoveDown");
 	//pEventMgr->RemoveCallback(StateType::Game, "Player_Jump");
 	pEventMgr->RemoveCallback(StateType::Game, "Player_Attack");
+	pEventMgr->RemoveCallback(StateType::Game, "Player_AttackFast");
 }
 
 void Player::OnEntityCollision(EntityBase* pCollider, bool attack)
 {
-	if (m_state == EntityState::Dying) //apply knockback even if the playership is already exploding
+	if (m_state == EntityState::Dying || pCollider->GetState() == EntityState::Dying) //apply knockback even if the playership is already exploding
 	{
 		return; 
 	}	
 
 	GetHurt(1);//take damage from all collisions for now - ll be adjusted when powerups re implemented
 
-	if (m_state == EntityState::Dying) //apply knockback even if the playership is already exploding
-	{
-		//SetVelocity(0.0f, 0.0f);
-		return;
-	}
+	//if (m_state == EntityState::Dying) //apply knockback even if the playership is already exploding
+	//{
+	//	//SetVelocity(0.0f, 0.0f);
+	//	return;
+	//}
 
 	//apply knockback 	
 	float knockbackVelocity = 8.0f;
@@ -132,9 +134,14 @@ void Player::React(EventDetails* pDetails)
 	//{
 	//	Character::Jump();
 	//}
-	//else 
+	else 
 	if (pDetails->m_name == "Player_Attack")
 	{
 		Character::Attack();
+	}
+	else 
+	if (pDetails->m_name == "Player_AttackFast")
+	{
+		Character::AttackFast();
 	}
 }

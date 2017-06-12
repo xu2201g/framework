@@ -2,21 +2,19 @@
 
 #include "Projectile.h"
 
-class Rocket : public Projectile
+class Bolt : public Projectile
 {
 
 public:
 
-	Rocket(EntityManager* pEntityManager);
-	~Rocket();
+	Bolt(EntityManager* pEntityManager);
+	~Bolt();
 
 	void OnEntityCollision(EntityBase* pCollider, bool attack);
 	void OnImpact(EntityBase* pCollider);
 
 	void Update(float dT);
-
+	
 private:
-
-	sf::Vector2f m_destination;
 
 };

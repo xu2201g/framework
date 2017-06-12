@@ -9,7 +9,8 @@ enum class EntityType
 	Enemy,
 	Player,
 
-	Rocket
+	Rocket,
+	Bolt
 };
 
 enum class EntityState
@@ -18,6 +19,7 @@ enum class EntityState
 	Walking,
 	Jumping,
 	Attacking,
+	AttackingFast,
 	Hurt,
 	Dying
 };

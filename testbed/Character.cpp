@@ -1,13 +1,15 @@
 #include "Character.h"
 #include "EntityManager.h"
 #include "Rocket.h"
+#include "Bolt.h"
 
 Character::Character(EntityManager* pEntityManager)
 	:
 	EntityBase(pEntityManager),
 	m_spriteSheet(pEntityManager->GetContext()->m_pTextureManager),
 	//m_jumpVelocity(250),
-	m_hitpoints(5)	
+	m_hitpoints(5),
+	m_fireMode(FireMode::Insane)
 {
 	m_name = "Character";
 }
@@ -102,6 +104,67 @@ void Character::Attack()
 			pRocket->AddVelocity(-200.0f, 0.0f);
 		}
 	}
+}
+
+void Character::AttackFast()
+{
+	if (GetState() == EntityState::Dying ||		//cant attack while dying, jumping, getting hurt or attacking
+												//GetState() == EntityState::Jumping ||
+												//GetState() == EntityState::Hurt ||
+		GetState() == EntityState::AttackingFast ||
+		GetState() == EntityState::Attacking)
+	{
+		return;
+	}
+
+	//update the state
+	SetState(EntityState::AttackingFast); //this is enough cause this "flag" ll be checked in the onentitycollision functions to perform actually an attack 
+
+	
+	//fire projectiles
+	EntityManager* pEntityMgr = m_pEntityManager->GetContext()->m_pEntityManager;
+	int i = 0;
+	do
+	{ 
+		int id = pEntityMgr->Add(EntityType::Bolt, "BOLT");
+
+		EntityBase* pEntity = pEntityMgr->Find(id);
+		if (pEntity)
+		{
+			Bolt* pBolt = (Bolt*)pEntity;
+
+			//check for player or enemy firing the rocket
+			if (m_type == EntityType::Player)
+			{
+				switch(i)
+				{ 
+				case 0:
+					pBolt->SetRotation(180.0f);
+					pBolt->SetPosition(m_position.x + (float)Sheet::Tile_Size, m_position.y);
+					pBolt->AddVelocity(400.0f, 0.0f);
+					break;
+				case 1:
+					pBolt->SetRotation(180.0f);
+					pBolt->SetPosition(m_position.x + (float)Sheet::Tile_Size, m_position.y);
+					pBolt->AddVelocity(300.0f, 100.0f);
+					break;
+				case 2:
+					pBolt->SetRotation(180.0f);
+					pBolt->SetPosition(m_position.x + (float)Sheet::Tile_Size, m_position.y);
+					pBolt->AddVelocity(300.0f, -100.0f);
+					break;
+				}
+				
+			}
+			else
+			if (m_type == EntityType::Enemy)
+			{
+				pBolt->SetPosition(m_position.x - (float)Sheet::Tile_Size, m_position.y);
+				pBolt->AddVelocity(-400.0f, 0.0f);
+			}
+		}
+		++i;
+	} while (i <= (int)m_fireMode);
 }
 
 void Character::GetHurt(const int& damage) //ll be adjusted soon
@@ -213,7 +276,7 @@ void Character::Update(float dT)
 	//}
 
 	//update enitystate
-	if (GetState() != EntityState::Dying && GetState() != EntityState::Attacking && GetState() != EntityState::Hurt)
+	if (GetState() != EntityState::Dying && GetState() != EntityState::Attacking && GetState() != EntityState::AttackingFast && GetState() != EntityState::Hurt)
 	{
 		
 		//if (abs(m_velocity.y) > 0.001f) //jumping 
@@ -221,17 +284,17 @@ void Character::Update(float dT)
 		//	SetState(EntityState::Jumping);
 		//}
 		//else
-		if (abs(m_velocity.x) > 0.1f || abs(m_velocity.y)) //walking
-		{
-			SetState(EntityState::Walking);
-		}
-		else
+		//if (abs(m_velocity.x) > 0.1f || abs(m_velocity.y)) //walking
+		//{
+		//	SetState(EntityState::Walking);
+		//}
+		//else
 		{
 			SetState(EntityState::Idle); //idle
 		}
 	}
 	else
-	if (GetState() == EntityState::Attacking || GetState() == EntityState::Hurt)
+	if (GetState() == EntityState::Attacking || GetState() == EntityState::Hurt || GetState() == EntityState::AttackingFast)
 	{
 		if (!m_spriteSheet.GetCurrentAnimation()->IsPlaying()) //animation is done
 		{
@@ -308,6 +371,11 @@ void Character::Animate()
 	if (state == EntityState::Attacking && m_spriteSheet.GetCurrentAnimation()->GetName() != "Attack")
 	{
 		m_spriteSheet.SetAnimation("Attack", true, false);
+	}
+	else
+	if (state == EntityState::AttackingFast && m_spriteSheet.GetCurrentAnimation()->GetName() != "AttackFast")
+	{
+		m_spriteSheet.SetAnimation("AttackFast", true, false);
 	}
 	else
 	if (state == EntityState::Hurt && m_spriteSheet.GetCurrentAnimation()->GetName() != "Hurt")

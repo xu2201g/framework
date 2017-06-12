@@ -4,6 +4,13 @@
 #include "Directions.h"
 #include "SpriteSheet.h"
 
+enum class FireMode
+{
+	Normal,
+	Advanced,
+	Insane
+};
+
 class Character : public EntityBase
 {
 	friend class EntityManager;
@@ -16,6 +23,7 @@ public:
 	void Move(const Direction& direction);
 	//void Jump();
 	void Attack();
+	void AttackFast();
 	void GetHurt(const int& damage);
 
 	void Load(const std::string& path);
@@ -38,5 +46,7 @@ protected:
 
 	//sf::FloatRect m_attackAABB;
 	//sf::Vector2f m_attackAABBOffset;
+
+	FireMode m_fireMode;
 
 };

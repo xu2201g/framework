@@ -119,6 +119,7 @@
   <ItemGroup>
     <ClCompile Include="Animation_Base.cpp" />
     <ClCompile Include="Animation_Directional.cpp" />
+    <ClCompile Include="Bolt.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EntityBase.cpp" />
@@ -145,6 +146,7 @@
     <ClInclude Include="Animation_Base.h" />
     <ClInclude Include="Animation_Directional.h" />
     <ClInclude Include="BaseState.h" />
+    <ClInclude Include="Bolt.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="Directions.h" />
     <ClInclude Include="Enemy.h" />

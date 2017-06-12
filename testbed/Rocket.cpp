@@ -7,6 +7,8 @@ Rocket::Rocket(EntityManager* pEntityManager)
 	:
 	Projectile(pEntityManager)
 {
+	m_spriteSheet.LoadSheet("../../testbed/assets/spritesheets/Rocket.SHEET");
+
 	m_type = EntityType::Rocket;
 	m_state = EntityState::Idle;
 	m_position.x = 64.0f;
@@ -102,7 +104,4 @@ void Rocket::Update(float dT)
 	Move();
 }
 
-void Rocket::SetRotation(float angle)
-{
-	m_angle = angle;
-}
+
