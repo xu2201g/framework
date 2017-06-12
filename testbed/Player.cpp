@@ -20,6 +20,8 @@ Player::Player(EntityManager* pEntityManager)
 	//pEventMgr->AddCallback<Player>(StateType::Game, "Player_Jump", &Player::React, this);
 	pEventMgr->AddCallback<Player>(StateType::Game, "Player_Attack", &Player::React, this);
 	pEventMgr->AddCallback<Player>(StateType::Game, "Player_AttackFast", &Player::React, this);
+	pEventMgr->AddCallback<Player>(StateType::Game, "Player_ToggleFireMode", &Player::ToggleFireMode, this);
+	
 }
 
 Player::~Player()
@@ -33,6 +35,7 @@ Player::~Player()
 	//pEventMgr->RemoveCallback(StateType::Game, "Player_Jump");
 	pEventMgr->RemoveCallback(StateType::Game, "Player_Attack");
 	pEventMgr->RemoveCallback(StateType::Game, "Player_AttackFast");
+	pEventMgr->RemoveCallback(StateType::Game, "Player_ToggleFireMode");
 }
 
 void Player::OnEntityCollision(EntityBase* pCollider, bool attack)
@@ -144,4 +147,16 @@ void Player::React(EventDetails* pDetails)
 	{
 		Character::AttackFast();
 	}
+}
+
+void Player::ToggleFireMode(EventDetails* pDetails)
+{
+	
+	int x = (int)m_fireMode;
+	++x;
+	int y = x % (int)FireMode::Count;
+
+	m_fireMode = (FireMode)y;
+
+	std::cout << "TOGGLE FIREMODE TO " << (int) m_fireMode << std::endl;
 }

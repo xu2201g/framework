@@ -9,7 +9,7 @@ Character::Character(EntityManager* pEntityManager)
 	m_spriteSheet(pEntityManager->GetContext()->m_pTextureManager),
 	//m_jumpVelocity(250),
 	m_hitpoints(5),
-	m_fireMode(FireMode::Insane)
+	m_fireMode(FireMode::Normal)
 {
 	m_name = "Character";
 }
@@ -123,9 +123,8 @@ void Character::AttackFast()
 	
 	//fire projectiles
 	EntityManager* pEntityMgr = m_pEntityManager->GetContext()->m_pEntityManager;
-	int i = 0;
-	do
-	{ 
+	//normal mode
+	{
 		int id = pEntityMgr->Add(EntityType::Bolt, "BOLT");
 
 		EntityBase* pEntity = pEntityMgr->Find(id);
@@ -136,35 +135,77 @@ void Character::AttackFast()
 			//check for player or enemy firing the rocket
 			if (m_type == EntityType::Player)
 			{
-				switch(i)
-				{ 
-				case 0:
-					pBolt->SetRotation(180.0f);
-					pBolt->SetPosition(m_position.x + (float)Sheet::Tile_Size, m_position.y);
-					pBolt->AddVelocity(400.0f, 0.0f);
-					break;
-				case 1:
-					pBolt->SetRotation(180.0f);
-					pBolt->SetPosition(m_position.x + (float)Sheet::Tile_Size, m_position.y);
-					pBolt->AddVelocity(300.0f, 100.0f);
-					break;
-				case 2:
-					pBolt->SetRotation(180.0f);
-					pBolt->SetPosition(m_position.x + (float)Sheet::Tile_Size, m_position.y);
-					pBolt->AddVelocity(300.0f, -100.0f);
-					break;
+				pBolt->SetRotation(180.0f);
+				pBolt->SetPosition(m_position.x + (float)Sheet::Tile_Size, m_position.y);
+				pBolt->AddVelocity(400.0f, 0.0f);
+			}
+			else
+				if (m_type == EntityType::Enemy)
+				{
+					pBolt->SetPosition(m_position.x - (float)Sheet::Tile_Size, m_position.y);
+					pBolt->AddVelocity(-400.0f, 0.0f);
 				}
-				
+
+		}
+	}
+
+	//advanced
+	if((int)m_fireMode >= 1)
+	for (int i = 0; i < 2; ++i)
+	{		
+		int id = pEntityMgr->Add(EntityType::Bolt, "BOLT");
+
+		int sign = i == 0 ? 1 : -1; //map 0,1 onto 1,-1
+
+		EntityBase* pEntity = pEntityMgr->Find(id);
+		if (pEntity)
+		{
+			Bolt* pBolt = (Bolt*)pEntity;
+
+			//check for player or enemy firing the rocket
+			if (m_type == EntityType::Player)
+			{
+				pBolt->SetRotation(180.0f);
+				pBolt->SetPosition(m_position.x + (float)Sheet::Tile_Size, m_position.y);
+				pBolt->AddVelocity(300.0f, sign * 100.0f);
 			}
 			else
 			if (m_type == EntityType::Enemy)
 			{
 				pBolt->SetPosition(m_position.x - (float)Sheet::Tile_Size, m_position.y);
-				pBolt->AddVelocity(-400.0f, 0.0f);
+				pBolt->AddVelocity(-300.0f, sign * 100.0f);
 			}
 		}
-		++i;
-	} while (i <= (int)m_fireMode);
+	}
+
+	//insane
+	if ((int)m_fireMode >= 2)
+	for (int i = 0; i < 2; ++i)
+	{		
+		int id = pEntityMgr->Add(EntityType::Bolt, "BOLT");
+
+		int sign = i == 0 ? 1 : -1; //map 0,1 onto 1,-1
+
+		EntityBase* pEntity = pEntityMgr->Find(id);
+		if (pEntity)
+		{
+			Bolt* pBolt = (Bolt*)pEntity;
+
+			//check for player or enemy firing the rocket
+			if (m_type == EntityType::Player)
+			{
+				pBolt->SetRotation(180.0f);
+				pBolt->SetPosition(m_position.x + (float)Sheet::Tile_Size, m_position.y);
+				pBolt->AddVelocity(100.0f, sign * 150.0f);
+			}
+			else
+			if (m_type == EntityType::Enemy)
+			{
+				pBolt->SetPosition(m_position.x - (float)Sheet::Tile_Size, m_position.y);
+				pBolt->AddVelocity(-100.0f, sign * 150.0f);
+			}
+		}
+	}
 }
 
 void Character::GetHurt(const int& damage) //ll be adjusted soon

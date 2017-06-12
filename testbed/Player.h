@@ -12,5 +12,5 @@ public:
 
 	void OnEntityCollision(EntityBase* pCollider, bool attack);
 	void React(EventDetails* pDetails);
-
+	void ToggleFireMode(EventDetails* pDetails);
 };

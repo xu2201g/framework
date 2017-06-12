@@ -8,7 +8,10 @@ enum class FireMode
 {
 	Normal,
 	Advanced,
-	Insane
+	Insane,
+
+
+	Count
 };
 
 class Character : public EntityBase
