@@ -37,6 +37,8 @@ public:
 
 	void Draw(sf::RenderWindow* pWindow);
 
+	
+
 protected:
 
 	//void UpdateAttackAABB();

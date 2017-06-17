@@ -4,11 +4,13 @@
 #include <memory>
 #include <thread>
 #include <chrono>
+#include <memory>
+
 
 #include "TextureManager.h"
 
 //relative path used almost everywhere
-//..//..//testbed//assets//
+//../../testbed/assets/
 
 void test();
 
@@ -33,6 +35,22 @@ public:
 
 int main(int argc, char** argv)
 {
+
+	foo f1(1);
+	foo f2(2);
+
+	foo* pRaw1;
+	foo* pRaw2;
+
+	std::shared_ptr<foo> p1(std::make_shared<foo>(f1));	
+	pRaw1 = p1.get();
+
+	std::shared_ptr<foo> p2 = std::move(p1);
+	pRaw2 = p2.get();
+
+
+	std::cout << "p1Raw1: " << pRaw1 << std::endl;
+	std::cout << "p2Raw2: " << pRaw2 << std::endl;
 	//
 	//foo* pfoo;
 	//StoresMap* pMap;

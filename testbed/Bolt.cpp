@@ -43,7 +43,8 @@ void Bolt::OnEntityCollision(EntityBase* pCollider, bool attack)
 		return;
 	}
 
-	if (pCollider->GetType() == EntityType::Bolt)
+	if (pCollider->GetType() == EntityType::Bolt || //no collision with bolts
+		pCollider->GetType() == EntityType::PowerUp) //no collision with powerups
 	{
 		return;
 	}

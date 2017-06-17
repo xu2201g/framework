@@ -60,6 +60,11 @@ void Rocket::OnEntityCollision(EntityBase* pCollider, bool attack)
 		return;
 	}
 
+	if (pCollider->GetType() == EntityType::PowerUp) //no collision with powerups
+	{
+		return;
+	}
+
 	OnImpact(pCollider);
 }
 

@@ -113,7 +113,6 @@ void Player::OnEntityCollision(EntityBase* pCollider, bool attack)
 void Player::React(EventDetails* pDetails)
 {
 
-
 	if (pDetails->m_name == "Player_MoveLeft") 
 	{
 		Character::Move(Direction::Left);
@@ -150,8 +149,7 @@ void Player::React(EventDetails* pDetails)
 }
 
 void Player::ToggleFireMode(EventDetails* pDetails)
-{
-	
+{	
 	int x = (int)m_fireMode;
 	++x;
 	int y = x % (int)FireMode::Count;
@@ -159,4 +157,19 @@ void Player::ToggleFireMode(EventDetails* pDetails)
 	m_fireMode = (FireMode)y;
 
 	std::cout << "TOGGLE FIREMODE TO " << (int) m_fireMode << std::endl;
+}
+
+void Player::IncreaseFireMode()
+{
+	if ((int)m_fireMode == (int)FireMode::Count - 1)
+	{
+		return; //already maxed out
+	}
+
+	m_fireMode = (FireMode)((int)m_fireMode +1);
+}
+
+void Player::ResetFiremode()
+{
+	m_fireMode = FireMode::Normal;
 }

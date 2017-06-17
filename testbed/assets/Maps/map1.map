@@ -1,13 +1,18 @@
 |type|~id|x|y|
 BACKGROUND Bg3
-SIZE 99 34
+|grid coordinates
+SIZE 100 34
+|32*gridcoordinates = pixelcoordinates related to the window 
 GRAVITY 0
 SCROLLPIXELPERSECOND 10
 DEFAULT_FRICTION 0.3 0.3
 NEXTMAP map2.map
+|entities positions defined in pixel coordinates
 PLAYER 99 512
 ENEMY RocketEnemy 512 512
 ENEMY RocketEnemy 576 576
+ENEMY RocketEnemy 1012 312
+ENEMY RocketEnemy 1076 376
 |ENEMY Rat 438 512
 |ENEMY Rat 384 512
 |TILE ID x y 
@@ -50,9 +55,9 @@ TILE 0 99 21
 TILE 0 99 22
 TILE 0 99 23
 TILE 0 99 24
-TILE 0 1 5
-TILE 0 2 5
-TILE 0 3 5
+|TILE 0 1 5
+|TILE 0 2 5
+|TILE 0 3 5
 TILE 0 4 5
 TILE 0 5 5
 TILE 0 6 5

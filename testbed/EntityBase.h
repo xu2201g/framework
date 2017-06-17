@@ -10,7 +10,9 @@ enum class EntityType
 	Player,
 
 	Rocket,
-	Bolt
+	Bolt,
+
+	PowerUp
 };
 
 enum class EntityState

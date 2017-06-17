@@ -1,0 +1,7 @@
+Texture PowerUpSprite
+Size 32 32
+Scale 1.0 1.0
+|Type|Name|StartFrame|EndFrame|Row|FrameTime|FrameActionStart|FrameActionEnd|
+AnimationType Directional
+Animation Idle 0 3 0 0.2 -1 -1
+Animation Death 0 3 1 0.2 -1 -1

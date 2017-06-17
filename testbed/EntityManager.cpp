@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "Rocket.h"
 #include "Bolt.h"
+#include "PowerUp.h"
 
 EntityManager::EntityManager(SharedContext* pSharedContext, unsigned int maxEntities)
 	:
@@ -17,6 +18,7 @@ EntityManager::EntityManager(SharedContext* pSharedContext, unsigned int maxEnti
 	RegisterEntity<Enemy>(EntityType::Enemy);
 	RegisterEntity<Rocket>(EntityType::Rocket);
 	RegisterEntity<Bolt>(EntityType::Bolt);
+	RegisterEntity<PowerUp>(EntityType::PowerUp);
 }
 
 EntityManager::~EntityManager()
@@ -163,6 +165,27 @@ void EntityManager::ProcessRemovals()
 		if (itr != m_entities.end())
 		{
 			std::cout << "Removing entity: " << itr->second->GetId() << " - " << itr->second->GetName() << std::endl;
+
+			//check for the right type
+			if (itr->second->GetType() == EntityType::Enemy)
+			{
+				////////////////////////////////
+				//spawning powerup
+				////////////////////////////////
+
+				int id = Add(EntityType::PowerUp, "POWERUP");
+
+				EntityBase* pEntity = Find(id);
+				if (pEntity)
+				{
+					PowerUp* pPowerUp = (PowerUp*)pEntity;
+
+					pPowerUp->SetPosition(itr->second->GetPosition());
+				}
+
+			}
+
+
 
 			//remove the entity
 			m_entities.erase(itr);
