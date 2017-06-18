@@ -111,7 +111,7 @@ void State_Editor::Draw()
 	{ 
 		sf::RectangleShape selectedTileShape(sf::Vector2f(tileSize,	tileSize));
 		selectedTileShape.setPosition(m_selectedTileMap.x * tileSize,
-									  m_selectedTileMap.x * tileSize);
+									  m_selectedTileMap.y * tileSize);
 		selectedTileShape.setFillColor(sf::Color(128, 0, 0, 64));
 		renderWindow.draw(selectedTileShape);
 	}
@@ -178,9 +178,24 @@ void State_Editor::MouseClick(EventDetails* details)
 	gridCoords.x = mousePosition.x / Sheet::Tile_Size;
 	gridCoords.y = 0;
 
+	sf::Vector2f viewTopLeftCorner(m_view.getCenter().x - 0.5f * m_view.getSize().x,
+								   m_view.getCenter().y - 0.5f * m_view.getSize().y);
+
+
+
 	std::cout << "Mouseclick in screen coords at: " << mousePosition.x << ":" << mousePosition.y << std::endl;
 	std::cout << "Mouseclick in grid coords at: " << gridCoords.x << ":" << gridCoords.y << std::endl;
-	std::cout << "Viewspace position: " << m_view.getCenter().x << ":" << m_view.getCenter().y << std::endl;
+	//std::cout << "Viewspace position center coords: " << m_view.getCenter().x << ":" << m_view.getCenter().y << std::endl;
+	std::cout << "Viewspace position top left coords: " << viewTopLeftCorner.x << ":" << viewTopLeftCorner.y << std::endl;
+
+	sf::Vector2i gridCoordsUpdated;
+	gridCoordsUpdated.x = (mousePosition.x + viewTopLeftCorner.x) / Sheet::Tile_Size;
+	gridCoordsUpdated.y = (mousePosition.y + (int)viewTopLeftCorner.y) / Sheet::Tile_Size;
+
+	std::cout << "Mouseclick in updated grid coords at: " << gridCoordsUpdated.x << ":" << gridCoordsUpdated.y << std::endl;
+
+	m_selectedTileMap.x = gridCoordsUpdated.x;
+	m_selectedTileMap.y = gridCoordsUpdated.y;
 
 	//float halfX = m_buttonSize.x / 2.0f;
 	//float halfY = m_buttonSize.y / 2.0f;
