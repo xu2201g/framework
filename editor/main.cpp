@@ -18,9 +18,6 @@ int main(int argc, char** argv)
 			if (event.type == sf::Event::Closed)
 				window.close();
 		}
-		std::cout
-
-
 	}
 
 	return 0;

@@ -3,8 +3,12 @@
 #include "EventManager.h"
 #include "Map.h"
 
+
 class State_Game : public BaseState
 {
+	friend class State_Editor;
+
+
 public:
 
 	State_Game(StateManager* pStateManager);
@@ -26,7 +30,9 @@ private:
 
 	//to handle fixed timesteps for the snake
 	sf::Time m_elapsed;
-	
-	std::unique_ptr<Map> m_pGameMap;
+
+protected:
+
+	std::shared_ptr<Map> m_pGameMap;
 
 };

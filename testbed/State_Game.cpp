@@ -2,7 +2,7 @@
 
 #include "StateManager.h"
 #include "EntityManager.h"
-
+#include "State_Editor.h"
 #include "Rocket.h"
 
 //place to store magic numbers, not the best way handling it but still better than placing them between the code
@@ -36,14 +36,41 @@ void State_Game::OnCreate()
 	m_pStateMgr->GetContext()->m_pWindow->GetRenderWindow().setView(m_view);
 
 	//set map
-	m_pGameMap = std::make_unique<Map>(m_pStateMgr->GetContext(), this);
-	m_pGameMap->LoadMap("..//..//testbed//assets//maps//map1.map");
+	{
+		bool mapAlreadyExists = false;
 
-	//m_pStateMgr->GetContext()->m_pEntityManager->Add(EntityType::Rocket, "ROCKET");
+		for (auto &itr : m_pStateMgr->m_states)
+		{
+			if (itr.first == StateType::Editor)
+			{
+				State_Editor* pState_Editor = (State_Editor*)itr.second.get();
+				if (pState_Editor->m_pGameMap)
+				{
+					m_pGameMap = pState_Editor->m_pGameMap;
+					mapAlreadyExists = true;
+					break; //map setup 
+				}
+			}
+		}
+
+		if (!mapAlreadyExists)
+		{
+			m_pGameMap = std::make_unique<Map>(m_pStateMgr->GetContext(), this);
+			m_pGameMap->LoadMap("..//..//testbed//assets//maps//map1.map");
+
+			//m_pStateMgr->GetContext()->m_pEntityManager->Add(EntityType::Rocket, "ROCKET");
+
+
+		}
+	}
 
 	EntityBase* pPlayer = m_pStateMgr->GetContext()->m_pEntityManager->Find("Player");
-	m_view.setCenter(pPlayer->GetPosition());
-	m_pStateMgr->GetContext()->m_pWindow->GetRenderWindow().setView(m_view);
+	if (pPlayer)
+	{
+		m_view.setCenter(pPlayer->GetPosition());
+		m_pStateMgr->GetContext()->m_pWindow->GetRenderWindow().setView(m_view);
+	}
+	
 }
 
 void State_Game::OnDestroy()
@@ -56,6 +83,7 @@ void State_Game::OnDestroy()
 
 void State_Game::Activate()
 {
+
 }
 
 void State_Game::Deactivate()

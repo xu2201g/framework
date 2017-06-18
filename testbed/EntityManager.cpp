@@ -164,7 +164,7 @@ void EntityManager::ProcessRemovals()
 		auto itr = m_entities.find(id);
 		if (itr != m_entities.end())
 		{
-			std::cout << "Removing entity: " << itr->second->GetId() << " - " << itr->second->GetName() << std::endl;
+			//std::cout << "Removing entity: " << itr->second->GetId() << " - " << itr->second->GetName() << std::endl;
 
 			//check for the right type
 			if (itr->second->GetType() == EntityType::Enemy)

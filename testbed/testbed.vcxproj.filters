@@ -108,6 +108,9 @@
     <ClCompile Include="PowerUp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="State_Editor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -199,6 +202,9 @@
     </ClInclude>
     <ClInclude Include="PowerUp.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="State_Editor.h">
+      <Filter>Header Files\states</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

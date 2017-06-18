@@ -135,6 +135,7 @@
     <ClCompile Include="SpriteSheet.cpp" />
     <ClCompile Include="StateManager.cpp" />
     <ClCompile Include="State_Credits.cpp" />
+    <ClCompile Include="State_Editor.cpp" />
     <ClCompile Include="State_Game.cpp" />
     <ClCompile Include="State_GameOver.cpp" />
     <ClCompile Include="State_Intro.cpp" />
@@ -165,6 +166,7 @@
     <ClInclude Include="SpriteSheet.h" />
     <ClInclude Include="StateManager.h" />
     <ClInclude Include="State_Credits.h" />
+    <ClInclude Include="State_Editor.h" />
     <ClInclude Include="State_Game.h" />
     <ClInclude Include="State_GameOver.h" />
     <ClInclude Include="State_Intro.h" />

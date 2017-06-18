@@ -6,6 +6,7 @@
 #include "State_GameOver.h"
 #include "State_Credits.h"
 #include "State_Paused.h"
+#include "State_Editor.h"
 
 
 StateManager::StateManager(SharedContext* sharedContext)
@@ -17,7 +18,7 @@ StateManager::StateManager(SharedContext* sharedContext)
 	RegisterState<State_Game>(StateType::Game);
 	RegisterState<State_Paused>(StateType::Paused);
 	RegisterState<State_GameOver>(StateType::GameOver);
-//	RegisterState<State_Credits>(StateType::Credits);
+	RegisterState<State_Editor>(StateType::Editor);
 }
 
 StateManager::~StateManager()

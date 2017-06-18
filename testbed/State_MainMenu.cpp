@@ -33,7 +33,7 @@ void State_MainMenu::OnCreate()
 	std::string str[3];
 
 	str[0] = "PLAY";
-	str[1] = "CREDITS";
+	str[1] = "EDITOR";
 	str[2] = "EXIT";
 
 	for (int i = 0; i < 3; ++i)
@@ -118,8 +118,8 @@ void State_MainMenu::MouseClick(EventDetails* details)
 			else
 			if (i == 1)
 			{
-				//credits
-				m_pStateMgr->SwitchTo(StateType::Credits);
+				//editor //
+				m_pStateMgr->SwitchTo(StateType::Editor);
 			}
 			else
 			if (i == 2)

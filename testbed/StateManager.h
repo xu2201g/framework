@@ -12,7 +12,8 @@ enum class StateType
 	Game, 
 	Paused,
 	GameOver,
-	Credits
+	Credits,
+	Editor
 };
 
 //we store states as key value pair of type and a unique ptr managing memory allocation to the actual state instance into a vector
@@ -43,6 +44,8 @@ public:
 	void SwitchTo(const StateType& type);
 	void Remove(const StateType& type);
 
+	StateContainer m_states;
+
 private:
 
 	void CreateState(const StateType& type);
@@ -59,7 +62,7 @@ private:
 	}
 
 	SharedContext* m_pSharedContext;
-	StateContainer m_states;
+	
 	TypeContainer m_toRemove;
 	StateFactory m_stateFactory;
 	
