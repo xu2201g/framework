@@ -25,7 +25,7 @@ public:
 	void MainMenu(EventDetails* details);
 	void Scroll(EventDetails* details); //moves the viewspace to reach inaccessable parts of the map 
 	void MouseClick(EventDetails* details); //select tiles, click buttons to save/load maps and place tiles/entities in the opened map
-
+	void PlaceObject(EventDetails* details); //places selected object(tile or entities) at the selected cell in the gamemap
 private:
 
 	float m_scrollSpeed; 
@@ -35,4 +35,6 @@ private:
 	sf::Vector2f m_cameraPosition;
 
 	sf::Vector2i m_selectedTileMap;
+	unsigned int m_selectedSetMap;
+
 };

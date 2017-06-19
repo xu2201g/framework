@@ -9,7 +9,8 @@ State_Editor::State_Editor(StateManager* pStateManager)
 	BaseState(pStateManager),
 	m_pGameMap(nullptr),
 	m_scrollSpeed(2.0f),
-	m_selectedTileMap(0,0)
+	m_selectedTileMap(0,0),
+	m_selectedSetMap(3)
 {
 }
 
@@ -30,6 +31,8 @@ void State_Editor::OnCreate()
 	eventMgr->AddCallback(StateType::Editor, "Player_MoveDown", &State_Editor::Scroll, this);
 
 	eventMgr->AddCallback(StateType::Editor, "Mouse_Left", &State_Editor::MouseClick, this);
+
+	eventMgr->AddCallback(StateType::Editor, "Key_Space", &State_Editor::PlaceObject, this);
 
 	//set viewspace
 	sf::Vector2u size = m_pStateMgr->GetContext()->m_pWindow->GetWindowSize();
@@ -80,6 +83,10 @@ void State_Editor::OnDestroy()
 	eventMgr->RemoveCallback(StateType::Editor, "Player_MoveRight");
 	eventMgr->RemoveCallback(StateType::Editor, "Player_MoveUp");
 	eventMgr->RemoveCallback(StateType::Editor, "Player_MoveDown");
+
+	eventMgr->RemoveCallback(StateType::Editor, "Mouse_Left");
+
+	eventMgr->RemoveCallback(StateType::Editor, "Key_Space");
 }
 
 void State_Editor::Activate()
@@ -127,6 +134,45 @@ void State_Editor::Draw()
 		renderWindow.draw(mapBounds);
 	}
 
+	//tools
+	{
+		sf::Vector2u windowSize(m_pStateMgr->GetContext()->m_pWindow->GetWindowSize());
+
+		sf::RectangleShape toolBackground(sf::Vector2f(3 * Sheet::Tile_Size, windowSize.y));
+		toolBackground.setPosition(windowSize.x - 3 * Sheet::Tile_Size + m_view.getCenter().x - m_view.getSize().x * 0.5f, 0.0f + m_view.getCenter().y - m_view.getSize().y * 0.5f);
+
+		toolBackground.setFillColor(sf::Color(0, 0, 0, 128));
+		renderWindow.draw(toolBackground);
+
+		//set of tiles
+		{
+			sf::Vector2f offset(windowSize.x - Sheet::Tile_Size, 0.0f);
+
+			for (auto &itr : m_pGameMap->GetTileSet())
+			{
+				sf::Sprite tile;
+			
+				tile = itr.second->m_sprite;
+				tile.setPosition(offset.x + m_view.getCenter().x - m_view.getSize().x * 0.5f, offset.y + m_view.getCenter().y - m_view.getSize().y * 0.5f + Sheet::Tile_Size * itr.first);
+				renderWindow.draw(tile);
+
+			}
+
+			if (m_pGameMap->GetTileSet().size() > 0)
+			{
+				sf::RectangleShape toolBackground(sf::Vector2f(Sheet::Tile_Size, Sheet::Tile_Size));
+				toolBackground.setPosition(windowSize.x - Sheet::Tile_Size + m_view.getCenter().x - m_view.getSize().x * 0.5f,
+					                       0.0f + m_view.getCenter().y - m_view.getSize().y * 0.5f + Sheet::Tile_Size * m_selectedSetMap);
+
+				toolBackground.setFillColor(sf::Color(0, 64, 0, 128));
+				renderWindow.draw(toolBackground);
+
+
+				m_selectedSetMap;
+			}
+		}
+
+	}
 }
 
 void State_Editor::MainMenu(EventDetails* details)
@@ -170,10 +216,32 @@ void State_Editor::Scroll(EventDetails* details)
 
 }
 
-void State_Editor::MouseClick(EventDetails* details)
+void State_Editor::MouseClick(EventDetails* details) //TODO cleanup
 {
 	sf::Vector2i mousePosition = details->m_mouse;
 	sf::Vector2i gridCoords;
+	sf::Vector2u windowSize(m_pStateMgr->GetContext()->m_pWindow->GetWindowSize());
+
+	//editortools
+	{
+		if (mousePosition.x >= windowSize.x - Sheet::Tile_Size && mousePosition.x <= windowSize.x)
+		{			
+
+			sf::Vector2f offset(windowSize.x - Sheet::Tile_Size, 0.0f);
+
+			int tile = mousePosition.y / Sheet::Tile_Size;
+			
+			if (tile >= 0 && tile <= m_pGameMap->GetTileSet().size())
+			{
+				std::cout << "tile: " << tile << std::endl;
+				m_selectedSetMap = tile;
+			}
+
+			return;
+ 		}		
+	}
+
+	//gamemap selection
 
 	gridCoords.x = mousePosition.x / Sheet::Tile_Size;
 	gridCoords.y = 0;
@@ -226,5 +294,54 @@ void State_Editor::MouseClick(EventDetails* details)
 	//				}
 	//	}
 	//}
+
+}
+
+void State_Editor::PlaceObject(EventDetails* details)
+{
+	std::cout << "Placing object" << std::endl;
+
+	m_selectedTileMap;
+	m_selectedSetMap;
+
+	m_pGameMap;
+
+	//check validy of selected map tile and set tile //TODO
+
+	//get the tile from the set
+	auto itrS = m_pGameMap->GetTileSet().find(m_selectedSetMap);
+	if (itrS == m_pGameMap->GetTileSet().end())
+	{
+		std::cout << "! Tile id(" << m_selectedSetMap << ") was not found in tileset." << std::endl;
+	}
+	
+	
+
+	//search for already emplaced tiles
+	auto itrM = m_pGameMap->GetTIleMap().find(m_pGameMap->ConvertCoords(m_selectedTileMap.x, m_selectedTileMap.y));
+
+	if (itrM == m_pGameMap->GetTIleMap().end())
+	{
+		
+
+		Tile tile;
+
+		//bind properties from the related tileset
+		tile.m_properties = itrS->second.get();
+		tile.m_warp = false;
+
+		if (!m_pGameMap->GetTIleMap().emplace(m_pGameMap->ConvertCoords(m_selectedTileMap.x, m_selectedTileMap.y), std::make_unique<Tile>(tile)).second)
+		{
+			//duplicate
+			std::cout << "! Duplicate tile coordinates: " << m_selectedTileMap.x << " " << m_selectedTileMap.y << std::endl;
+		}
+
+	}
+	else
+	{
+
+	}
+
+	//update tile
 
 }

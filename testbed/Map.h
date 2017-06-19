@@ -115,9 +115,22 @@ public:
 		return m_scrollPixelPerSecond;
 	}
 
-private:
+	TileSet& GetTileSet()
+	{
+		return m_tileSet;
+	}
+
+	TileMap& GetTIleMap()
+	{
+		return m_tileMap;
+	}
 
 	unsigned int ConvertCoords(unsigned int x, unsigned int y);
+
+
+private:
+
+	
 
 	//loads the different types of tiles
 	void LoadTiles(const std::string& path);
