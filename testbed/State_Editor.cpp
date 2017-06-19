@@ -129,6 +129,18 @@ void State_Editor::Update(const sf::Time& time)
 
 void State_Editor::Draw()
 {
+	//rescale background - necessary if u swap between gamestate and editorstate
+	sf::Texture* pTexture =  m_pStateMgr->GetContext()->m_pTextureManager->GetResource(m_pGameMap->m_backgroundTexture);
+
+	sf::Vector2f viewSize = GetView().getSize();
+	sf::Vector2u textureSize = pTexture->getSize();
+	sf::Vector2f scaleFactors;
+
+	scaleFactors.x = viewSize.x / textureSize.x;
+	scaleFactors.y = viewSize.y / textureSize.y;
+
+	m_pGameMap->m_background.setScale(scaleFactors);
+
 	m_pGameMap->Draw();
 	m_pStateMgr->GetContext()->m_pEntityManager->Draw();
 

@@ -128,6 +128,10 @@ public:
 	unsigned int ConvertCoords(unsigned int x, unsigned int y);
 
 
+	//quick fix to adjust background TODO
+	std::string m_backgroundTexture;
+	sf::Sprite m_background;
+
 private:
 
 	
@@ -141,7 +145,7 @@ private:
 	//member
 	TileSet m_tileSet;
 	TileMap m_tileMap;
-	sf::Sprite m_background;
+	
 	TileInfo m_defaultTile;
 
 	sf::Vector2u m_maxMapSize;
@@ -156,7 +160,7 @@ private:
 	std::string m_nextMap;
 	bool m_loadNextMap;
 
-	std::string m_backgroundTexture;
+	
 	BaseState* m_pCurrentState;
 	SharedContext* m_pSharedContext;
 
