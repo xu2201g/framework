@@ -28,11 +28,12 @@ void State_Editor::OnCreate()
 	eventMgr->AddCallback(StateType::Editor, "Player_MoveLeft", &State_Editor::Scroll, this);
 	eventMgr->AddCallback(StateType::Editor, "Player_MoveRight", &State_Editor::Scroll, this);
 	eventMgr->AddCallback(StateType::Editor, "Player_MoveUp", &State_Editor::Scroll, this);
-	eventMgr->AddCallback(StateType::Editor, "Player_MoveDown", &State_Editor::Scroll, this);
+	eventMgr->AddCallback(StateType::Editor, "Player_MoveDown", &State_Editor::Scroll, this); 
 
 	eventMgr->AddCallback(StateType::Editor, "Mouse_Left", &State_Editor::MouseClick, this);
 
 	eventMgr->AddCallback(StateType::Editor, "Key_Space", &State_Editor::PlaceObject, this);
+	eventMgr->AddCallback(StateType::Editor, "Remove_Object", &State_Editor::RemoveObject, this);
 
 	//set viewspace
 	sf::Vector2u size = m_pStateMgr->GetContext()->m_pWindow->GetWindowSize();
@@ -155,9 +156,11 @@ void State_Editor::Draw()
 		renderWindow.draw(mapBounds);
 	}
 
+	sf::Vector2u windowSize(m_pStateMgr->GetContext()->m_pWindow->GetWindowSize());
+
 	//tools
 	{
-		sf::Vector2u windowSize(m_pStateMgr->GetContext()->m_pWindow->GetWindowSize());
+		
 
 		sf::RectangleShape toolBackground(sf::Vector2f(3 * Sheet::Tile_Size, windowSize.y));
 		toolBackground.setPosition(windowSize.x - 3 * Sheet::Tile_Size + m_view.getCenter().x - m_view.getSize().x * 0.5f, 0.0f + m_view.getCenter().y - m_view.getSize().y * 0.5f);
@@ -192,7 +195,17 @@ void State_Editor::Draw()
 				m_selectedSetMap;
 			}
 		}
+	}
 
+	//menu
+	{
+		float thickness = 20.0f;
+
+		sf::RectangleShape menuBackground(sf::Vector2f(windowSize.x - 5 * Sheet::Tile_Size,
+								                       Sheet::Tile_Size));
+		menuBackground.setPosition(sf::Vector2f(0.0f + m_view.getCenter().x - m_view.getSize().x * 0.5f, 0.0f + m_view.getCenter().y - m_view.getSize().y * 0.5f));
+		menuBackground.setFillColor(sf::Color(0, 0, 0, 64));
+		renderWindow.draw(menuBackground);
 	}
 }
 
@@ -350,4 +363,19 @@ void State_Editor::PlaceObject(EventDetails* details)
 
 	//update tile
 
+}
+
+void State_Editor::RemoveObject(EventDetails* details)
+{
+	auto itrM = m_pGameMap->GetTIleMap().find(m_pGameMap->ConvertCoords(m_selectedTileMap.x, m_selectedTileMap.y));
+
+	if (itrM == m_pGameMap->GetTIleMap().end())
+	{
+		return;
+	}
+	else
+	{
+		//remove tile
+		m_pGameMap->GetTIleMap().erase(itrM);
+	}
 }

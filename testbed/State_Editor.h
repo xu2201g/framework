@@ -26,6 +26,8 @@ public:
 	void Scroll(EventDetails* details); //moves the viewspace to reach inaccessable parts of the map 
 	void MouseClick(EventDetails* details); //select tiles, click buttons to save/load maps and place tiles/entities in the opened map
 	void PlaceObject(EventDetails* details); //places selected object(tile or entities) at the selected cell in the gamemap
+	void RemoveObject(EventDetails* details); //removes tile or entity
+	
 private:
 
 	float m_scrollSpeed; 
