@@ -37,4 +37,8 @@ private:
 	sf::Vector2i m_selectedTileMap;
 	unsigned int m_selectedSetMap;
 
+	sf::Time m_elapsed;
+
+	sf::Vector2f m_delta;
+
 };

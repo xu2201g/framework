@@ -8,7 +8,7 @@ State_Editor::State_Editor(StateManager* pStateManager)
 	:
 	BaseState(pStateManager),
 	m_pGameMap(nullptr),
-	m_scrollSpeed(2.0f),
+	m_scrollSpeed(10.0f),
 	m_selectedTileMap(0,0),
 	m_selectedSetMap(3)
 {
@@ -98,11 +98,32 @@ void State_Editor::Deactivate()
 }
 
 void State_Editor::Update(const sf::Time& time)
-{
+{	
+
+	//fixed timestep at 60x per second
+	float frametime = 1.0f /60.0f;
+	m_elapsed += time;
+	if (m_elapsed.asSeconds() >= frametime) //limit framerate for entitymovement
+	{
+	//do something 60x a second
+
+		//update position
+		//set viewspace
+		m_cameraPosition += m_delta;
+		//std::cout << "scrolling to " << m_cameraPosition.x << " | " << m_cameraPosition.y << std::endl;
+		m_delta.x *= 0.7;
+		m_delta.y *= 0.7;
+		m_view.setCenter(m_cameraPosition);
+
+		m_pStateMgr->GetContext()->m_pWindow->GetRenderWindow().setView(m_view);
+
+		m_elapsed -= sf::seconds(frametime);
+	}
+
 	m_pGameMap->Update(time.asSeconds());
 
 	m_pStateMgr->GetContext()->m_pEntityManager->Update(time.asSeconds());
-
+	
 }
 
 void State_Editor::Draw()
@@ -181,39 +202,27 @@ void State_Editor::MainMenu(EventDetails* details)
 }
 
 void State_Editor::Scroll(EventDetails* details)
-{
-	sf::Vector2f delta(0.0f, 0.0f);
-
+{	
 	//set direction
 	if (details->m_name == "Player_MoveLeft")
 	{
-		delta.x -= m_scrollSpeed;
+		m_delta.x = - m_scrollSpeed;
 	}
 	else
 	if (details->m_name == "Player_MoveRight")
 	{
-		delta.x += m_scrollSpeed;
+		m_delta.x  = m_scrollSpeed;
 	}
 	else
 	if (details->m_name == "Player_MoveUp")
 	{
-		delta.y -= m_scrollSpeed;
+		m_delta.y = - m_scrollSpeed;
 	}
 	else
 	if (details->m_name == "Player_MoveDown")
 	{
-		delta.y += m_scrollSpeed;
-	}
-
-	//update position
-	//set viewspace
-	m_cameraPosition += delta;
-	//std::cout << "scrolling to " << m_cameraPosition.x << " | " << m_cameraPosition.y << std::endl;
-
-	m_view.setCenter(m_cameraPosition);
-	
-	m_pStateMgr->GetContext()->m_pWindow->GetRenderWindow().setView(m_view);
-
+		m_delta.y = m_scrollSpeed;
+	}	
 }
 
 void State_Editor::MouseClick(EventDetails* details) //TODO cleanup
@@ -322,8 +331,6 @@ void State_Editor::PlaceObject(EventDetails* details)
 
 	if (itrM == m_pGameMap->GetTIleMap().end())
 	{
-		
-
 		Tile tile;
 
 		//bind properties from the related tileset
@@ -335,7 +342,6 @@ void State_Editor::PlaceObject(EventDetails* details)
 			//duplicate
 			std::cout << "! Duplicate tile coordinates: " << m_selectedTileMap.x << " " << m_selectedTileMap.y << std::endl;
 		}
-
 	}
 	else
 	{
