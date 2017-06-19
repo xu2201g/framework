@@ -45,6 +45,11 @@ void Player::OnEntityCollision(EntityBase* pCollider, bool attack)
 		return; 
 	}	
 
+	if (pCollider->GetType() == EntityType::PowerUp)
+	{
+		return;
+	}
+
 	GetHurt(1);//take damage from all collisions for now - ll be adjusted when powerups re implemented
 
 	//if (m_state == EntityState::Dying) //apply knockback even if the playership is already exploding
