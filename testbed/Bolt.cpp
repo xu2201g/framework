@@ -19,8 +19,8 @@ Bolt::Bolt(EntityManager* pEntityManager)
 
 	UpdateAABB();
 
-	m_maxVelocity.x = 400.0f;
-	m_maxVelocity.y = 400.0f;
+	m_maxVelocity.x = 1600.0f;
+	m_maxVelocity.y = 1600.0f;
 
 	m_angle = 0.0f;
 

@@ -120,6 +120,9 @@ void Character::AttackFast()
 	//update the state
 	SetState(EntityState::AttackingFast); //this is enough cause this "flag" ll be checked in the onentitycollision functions to perform actually an attack 
 
+	float boltVelocity = 800.0f;
+	float spreadAdvanced = 0.1f;
+	float spreadInsane = 0.2f;
 	
 	//fire projectiles
 	EntityManager* pEntityMgr = m_pEntityManager->GetContext()->m_pEntityManager;
@@ -137,14 +140,14 @@ void Character::AttackFast()
 			{
 				pBolt->SetRotation(180.0f);
 				pBolt->SetPosition(m_position.x + (float)Sheet::Tile_Size, m_position.y);
-				pBolt->AddVelocity(400.0f, 0.0f);
+				pBolt->AddVelocity(boltVelocity, 0.0f);
 			}
 			else
-				if (m_type == EntityType::Enemy)
-				{
-					pBolt->SetPosition(m_position.x - (float)Sheet::Tile_Size, m_position.y);
-					pBolt->AddVelocity(-400.0f, 0.0f);
-				}
+			if (m_type == EntityType::Enemy)
+			{
+				pBolt->SetPosition(m_position.x - (float)Sheet::Tile_Size, m_position.y);
+				pBolt->AddVelocity(-boltVelocity, 0.0f);
+			}
 
 		}
 	}
@@ -167,13 +170,13 @@ void Character::AttackFast()
 			{
 				pBolt->SetRotation(180.0f);
 				pBolt->SetPosition(m_position.x + (float)Sheet::Tile_Size, m_position.y);
-				pBolt->AddVelocity(300.0f, sign * 100.0f);
+				pBolt->AddVelocity(boltVelocity, sign * boltVelocity * spreadAdvanced);
 			}
 			else
 			if (m_type == EntityType::Enemy)
 			{
 				pBolt->SetPosition(m_position.x - (float)Sheet::Tile_Size, m_position.y);
-				pBolt->AddVelocity(-300.0f, sign * 100.0f);
+				pBolt->AddVelocity(-boltVelocity, sign * boltVelocity * spreadAdvanced);
 			}
 		}
 	}
@@ -196,13 +199,13 @@ void Character::AttackFast()
 			{
 				pBolt->SetRotation(180.0f);
 				pBolt->SetPosition(m_position.x + (float)Sheet::Tile_Size, m_position.y);
-				pBolt->AddVelocity(100.0f, sign * 150.0f);
+				pBolt->AddVelocity(boltVelocity, sign * boltVelocity * spreadInsane);
 			}
 			else
 			if (m_type == EntityType::Enemy)
 			{
 				pBolt->SetPosition(m_position.x - (float)Sheet::Tile_Size, m_position.y);
-				pBolt->AddVelocity(-100.0f, sign * 150.0f);
+				pBolt->AddVelocity(-boltVelocity, sign * boltVelocity * spreadInsane);
 			}
 		}
 	}
