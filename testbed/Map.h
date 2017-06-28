@@ -127,6 +127,7 @@ public:
 
 	unsigned int ConvertCoords(unsigned int x, unsigned int y);
 
+	void PurgeMap();
 
 	//quick fix to adjust background TODO
 	std::string m_backgroundTexture;
@@ -139,7 +140,7 @@ private:
 	//loads the different types of tiles
 	void LoadTiles(const std::string& path);
 	
-	void PurgeMap();
+	
 	void PurgeTileSet();
 
 	//member

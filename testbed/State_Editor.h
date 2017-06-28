@@ -30,6 +30,15 @@ public:
 	
 private:
 
+	void NewMap(int dimX, int dimY);
+
+
+	void SaveMap(std::string path);
+
+
+	void LoadMap(std::string path);
+	
+
 	float m_scrollSpeed; 
 
 	std::shared_ptr<Map> m_pGameMap;

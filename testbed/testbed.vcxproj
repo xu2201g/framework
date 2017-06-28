@@ -156,6 +156,14 @@
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="H1.h" />
+    <ClInclude Include="H2.h" />
+    <ClInclude Include="H3.h" />
+    <ClInclude Include="H4.h" />
+    <ClInclude Include="H5.h" />
+    <ClInclude Include="H6.h" />
+    <ClInclude Include="H7.h" />
+    <ClInclude Include="H8.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PowerUp.h" />

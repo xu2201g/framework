@@ -391,3 +391,19 @@ void State_Editor::RemoveObject(EventDetails* details)
 		m_pGameMap->GetTIleMap().erase(itrM);
 	}
 }
+
+void State_Editor::NewMap(int dimX, int dimY)
+{
+
+}
+
+void State_Editor::SaveMap(std::string path)
+{
+
+}
+
+void State_Editor::LoadMap(std::string path)
+{
+	m_pGameMap->PurgeMap();
+	m_pGameMap->LoadMap(path);
+}

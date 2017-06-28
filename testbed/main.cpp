@@ -33,8 +33,39 @@ public:
 	std::unordered_map<std::string, std::pair<std::unique_ptr<foo>, unsigned int>> m_resources;
 };
 
+bool foooo(bool a, bool b, bool c, bool d, bool e, bool f, bool g)
+{
+
+	return false;
+}
+
+bool fooooo(unsigned char c)
+{
+	return c;
+}
+
 int main(int argc, char** argv)
 {
+	bool a = false;
+	bool b = true;
+	bool c = false;
+	bool d = false;
+	bool e = false;
+	bool f = false;
+	bool g = false;
+
+	
+
+	unsigned char byteA = 1; //0000 0001
+	unsigned char byteB = 128; // 1000 0000
+
+	unsigned char bitmask = 1 + 8 + 64; // 0100 1001
+
+	std::cout << (bool)(byteA & byteB) << std::endl; //returns false
+	std::cout << (bool)(byteA & bitmask) << std::endl; //returns true
+	std::cout << (bool)(byteB & bitmask) << std::endl; //returns false
+
+
 
 	foo f1(1);
 	foo f2(2);

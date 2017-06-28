@@ -31,6 +31,9 @@
     <Filter Include="Source Files\entry">
       <UniqueIdentifier>{b69ec6c3-cfc4-4094-8ccd-9980c84b0f4f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\test">
+      <UniqueIdentifier>{1c320883-3d98-43d2-bfce-937588d24894}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
@@ -205,6 +208,30 @@
     </ClInclude>
     <ClInclude Include="State_Editor.h">
       <Filter>Header Files\states</Filter>
+    </ClInclude>
+    <ClInclude Include="H1.h">
+      <Filter>Header Files\test</Filter>
+    </ClInclude>
+    <ClInclude Include="H2.h">
+      <Filter>Header Files\test</Filter>
+    </ClInclude>
+    <ClInclude Include="H3.h">
+      <Filter>Header Files\test</Filter>
+    </ClInclude>
+    <ClInclude Include="H4.h">
+      <Filter>Header Files\test</Filter>
+    </ClInclude>
+    <ClInclude Include="H5.h">
+      <Filter>Header Files\test</Filter>
+    </ClInclude>
+    <ClInclude Include="H6.h">
+      <Filter>Header Files\test</Filter>
+    </ClInclude>
+    <ClInclude Include="H7.h">
+      <Filter>Header Files\test</Filter>
+    </ClInclude>
+    <ClInclude Include="H8.h">
+      <Filter>Header Files\test</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
